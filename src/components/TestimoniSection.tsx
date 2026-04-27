@@ -100,7 +100,15 @@ function PaginationDots({
 }
 
 // ── Komponen Utama ───────────────────────────────────────────────
-export function TestimoniSection({ activeKeluhan = [], compact = false }: { activeKeluhan?: string[]; compact?: boolean }) {
+export function TestimoniSection({ 
+    activeKeluhan = [], 
+    compact = false,
+    externalData = null 
+}: { 
+    activeKeluhan?: string[]; 
+    compact?: boolean;
+    externalData?: any[] | null;
+}) {
     const { data: allTestimoni, loading, error, refetch } = useTestimonials({ limit: compact ? 6 : 12 });
     const [opacity, setOpacity] = useState(1);
 
@@ -108,20 +116,26 @@ export function TestimoniSection({ activeKeluhan = [], compact = false }: { acti
     const VISIBLE_DESKTOP = 3;
 
     // ── Filter Logic ──
-    const filtered = activeKeluhan.length === 0
-        ? allTestimoni
-        : allTestimoni.filter(t => {
+    const getDisplayedData = () => {
+        // Jika ada data eksternal (RAG), gunakan itu
+        if (externalData && externalData.length > 0) return externalData;
+
+        // Jika tidak ada, gunakan filter keluhan
+        if (activeKeluhan.length === 0) return allTestimoni;
+
+        return allTestimoni.filter(t => {
             const tags = (t as any).tags || [];
             return tags.some((tag: string) =>
                 activeKeluhan.some(k => {
-                    // Normalisasi: hilangkan emoji (semua karakter non-alfanumerik di awal)
                     const normalizedKey = k.replace(/^[^a-zA-Z0-9]+\s*/, '');
                     return KELUHAN_TAG_MAP[normalizedKey]?.includes(tag);
                 })
             );
         });
+    };
 
-    const displayed = activeKeluhan.length > 0 ? filtered : allTestimoni;
+    const displayed = getDisplayedData();
+    const isFiltered = activeKeluhan.length > 0 || (externalData && externalData.length > 0);
 
     const carousel = useCarousel({
         total: displayed.length,
@@ -187,12 +201,12 @@ export function TestimoniSection({ activeKeluhan = [], compact = false }: { acti
                     </p>
 
                     {/* ── Active Filter Badge ── */}
-                    {activeKeluhan.length > 0 && (
+                    {isFiltered && (
                         <div className="mt-6 flex justify-center animate-in fade-in slide-in-from-top-2 duration-300">
                             <div className="bg-[#EBF7EF] text-[#3D7A4F] px-4 py-1.5 rounded-full text-sm font-semibold border border-[#D1EADC] flex items-center gap-2">
-                                <span className={`flex h-2 w-2 rounded-full ${filtered.length > 0 ? 'bg-[#3D7A4F]' : 'bg-amber-400'}`} />
-                                {filtered.length > 0
-                                    ? `Menampilkan testimoni: ${activeKeluhan.join(' & ')}`
+                                <span className={`flex h-2 w-2 rounded-full ${displayed.length > 0 ? 'bg-[#3D7A4F]' : 'bg-amber-400'}`} />
+                                {displayed.length > 0
+                                    ? (externalData ? `Menampilkan hasil paling relevan` : `Menampilkan testimoni: ${activeKeluhan.join(' & ')}`)
                                     : `Belum ada testimoni khusus untuk: ${activeKeluhan.join(' & ')}`
                                 }
                             </div>
@@ -202,12 +216,12 @@ export function TestimoniSection({ activeKeluhan = [], compact = false }: { acti
                 )}
 
                 {/* ── Compact filter indicator ── */}
-                {compact && activeKeluhan.length > 0 && (
+                {compact && isFiltered && (
                     <div className="mb-3 flex items-center gap-2">
-                        <span className={`flex h-2 w-2 rounded-full flex-shrink-0 ${filtered.length > 0 ? 'bg-[#3D7A4F]' : 'bg-amber-400'}`} />
+                        <span className={`flex h-2 w-2 rounded-full flex-shrink-0 ${displayed.length > 0 ? 'bg-[#3D7A4F]' : 'bg-amber-400'}`} />
                         <p className="text-xs text-gray-500">
-                            {filtered.length > 0
-                                ? `${filtered.length} testimoni untuk keluhan ini`
+                            {displayed.length > 0
+                                ? (externalData ? `${displayed.length} testimoni paling relevan ditemukan` : `${displayed.length} testimoni untuk keluhan ini`)
                                 : 'Belum ada testimoni spesifik — menampilkan pilihan kami'
                             }
                         </p>

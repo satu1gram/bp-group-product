@@ -14,6 +14,9 @@ export interface Testimoni {
     bintang: number;
     status: string;
     tags?: string[];        // New: filtering tags (e.g. ['imun', 'stamina'])
+    category?: string;      // New: Health, Beauty, Business, Education
+    sender_profile?: string; // New: IRT, Karyawan, Mahasiswa, etc.
+    channel_name?: string;   // New: Nama channel asal
     keluhanLabel?: string;  // New: friendly label (e.g. 'Susah Tidur')
 }
 

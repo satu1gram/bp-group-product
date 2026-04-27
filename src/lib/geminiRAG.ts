@@ -320,6 +320,44 @@ PENTING: Jawab HANYA dalam format JSON valid berikut, tanpa markdown atau teks t
 }
 `;
 
+// ── Testimonials Retrieval ──────────────────────────────────────
+export async function searchTestimonials(query: string, limit: number = 3): Promise<any[]> {
+    try {
+        console.info('[AI] 🔍 Searching relevant testimonials for:', query);
+        
+        // Sederhanakan query untuk pencarian (ambil kata kunci penting)
+        const keywords = query.toLowerCase()
+            .replace(/[^\w\s]/gi, '')
+            .split(' ')
+            .filter(w => w.length > 3);
+
+        if (keywords.length === 0) return [];
+
+        // Pencarian menggunakan text search di content atau tags
+        let queryBuilder = supabase
+            .from('telegram_messages' as any)
+            .select('*')
+            .eq('is_testimoni', true)
+            .eq('status', 'approved');
+
+        // Jika ada banyak kata kunci, buat pencarian yang lebih luas
+        if (keywords.length > 0) {
+            const orConditions = keywords.map(k => `content.ilike.%${k}%,tags.cs.{${k}}`).join(',');
+            queryBuilder = queryBuilder.or(orConditions);
+        }
+
+        const { data, error } = await queryBuilder
+            .order('created_at', { ascending: false })
+            .limit(limit);
+
+        if (error) throw error;
+        return data || [];
+    } catch (err) {
+        console.error('[AI] ❌ Testimonial search error:', err);
+        return [];
+    }
+}
+
 // ── Fungsi utama ──────────────────────────────────────────────────
 export async function generateAIAdvice(selectedComplaints: string[], complaintText: string): Promise<RAGResult> {
     const userInput = (complaintText || selectedComplaints.join(', ')).trim();
@@ -333,7 +371,12 @@ export async function generateAIAdvice(selectedComplaints: string[], complaintTe
     const cached = readCache(cacheKey);
     if (cached) {
         console.info('[AI] ✅ Cache hit');
-        try { return { ...JSON.parse(cached), testimonials: [] }; }
+        try { 
+            const parsed = JSON.parse(cached);
+            // Tetap cari testimoni terbaru meski cache hit untuk teks utamanya
+            const testimonials = await searchTestimonials(userInput);
+            return { ...parsed, testimonials }; 
+        }
         catch { localStorage.removeItem(cacheKey); }
     }
 
@@ -368,14 +411,19 @@ export async function generateAIAdvice(selectedComplaints: string[], complaintTe
             throw new Error(parsed.error);
         }
 
-        // Cache result
+        // Cari testimoni relevan dari database
+        const testimonials = await searchTestimonials(userInput);
+
+        // Cache result (hanya teks AI-nya)
         writeCache(cacheKey, JSON.stringify(parsed));
         console.info('[AI] ✅ Berhasil via edge function');
 
-        return { ...parsed, testimonials: [] };
+        return { ...parsed, testimonials };
 
     } catch (err) {
         console.error('[AI] ❌ Error:', err);
-        return getDynamicFallback(userInput);
+        const fallback = getDynamicFallback(userInput);
+        const testimonials = await searchTestimonials(userInput);
+        return { ...fallback, testimonials };
     }
 }

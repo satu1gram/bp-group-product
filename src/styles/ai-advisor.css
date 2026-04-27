@@ -195,7 +195,6 @@
 ══════════════════════════════════════════════════════════ */
 
 .advisor-embed-section {
-    padding-top: 68px; /* offset fixed nav */
     background: linear-gradient(160deg, #FDFCF9 0%, #F8F4EE 55%, #F2EBE0 100%);
     position: relative;
     overflow: hidden;
@@ -326,10 +325,18 @@
 /* Trust row */
 .advisor-trust-row {
     display: flex;
-    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.04);
+}
+
+.advisor-trust-pills {
+    display: flex;
+    gap: 8px;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 16px;
 }
 
 .advisor-trust-pill {
@@ -1792,11 +1799,25 @@
 }
 
 @media (max-width: 900px) {
+    .bisnis-paket-section {
+        padding: 0 16px;
+    }
     .bisnis-paket-grid {
         grid-template-columns: 1fr;
-        max-width: 400px;
+        max-width: 360px;
         margin: 0 auto;
-        gap: 28px;
+        gap: 32px;
+    }
+    .bisnis-paket-card {
+        padding: 32px 20px 24px;
+    }
+    .paket-harga-utama {
+        font-size: 1.35rem;
+        margin-bottom: 14px;
+    }
+    .paket-row {
+        font-size: 12px;
+        padding: 6px 0;
     }
 }
 
@@ -1883,13 +1904,45 @@
         display: flex;
         gap: 16px;
         align-items: flex-start;
+        background: rgba(255,255,255,0.04);
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.06);
     }
     .bisnis-step-icon {
         flex-shrink: 0;
         margin: 0;
+        width: 44px;
+        height: 44px;
+    }
+    .bisnis-step-icon .material-symbols-rounded {
+        font-size: 20px;
     }
     .bisnis-step-num {
-        margin-bottom: 2px;
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        background: #D4AF37;
+        color: #1a1a1a;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 900;
+        opacity: 1;
+        margin-bottom: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .bisnis-step-title {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+    .bisnis-step-desc {
+        font-size: 12px;
+        line-height: 1.5;
     }
 }
 

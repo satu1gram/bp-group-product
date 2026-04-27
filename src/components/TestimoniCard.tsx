@@ -25,13 +25,7 @@ export function TestimoniCard({ testimoni, compact = false }: Props) {
                      shadow-[0_2px_12px_rgb(0,0,0,0.05)]
                      transition-all duration-300 hover:shadow-[0_8px_24px_rgb(45,106,79,0.10)]"
             >
-                {/* Stars + produk in one row */}
                 <div className="flex items-center justify-between gap-2">
-                    <div className="flex gap-0.5" aria-label={`Rating ${bintang} bintang`}>
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <span key={i} className={`text-sm ${i < bintang ? 'text-amber-400' : 'text-gray-200'}`}>★</span>
-                        ))}
-                    </div>
                     {testimoni.produk && (
                         <span className="text-[10px] font-semibold text-green-700 bg-green-50 border border-green-100 px-2 py-0.5 rounded-full truncate max-w-[120px]">
                             {testimoni.produk}
@@ -55,21 +49,6 @@ export function TestimoniCard({ testimoni, compact = false }: Props) {
                     </div>
                 )}
 
-                {/* Pengirim footer */}
-                <div className="flex items-center gap-2 pt-2 border-t border-gray-50">
-                    <div className="w-7 h-7 rounded-full bg-green-50 flex-shrink-0 flex items-center justify-center border border-green-100">
-                        <span className="text-green-700 text-[10px] font-bold select-none">{inisial || '?'}</span>
-                    </div>
-                    <div className="min-w-0">
-                        <p className="text-xs font-bold text-gray-800 truncate">{nama || 'Pelanggan'}</p>
-                        {testimoni.kota && (
-                            <p className="text-[10px] text-gray-400 truncate">{testimoni.kota}</p>
-                        )}
-                    </div>
-                    <div className="ml-auto flex-shrink-0">
-                        <span className="material-symbols-rounded text-green-500" style={{ fontSize: '16px' }}>verified</span>
-                    </div>
-                </div>
             </article>
         );
     }
@@ -80,22 +59,10 @@ export function TestimoniCard({ testimoni, compact = false }: Props) {
             className="bg-white rounded-[2rem] p-6 h-full flex flex-col gap-y-4
                  border border-gray-100/50
                  shadow-[0_8px_30px_rgb(0,0,0,0.04)]
-                 transition-all duration-500 hover:shadow-[0_20px_40px_rgb(45,106,79,0.08)]"
+                 transition-all duration-500 hover:shadow-[0_20px_40px_rgb(45,106,79,0.08)] group"
         >
-            {/* ── Rating bintang ── */}
-            <div className="flex gap-0.5" aria-label={`Rating ${bintang} bintang`}>
-                {Array.from({ length: 5 }).map((_, i) => (
-                    <span
-                        key={i}
-                        className={`text-base ${i < bintang ? 'text-amber-400' : 'text-gray-200'}`}
-                    >
-                        ★
-                    </span>
-                ))}
-            </div>
-
-            {/* ── Teks dengan "Baca Selengkapnya" ── */}
-            <div className="relative pl-5 border-l-2 border-green-200/50">
+            {/* ── Teks dengan Quote ── */}
+            <div className="relative pl-5 border-l-2 border-green-200/50 flex-1">
                 <span
                     className="absolute -top-5 -left-4 text-6xl text-green-100/30
                      font-serif leading-none select-none italic pointer-events-none"
@@ -105,38 +72,60 @@ export function TestimoniCard({ testimoni, compact = false }: Props) {
                 </span>
                 <ExpandableText
                     text={testimoni.content}
-                    maxLines={testimoni.foto_url ? 3 : 5}
-                    className="pl-1"
+                    maxLines={testimoni.foto_url ? 3 : 6}
+                    className="pl-1 text-gray-700 leading-relaxed"
                 />
             </div>
 
             {/* ── Foto bukti (jika ada) ── */}
             {fotos.length > 0 && (
-                <FotoBuktiGrid urls={fotos} />
+                <div className="mt-2">
+                    <FotoBuktiGrid urls={fotos} />
+                </div>
             )}
 
-            {/* ── Profil pengirim ── */}
-            <footer className="pt-3 border-t border-gray-50 flex items-center gap-3">
-                <div
-                    className="w-9 h-9 rounded-full bg-green-50 flex-shrink-0
-                     flex items-center justify-center
-                     border-2 border-green-100"
+            {/* ── Visual Recommendation Bar (Solusi Produk) ── */}
+            {(testimoni as any).recommendation && (
+                <a 
+                    href={`#${(testimoni as any).recommendation.id}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        const el = document.getElementById((testimoni as any).recommendation.id);
+                        if (el) {
+                            const yOffset = -100; // Offset agar tidak tertutup sticky header
+                            const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                            window.scrollTo({ top: y, behavior: 'smooth' });
+                        }
+                    }}
+                    className="mt-auto pt-4 border-t border-gray-50 flex items-center gap-2 md:gap-3 cursor-pointer"
                 >
-                    <span className="text-green-700 text-xs font-bold select-none">
-                        {inisial || '👤'}
+                    <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg md:rounded-xl bg-green-50 border border-green-100/50 flex-shrink-0 overflow-hidden group-hover:scale-110 transition-transform">
+                        <img 
+                            src={(testimoni as any).recommendation.image} 
+                            alt={(testimoni as any).recommendation.name}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none mb-1">Solusi Produk:</span>
+                        <span className="text-xs md:text-sm font-black text-green-800 leading-tight">
+                            {(testimoni as any).recommendation.name}
+                        </span>
+                    </div>
+                    <div className="ml-auto">
+                         <span className="material-symbols-rounded text-green-600 text-lg md:text-xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all">chevron_right</span>
+                    </div>
+                </a>
+            )}
+
+            {/* ── Produk Tag Lama (Fallback) ── */}
+            {testimoni.produk && !(testimoni as any).recommendation && (
+                <div className="flex mt-auto">
+                    <span className="text-[10px] font-bold text-green-700 bg-green-50 border border-green-100 px-3 py-1 rounded-full">
+                        {testimoni.produk}
                     </span>
                 </div>
-                <div className="min-w-0">
-                    <p className="text-sm font-bold text-gray-800 truncate">
-                        {nama || 'Pelanggan'}
-                    </p>
-                    <p className="text-[11px] text-gray-400 truncate font-medium">
-                        {[testimoni.kota, testimoni.produk]
-                            .filter(Boolean)
-                            .join(' · ') || 'Testimoni Terverifikasi'}
-                    </p>
-                </div>
-            </footer>
+            )}
         </article>
     );
 }

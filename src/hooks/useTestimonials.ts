@@ -37,11 +37,16 @@ const COLUMNS = [
     'kota',
     'produk',
     'bintang',
+    'tags',
+    'category',
+    'sender_profile',
+    'channel_name',
 ].join(', ');
 
 interface UseTestimonialsOptions {
-    featured?: boolean;
     produk?: string;
+    category?: string;
+    sender_profile?: string;
     limit?: number;
 }
 
@@ -74,6 +79,8 @@ export function useTestimonials(
 
             if (opts.featured) query = query.eq('is_featured', true);
             if (opts.produk) query = query.ilike('produk', `%${opts.produk}%`);
+            if (opts.category) query = query.eq('category', opts.category);
+            if (opts.sender_profile) query = query.eq('sender_profile', opts.sender_profile);
             if (opts.limit) query = query.limit(opts.limit);
 
             const { data: rows, error: qError } = await query;
@@ -136,6 +143,11 @@ export function useTestimonials(
                     if (content.includes('imun') || content.includes('daya tahan') || content.includes('imunitas'))
                         tags.push('imun', 'daya_tahan');
 
+                    if (content.includes('bisnis') || content.includes('mitra') || content.includes('untung') || 
+                        content.includes('cuan') || content.includes('penghasilan') || content.includes('jualan') ||
+                        content.includes('ekonomi') || content.includes('income'))
+                        tags.push('bisnis', 'peluang');
+
                     // 2. Product-based tags as FALLBACK — ONLY if no content-specific tags found
                     if (tags.length === 0) {
                         if (produk.includes('british propolis blue')) tags.push('haid', 'hormon', 'wanita');
@@ -167,7 +179,7 @@ export function useTestimonials(
         } finally {
             setLoading(false);
         }
-    }, [opts.featured, opts.produk, opts.limit]);
+    }, [opts.featured, opts.produk, opts.limit, opts.category, opts.sender_profile]);
 
     useEffect(() => {
         fetchData();

@@ -4,6 +4,8 @@ import '@/styles/katalog.css';
 import '@/styles/ai-advisor.css';
 import { KATALOG_PRODUCTS } from '@/data/katalogProducts';
 import { TestimoniSection } from '@/components/TestimoniSection';
+import { BusinessTestimonials } from '@/components/BusinessTestimonials';
+import { TestimonialWall } from '@/components/TestimonialWall';
 import { generateAIAdvice, RAGResult } from '@/lib/geminiRAG';
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
@@ -14,7 +16,7 @@ const COMPLAINT_OPTIONS = [
     "Sering Flu", "Kurang Fokus", "Flek Hitam", "Kurang Stamina"
 ];
 
-const KELUHAN_FILTER_TABS = [
+export const KELUHAN_FILTER_TABS = [
     { key: 'all', label: 'Semua' },
     { key: 'tidur', label: 'Susah Tidur' },
     { key: 'sendi', label: 'Nyeri Sendi' },
@@ -212,6 +214,7 @@ export default function KatalogProdukPage() {
                 <ul className="nav-links desktop-only">
                     <li><a href="#advisor">AI Advisor</a></li>
                     <li><a href="#produk">Produk</a></li>
+                    <li><a href="#testimoni-wall">Testimoni</a></li>
                     <li><a href="#bisnis">Bisnis</a></li>
                 </ul>
                 <div className="nav-right desktop-only">
@@ -242,17 +245,17 @@ export default function KatalogProdukPage() {
                 <div className="advisor-embed-container">
                     <div className="advisor-embed-card fade-in">
 
-                        <div className="advisor-embed-header">
-                            <div className="advisor-live-badge">
+                        <div className="advisor-embed-header" style={{ marginBottom: '40px' }}>
+                            <div className="advisor-live-badge" style={{ marginBottom: '16px' }}>
                                 <span className="advisor-dot" />
-                                <span>AI Health Advisor</span>
+                                <span>Konsultasi AI</span>
                                 <span className="advisor-free-tag">Gratis</span>
                             </div>
                             <h1 className="advisor-embed-title">
                                 Bingung Pilih Produk?<br />
                                 <em>Ceritakan Keluhanmu</em>
                             </h1>
-                            <p className="advisor-embed-sub">
+                            <p className="advisor-embed-sub" style={{ marginTop: '16px' }}>
                                 Pilih keluhan di bawah — AI kami rekomendasikan produk paling tepat dalam hitungan detik.
                             </p>
                         </div>
@@ -284,17 +287,18 @@ export default function KatalogProdukPage() {
                         </button>
 
                         <div className="advisor-trust-row">
-                            {[
-                                { icon: 'check_circle', text: 'Gratis' },
-                                { icon: 'bolt', text: '<10 detik' },
-                                { icon: 'lock', text: 'Privasi aman' },
-                                { icon: 'smart_toy', text: 'Powered by AI' },
-                            ].map(t => (
-                                <span key={t.text} className="advisor-trust-pill">
-                                    <span className="material-symbols-rounded" style={{ fontSize: '14px' }}>{t.icon}</span>
-                                    {t.text}
-                                </span>
-                            ))}
+                            <div className="advisor-trust-pills">
+                                {[
+                                    { icon: 'check_circle', text: 'Gratis' },
+                                    { icon: 'bolt', text: '<10 detik' },
+                                    { icon: 'lock', text: 'Privasi aman' },
+                                ].map(t => (
+                                    <span key={t.text} className="advisor-trust-pill">
+                                        <span className="material-symbols-rounded" style={{ fontSize: '14px' }}>{t.icon}</span>
+                                        {t.text}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -392,7 +396,11 @@ export default function KatalogProdukPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <TestimoniSection activeKeluhan={selectedKeluhan} compact={true} />
+                                <TestimoniSection 
+                                    activeKeluhan={selectedKeluhan} 
+                                    compact={true} 
+                                    externalData={aiResult.testimonials}
+                                />
                             </div>
                         </div>
                     </div>
@@ -417,7 +425,7 @@ export default function KatalogProdukPage() {
                 <div className="container">
 
                     {/* ─── Merged Catalog Hero ─── */}
-                    <div className="brand-hero catalog-merged-hero fade-in">
+                    <div className="brand-hero catalog-merged-hero fade-in" style={{ marginBottom: '80px' }}>
                         <div className="brand-hero-left">
                             <span className="section-tag">Healthy Living Guide</span>
                             <h2 className="brand-title">
@@ -634,6 +642,11 @@ export default function KatalogProdukPage() {
             </section>
 
             {/* ════════════════════════════════════════════════════════
+                DUNIA 2.5 — WALL OF LOVE (400+ TESTIMONI)
+            ════════════════════════════════════════════════════════ */}
+            <TestimonialWall />
+
+            {/* ════════════════════════════════════════════════════════
                 DUNIA 3 — TENTANG BISNIS (Placeholder)
             ════════════════════════════════════════════════════════ */}
             <section className="world-section world-bisnis" id="bisnis" ref={sectionBisnisRef}>
@@ -647,7 +660,7 @@ export default function KatalogProdukPage() {
                             Quantum Millionaire Partner Program
                         </div>
                         <h2 className="bisnis-hero-title">
-                            Bukan Sekadar Konsumen —<br />
+                            Bukan Sekadar Konsumen<br />
                             <em>Jadilah Mitra & Raih Penghasilan</em>
                         </h2>
                         <p className="bisnis-hero-sub">
@@ -663,8 +676,8 @@ export default function KatalogProdukPage() {
                     </div>
 
                     {/* Keuntungan Menjadi Mitra */}
-                    <div className="bisnis-keuntungan-section fade-in">
-                        <div className="world-section-header" style={{ marginBottom: '32px' }}>
+                    <div className="bisnis-keuntungan-section fade-in" style={{ marginTop: '40px', marginBottom: '40px' }}>
+                        <div className="world-section-header">
                             <span className="tag">Mengapa Bergabung?</span>
                             <h3>Hak & Keuntungan Mitra <em>Quantum Millionaire</em></h3>
                         </div>
@@ -688,12 +701,39 @@ export default function KatalogProdukPage() {
                         </div>
                     </div>
 
+                    {/* Testimoni Bisnis (Sukses Mitra) */}
+                    <BusinessTestimonials />
+
+                    {/* Cara Bergabung */}
+                    <div className="bisnis-steps-section fade-in" style={{ marginTop: '80px', marginBottom: '40px' }}>
+                        <div className="world-section-header">
+                            <span className="tag">Cara Bergabung</span>
+                            <h3>3 Langkah Mudah Mulai Bisnis</h3>
+                        </div>
+                        <div className="bisnis-steps-grid">
+                            {[
+                                { step: '01', icon: 'chat_bubble', title: 'Hubungi Kami', desc: 'Chat WhatsApp & ceritakan minatmu. Tim kami bantu pilihkan paket yang cocok (SE/SAP/AP).' },
+                                { step: '02', icon: 'shopping_cart', title: 'Pilih & Beli Paket', desc: 'Pilih paket kemitraan (bisa MIX produk). Langsung dapat harga mitra dan akses komunitas.' },
+                                { step: '03', icon: 'rocket_launch', title: 'Dibimbing Sampai Cuan', desc: 'Dapat pembinaan, bahan promosi harian, masuk grup WA, dan akses pendidikan bisnis sampai menghasilkan.' },
+                            ].map((item, i) => (
+                                <div key={i} className="bisnis-step-card">
+                                    <div className="bisnis-step-num">{item.step}</div>
+                                    <div className="bisnis-step-icon">
+                                        <span className="material-symbols-rounded">{item.icon}</span>
+                                    </div>
+                                    <div className="bisnis-step-title">{item.title}</div>
+                                    <div className="bisnis-step-desc">{item.desc}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     {/* Paket Bisnis Mitra */}
-                    <div className="bisnis-paket-section fade-in">
-                        <div className="world-section-header" style={{ marginBottom: '32px' }}>
+                    <div className="bisnis-paket-section fade-in" style={{ marginTop: '80px', marginBottom: '80px' }}>
+                        <div className="world-section-header">
                             <span className="tag">Pilih Paket Kemitraan</span>
                             <h3>Mulai Bisnis dengan <em>Membeli Produk BP</em></h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '8px' }}>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '12px' }}>
                                 Pembelian paket bisa di-MIX produknya (BP/Brassic/Norway/Belgie/Steffi)
                             </p>
                         </div>
@@ -766,29 +806,6 @@ export default function KatalogProdukPage() {
                         </div>
                     </div>
 
-                    {/* Cara Bergabung */}
-                    <div className="bisnis-steps-section fade-in">
-                        <div className="world-section-header" style={{ marginBottom: '32px' }}>
-                            <span className="tag">Cara Bergabung</span>
-                            <h3>3 Langkah Mudah Mulai Bisnis</h3>
-                        </div>
-                        <div className="bisnis-steps-grid">
-                            {[
-                                { step: '01', icon: 'chat_bubble', title: 'Hubungi Kami', desc: 'Chat WhatsApp & ceritakan minatmu. Tim kami bantu pilihkan paket yang cocok (SE/SAP/AP).' },
-                                { step: '02', icon: 'shopping_cart', title: 'Pilih & Beli Paket', desc: 'Pilih paket kemitraan (bisa MIX produk). Langsung dapat harga mitra dan akses komunitas.' },
-                                { step: '03', icon: 'rocket_launch', title: 'Dibimbing Sampai Cuan', desc: 'Dapat pembinaan, bahan promosi harian, masuk grup WA, dan akses pendidikan bisnis sampai menghasilkan.' },
-                            ].map((item, i) => (
-                                <div key={i} className="bisnis-step-card">
-                                    <div className="bisnis-step-num">{item.step}</div>
-                                    <div className="bisnis-step-icon">
-                                        <span className="material-symbols-rounded">{item.icon}</span>
-                                    </div>
-                                    <div className="bisnis-step-title">{item.title}</div>
-                                    <div className="bisnis-step-desc">{item.desc}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
 
                     {/* CTA Bisnis */}
                     <div className="bisnis-cta-block fade-in">
@@ -841,7 +858,7 @@ export default function KatalogProdukPage() {
             <div className="mobile-sticky-bar mobile-only">
                 <button type="button" className="mobile-bar-btn" onClick={() => scrollTo(sectionAdvisorRef)}>
                     <span className="material-symbols-rounded">health_and_safety</span>
-                    <span>AI Advisor</span>
+                    <span>Konsultasi</span>
                 </button>
                 <div className="mobile-bar-divider" />
                 <button type="button" className="mobile-bar-btn" onClick={() => scrollTo(sectionProdukRef)}>

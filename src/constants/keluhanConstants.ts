@@ -13,4 +13,6 @@ export const KELUHAN_TAG_MAP: Record<string, string[]> = {
     "Kurang Stamina": ["stamina", "energi"],
     "Hormon Wanita": ["haid", "hormon", "wanita"],
     "Haid Tidak Teratur": ["haid", "hormon", "wanita"],
+    "Bisnis": ["bisnis", "peluang"],
+    "Peluang": ["bisnis", "peluang"],
 };

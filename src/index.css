@@ -286,3 +286,57 @@ All colors MUST be HSL.
 .modal-content {
   animation: modal-in 250ms ease-out forwards;
 }
+
+/* ══════════════════════════════════════════════════════════
+   SYSTEMIC SPACING SYSTEM — 8px Grid Based
+   ══════════════════════════════════════════════════════════ */
+
+.world-section {
+  padding: 60px 0;
+  position: relative;
+}
+
+.world-section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 48px;
+}
+
+.world-section-header .tag {
+  display: inline-block;
+  padding: 6px 16px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(5, 150, 105, 0.1);
+}
+
+.world-section-header h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--foreground);
+  line-height: 1.2;
+}
+
+.world-section-header h3 em {
+  font-style: italic;
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .world-section {
+    padding: 40px 0;
+  }
+  .world-section-header {
+    margin-bottom: 32px;
+    padding: 0 20px;
+  }
+  .world-section-header h3 {
+    font-size: 1.75rem;
+  }
+}
