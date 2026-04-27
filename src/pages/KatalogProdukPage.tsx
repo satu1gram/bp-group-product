@@ -676,7 +676,7 @@ export default function KatalogProdukPage() {
                     </div>
 
                     {/* Keuntungan Menjadi Mitra */}
-                    <div className="bisnis-keuntungan-section fade-in" style={{ marginTop: '40px', marginBottom: '40px' }}>
+                    <div className="bisnis-keuntungan-section fade-in" style={{ marginBottom: '60px' }}>
                         <div className="world-section-header">
                             <span className="tag">Mengapa Bergabung?</span>
                             <h3>Hak & Keuntungan Mitra <em>Quantum Millionaire</em></h3>
@@ -705,7 +705,7 @@ export default function KatalogProdukPage() {
                     <BusinessTestimonials />
 
                     {/* Cara Bergabung */}
-                    <div className="bisnis-steps-section fade-in" style={{ marginTop: '80px', marginBottom: '40px' }}>
+                    <div className="bisnis-steps-section fade-in" style={{ marginBottom: '60px' }}>
                         <div className="world-section-header">
                             <span className="tag">Cara Bergabung</span>
                             <h3>3 Langkah Mudah Mulai Bisnis</h3>
@@ -729,7 +729,7 @@ export default function KatalogProdukPage() {
                     </div>
 
                     {/* Paket Bisnis Mitra */}
-                    <div className="bisnis-paket-section fade-in" style={{ marginTop: '80px', marginBottom: '80px' }}>
+                    <div className="bisnis-paket-section fade-in">
                         <div className="world-section-header">
                             <span className="tag">Pilih Paket Kemitraan</span>
                             <h3>Mulai Bisnis dengan <em>Membeli Produk BP</em></h3>
