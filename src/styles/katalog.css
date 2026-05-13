@@ -1316,21 +1316,33 @@ nav {
     letter-spacing: 0.3px;
 }
 
-.price-tier-table {
-    background: var(--green-soft);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 10px;
-    margin-top: 2px;
-}
-.price-tier-header {
+.price-tier-toggle {
     display: flex;
     align-items: center;
     gap: 4px;
+    width: 100%;
     font-size: 11px;
     font-weight: 700;
     color: var(--green-dark);
-    margin-bottom: 6px;
+    background: var(--green-soft);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 4px;
+}
+.price-tier-toggle:hover {
+    background: var(--green-pale);
+}
+.price-tier-table {
+    background: var(--green-soft);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 4px 10px 8px;
+    margin-top: -4px;
+    margin-bottom: 4px;
 }
 .price-tier-row {
     display: flex;

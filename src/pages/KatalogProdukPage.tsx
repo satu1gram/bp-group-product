@@ -96,6 +96,14 @@ export default function KatalogProdukPage() {
     const [complaintText, setComplaintText] = useState('');
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [aiResult, setAiResult] = useState<RAGResult | null>(null);
+    const [expandedTiers, setExpandedTiers] = useState<Set<string>>(new Set());
+    const toggleTier = useCallback((id: string) => {
+        setExpandedTiers(prev => {
+            const next = new Set(prev);
+            next.has(id) ? next.delete(id) : next.add(id);
+            return next;
+        });
+    }, []);
 
     // ── Refs untuk navigasi ──
     const sectionAdvisorRef = useRef<HTMLElement>(null);
@@ -239,6 +247,11 @@ export default function KatalogProdukPage() {
                 <div className="world-label">
                     <span className="material-symbols-rounded">health_and_safety</span>
                     Konsultasi Kesehatan
+                </div>
+
+                {/* ── Value Proposition Banner ── */}
+                <div className="advisor-value-banner fade-in">
+                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah bebas dari asam urat, diabetes &amp; imun lemah — secara alami.
                 </div>
 
                 {/* ── AI Advisor Card ── */}
@@ -599,23 +612,32 @@ export default function KatalogProdukPage() {
                                                         <span className="price-note">{product.priceNote}</span>
                                                     </div>
                                                     {product.hargaTier && product.hargaTier.length > 0 && (
-                                                        <div className="price-tier-table">
-                                                            <div className="price-tier-header">
+                                                        <div>
+                                                            <button
+                                                                type="button"
+                                                                className="price-tier-toggle"
+                                                                onClick={() => toggleTier(product.id)}
+                                                            >
                                                                 <span className="material-symbols-rounded" style={{ fontSize: '14px' }}>sell</span>
                                                                 Harga Mitra
-                                                            </div>
-                                                            {product.hargaTier.map((tier, i) => (
-                                                                <div key={i} className="price-tier-row">
-                                                                    <span className="tier-label">{tier.label} <span className="tier-qty">({tier.minQty})</span></span>
-                                                                    <span className="tier-price">{tier.harga}</span>
+                                                                <span className="material-symbols-rounded" style={{ fontSize: '14px', marginLeft: 'auto', transition: 'transform 0.2s', transform: expandedTiers.has(product.id) ? 'rotate(180deg)' : 'none' }}>expand_more</span>
+                                                            </button>
+                                                            {expandedTiers.has(product.id) && (
+                                                                <div className="price-tier-table">
+                                                                    {product.hargaTier.map((tier, i) => (
+                                                                        <div key={i} className="price-tier-row">
+                                                                            <span className="tier-label">{tier.label} <span className="tier-qty">({tier.minQty})</span></span>
+                                                                            <span className="tier-price">{tier.harga}</span>
+                                                                        </div>
+                                                                    ))}
                                                                 </div>
-                                                            ))}
+                                                            )}
                                                         </div>
                                                     )}
                                                     <a href={getWaLink(waMsg)} target="_blank" rel="noopener noreferrer"
                                                         className="btn-cta-wa" style={{ width: '100%', justifyContent: 'center' }}>
                                                         <span className="material-symbols-rounded" style={{ marginRight: '8px' }}>chat_bubble</span>
-                                                        Konsultasi & Pesan via WA
+                                                        Pesan Sekarang via WA
                                                     </a>
                                                 </div>
                                             </div>

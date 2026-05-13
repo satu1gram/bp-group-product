@@ -877,6 +877,32 @@
     padding-top: 68px; /* offset fixed nav */
 }
 
+/* ── Value Proposition Banner ── */
+.advisor-value-banner {
+    text-align: center;
+    padding: 18px 24px 0;
+    font-size: 15px;
+    color: var(--text-muted);
+    font-weight: 500;
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.advisor-value-stat {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--green-dark);
+}
+@media (max-width: 768px) {
+    .advisor-value-banner {
+        font-size: 13px;
+        padding: 14px 20px 0;
+    }
+    .advisor-value-stat {
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 768px) {
     .world-advisor {
         padding-top: 60px; /* mobile nav lebih pendek */

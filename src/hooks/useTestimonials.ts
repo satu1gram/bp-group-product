@@ -65,6 +65,11 @@ export function useTestimonials(
     const [error, setError] = useState<string | null>(null);
 
     const fetchData = useCallback(async () => {
+        if (!supabase) {
+            setLoading(false);
+            setData([]);
+            return;
+        }
         setLoading(true);
         setError(null);
 
