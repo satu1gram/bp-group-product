@@ -1,0 +1,497 @@
+<!-- BP GROUP PORTFOLIO - HTML TEMPLATE (Bilingual)
+     Dapat digunakan langsung di website portfolio Anda
+     Pastikan link Tailwind CSS tersedia
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BP Group Product Catalog - Portfolio</title>
+    <meta name="description" content="AI-Powered Health & Business Marketplace - E-Commerce Platform dengan RAG Technology">
+    <meta property="og:title" content="BP Group Product Catalog">
+    <meta property="og:description" content="Platform e-commerce terintegrasi AI untuk produk kesehatan berkualitas tinggi">
+    <meta property="og:image" content="https://your-domain.com/images/portfolio/bp-group-og.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgb(59, 130, 246);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white">
+
+<!-- Language Toggle -->
+<div class="sticky top-0 z-50 bg-slate-800/95 backdrop-blur border-b border-slate-700">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+        <h1 class="text-xl font-bold text-blue-400">BP Group Portfolio</h1>
+        <div class="flex gap-2">
+            <button onclick="setLanguage('id')" id="btn-id" class="px-4 py-2 rounded bg-blue-600 text-white font-semibold">
+                🇮🇩 Indonesia
+            </button>
+            <button onclick="setLanguage('en')" id="btn-en" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600 text-gray-300">
+                🇬🇧 English
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Container -->
+<div class="w-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-20 px-4 md:px-8">
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Hero Section -->
+        <section class="mb-20 text-center animate-fade-in">
+            <div class="inline-flex gap-2 mb-6 flex-wrap justify-center">
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-400/50 rounded-full text-sm font-mono">React</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-400/50 rounded-full text-sm font-mono">TypeScript</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-400/50 rounded-full text-sm font-mono">Supabase</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-400/50 rounded-full text-sm font-mono">Tailwind</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-400/50 rounded-full text-sm font-mono">RAG AI</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 text-white" id="hero-title">
+                BP Group Product Catalog
+            </h1>
+            <p class="text-xl text-slate-300 mb-12" id="hero-subtitle">
+                AI-Powered Health & Business Marketplace
+            </p>
+            
+            <!-- Optional: Hero Image
+            <div class="mb-16 rounded-lg overflow-hidden border border-slate-600/50">
+                <img src="/images/portfolio/bp-group-hero.webp" alt="BP Group Dashboard" class="w-full h-auto object-cover">
+            </div>
+            -->
+        </section>
+
+        <!-- Challenge Section -->
+        <section class="mb-16 bg-slate-700/30 border border-slate-600/50 rounded-lg p-8 md:p-12 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-blue-400" id="challenge-title">CHALLENGE</h2>
+            <div class="space-y-4 text-slate-200 leading-relaxed" id="challenge-content"></div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="mb-16 bg-slate-700/30 border border-slate-600/50 rounded-lg p-8 md:p-12 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-blue-400" id="solution-title">SOLUTION</h2>
+            <div class="space-y-4 text-slate-200 leading-relaxed" id="solution-content"></div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-16 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-blue-400" id="features-title">KEY FEATURES</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="features-grid"></div>
+        </section>
+
+        <!-- Our Role Section -->
+        <section class="mb-16 bg-slate-700/30 border border-slate-600/50 rounded-lg p-8 md:p-12 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-blue-400" id="role-title">OUR ROLE</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="role-content"></div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section class="mb-16 bg-slate-700/30 border border-slate-600/50 rounded-lg p-8 md:p-12 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-blue-400" id="tech-title">TECHNICAL STACK</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="tech-content"></div>
+        </section>
+
+        <!-- Metrics Section -->
+        <section class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-400/30 rounded-lg p-8 md:p-12 animate-fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-blue-400" id="metrics-title">IMPACT METRICS</h2>
+            <div class="space-y-4 text-slate-200" id="metrics-content"></div>
+        </section>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-slate-900 border-t border-slate-700 py-8 px-4 md:px-8">
+    <div class="max-w-6xl mx-auto text-center text-slate-400 text-sm">
+        <p>BP Group Product Catalog Portfolio • <span id="year"></span></p>
+    </div>
+</footer>
+
+<script>
+const content = {
+    id: {
+        hero: {
+            title: "BP Group Product Catalog",
+            subtitle: "Platform E-Commerce Terintegrasi AI untuk Produk Kesehatan"
+        },
+        challenge: {
+            title: "CHALLENGE",
+            items: [
+                "• Calon pembeli ragu memilih produk yang tepat—testimoni tersebar di berbagai channel",
+                "• Tidak ada mekanisme menampilkan bukti kesembuhan yang RELEVAN per individu",
+                "• Interface katalog standar tidak mampu memberikan saran personal",
+                "• Sistem pricing multi-tier (Retail/Reseller/Agen) rumit dan sulit dijelaskan",
+                "• Mobile users (mayoritas) mengalami friction saat browsing dan checkout"
+            ]
+        },
+        solution: {
+            title: "SOLUTION",
+            items: [
+                "🧠 Recommendation Engine (RAG-Based)",
+                "   → AI Advisor memahami keluhan user secara kontekstual",
+                "   → Vector Search menemukan testimoni yang MATCH dengan kondisi user",
+                "   → Memberikan rekomendasi berbasis bukti nyata + science",
+                "",
+                "📱 Mobile-First Catalog",
+                "   → 50+ produk dengan benefit jelas, pricing tier dinamis",
+                "   → Smart filtering & search dengan performa tinggi",
+                "   → Gesture navigation (swipe, pull-to-refresh)",
+                "",
+                "🌍 Community-Powered Testimonials",
+                "   → Otomatis scrape dari Telegram channels",
+                "   → 27k+ testimoni terstruktur dengan relevance scoring",
+                "",
+                "💰 Seamless Conversion Funnel",
+                "   → User journey: Browse → Ask AI → View Proof → WhatsApp Close",
+                "   → Lead enrichment & personalized messaging"
+            ]
+        },
+        features: [
+            {
+                icon: "✨",
+                title: "AI-Powered Recommendation Engine",
+                desc: "Analisis keluhan user + rekomendasi produk dengan bukti"
+            },
+            {
+                icon: "📱",
+                title: "Mobile-First Design & PWA",
+                desc: "Optimized untuk Indonesia, offline support, install-to-home"
+            },
+            {
+                icon: "💳",
+                title: "Multi-Tier Pricing System",
+                desc: "Dynamic pricing untuk Retail/Reseller/Agen"
+            },
+            {
+                icon: "🌍",
+                title: "Real-Time Community Insights",
+                desc: "Live testimoni dari Telegram, geographic distribution"
+            },
+            {
+                icon: "⚡",
+                title: "High-Performance Data Layer",
+                desc: "React Query caching, vector embeddings, resilient API"
+            },
+            {
+                icon: "🔐",
+                title: "Enterprise-Grade Security",
+                desc: "Supabase RLS, rate limiting, GDPR-compliant"
+            }
+        ],
+        role: {
+            title: "OUR ROLE",
+            teams: [
+                {
+                    name: "Full-Stack Development",
+                    items: [
+                        "Frontend: React 18 + TypeScript + Tailwind CSS",
+                        "Custom hooks untuk state management",
+                        "Supabase integration & realtime sync",
+                        "Vector embeddings (pgvector) untuk RAG",
+                        "Vite build optimization & PWA"
+                    ]
+                },
+                {
+                    name: "UI/UX Design",
+                    items: [
+                        "Design system Tailwind + shadcn/ui",
+                        "Mobile gesture design (swipe, pull-to-refresh)",
+                        "WCAG 2.1 accessibility compliance",
+                        "Loading states & animations"
+                    ]
+                },
+                {
+                    name: "AI/ML Integration",
+                    items: [
+                        "RAG (Retrieval-Augmented Generation) implementation",
+                        "Vector embedding pipeline (Gemini API)",
+                        "Prompt engineering untuk health advisor",
+                        "Context management multi-turn conversation"
+                    ]
+                },
+                {
+                    name: "Data Engineering",
+                    items: [
+                        "Telegram scraper & data normalizer",
+                        "Schema design untuk multi-dimensional queries",
+                        "Vector indexing & similarity search",
+                        "Real-time sync & data quality validation"
+                    ]
+                }
+            ]
+        },
+        techStack: {
+            title: "TECHNICAL STACK",
+            stacks: [
+                {
+                    category: "Frontend",
+                    items: ["React 18", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "React Query"]
+                },
+                {
+                    category: "Backend",
+                    items: ["Supabase", "PostgreSQL", "pgvector"]
+                },
+                {
+                    category: "AI/ML",
+                    items: ["Google Gemini API", "RAG System", "Vector Embeddings"]
+                },
+                {
+                    category: "Tools",
+                    items: ["ESLint", "Prettier", "Vitest"]
+                }
+            ]
+        },
+        metrics: {
+            title: "IMPACT METRICS",
+            items: [
+                "✓ Conversion Rate: AI qualification + personalized matching",
+                "✓ Lead Quality: Improved accuracy through AI segmentation",
+                "✓ Engagement: 27k+ community testimonials → increased trust",
+                "✓ Mobile Performance: <3s FCP, PWA offline support",
+                "✓ Business Growth: Multi-tier pricing enabling reseller expansion"
+            ]
+        }
+    },
+    en: {
+        hero: {
+            title: "BP Group Product Catalog",
+            subtitle: "AI-Powered Health & Business Marketplace"
+        },
+        challenge: {
+            title: "CHALLENGE",
+            items: [
+                "• Buyers struggle to choose the right product—testimonials scattered across channels",
+                "• No mechanism to display healing proof RELEVANT to each individual",
+                "• Standard catalog interface cannot provide personalized recommendations",
+                "• Multi-tier pricing system (Retail/Reseller/Agent) difficult to explain",
+                "• Mobile users (majority) experience friction during browsing & checkout"
+            ]
+        },
+        solution: {
+            title: "SOLUTION",
+            items: [
+                "🧠 Recommendation Engine (RAG-Based)",
+                "   → AI Advisor understands user concerns contextually",
+                "   → Vector Search finds testimonials MATCHING with user's condition",
+                "   → Provides recommendations based on real evidence + science",
+                "",
+                "📱 Mobile-First Catalog",
+                "   → 50+ products with clear benefits, dynamic tiered pricing",
+                "   → Smart filtering & search with high performance",
+                "   → Gesture navigation (swipe, pull-to-refresh)",
+                "",
+                "🌍 Community-Powered Testimonials",
+                "   → Auto-scrapes from Telegram channels",
+                "   → 27k+ structured testimonials with relevance scoring",
+                "",
+                "💰 Seamless Conversion Funnel",
+                "   → User journey: Browse → Ask AI → View Proof → WhatsApp Close",
+                "   → Lead enrichment & personalized messaging"
+            ]
+        },
+        features: [
+            {
+                icon: "✨",
+                title: "AI-Powered Recommendation Engine",
+                desc: "Analyzes user concerns + recommends products with proof"
+            },
+            {
+                icon: "📱",
+                title: "Mobile-First Design & PWA",
+                desc: "Optimized for Indonesia market, offline support"
+            },
+            {
+                icon: "💳",
+                title: "Multi-Tier Pricing System",
+                desc: "Dynamic pricing for Retail/Reseller/Agent"
+            },
+            {
+                icon: "🌍",
+                title: "Real-Time Community Insights",
+                desc: "Live testimonials from Telegram, geographic view"
+            },
+            {
+                icon: "⚡",
+                title: "High-Performance Data Layer",
+                desc: "React Query caching, vector embeddings, resilient API"
+            },
+            {
+                icon: "🔐",
+                title: "Enterprise-Grade Security",
+                desc: "Supabase RLS, rate limiting, GDPR-compliant"
+            }
+        ],
+        role: {
+            title: "OUR ROLE",
+            teams: [
+                {
+                    name: "Full-Stack Development",
+                    items: [
+                        "Frontend: React 18 + TypeScript + Tailwind CSS",
+                        "Custom hooks for state management",
+                        "Supabase integration & realtime sync",
+                        "Vector embeddings (pgvector) for RAG",
+                        "Vite build optimization & PWA"
+                    ]
+                },
+                {
+                    name: "UI/UX Design",
+                    items: [
+                        "Design system: Tailwind + shadcn/ui",
+                        "Mobile gesture design (swipe, pull-to-refresh)",
+                        "WCAG 2.1 accessibility compliance",
+                        "Loading states & animations"
+                    ]
+                },
+                {
+                    name: "AI/ML Integration",
+                    items: [
+                        "RAG (Retrieval-Augmented Generation) implementation",
+                        "Vector embedding pipeline (Gemini API)",
+                        "Prompt engineering for health advisor",
+                        "Context management for multi-turn conversations"
+                    ]
+                },
+                {
+                    name: "Data Engineering",
+                    items: [
+                        "Telegram scraper & normalizer",
+                        "Schema design for multi-dimensional queries",
+                        "Vector indexing & similarity search",
+                        "Real-time sync & data quality validation"
+                    ]
+                }
+            ]
+        },
+        techStack: {
+            title: "TECHNICAL STACK",
+            stacks: [
+                {
+                    category: "Frontend",
+                    items: ["React 18", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "React Query"]
+                },
+                {
+                    category: "Backend",
+                    items: ["Supabase", "PostgreSQL", "pgvector"]
+                },
+                {
+                    category: "AI/ML",
+                    items: ["Google Gemini API", "RAG System", "Vector Embeddings"]
+                },
+                {
+                    category: "Tools",
+                    items: ["ESLint", "Prettier", "Vitest"]
+                }
+            ]
+        },
+        metrics: {
+            title: "IMPACT METRICS",
+            items: [
+                "✓ Conversion Rate: AI qualification + personalized matching",
+                "✓ Lead Quality: Improved accuracy through AI segmentation",
+                "✓ Engagement: 27k+ community testimonials → increased trust",
+                "✓ Mobile Performance: <3s FCP, PWA offline support",
+                "✓ Business Growth: Multi-tier pricing enabling reseller expansion"
+            ]
+        }
+    }
+};
+
+let currentLang = 'id';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.getElementById('btn-id').classList.toggle('bg-blue-600', lang === 'id');
+    document.getElementById('btn-id').classList.toggle('bg-slate-700', lang !== 'id');
+    document.getElementById('btn-en').classList.toggle('bg-blue-600', lang === 'en');
+    document.getElementById('btn-en').classList.toggle('bg-slate-700', lang !== 'en');
+    
+    renderContent();
+}
+
+function renderContent() {
+    const data = content[currentLang];
+    
+    // Hero
+    document.getElementById('hero-title').textContent = data.hero.title;
+    document.getElementById('hero-subtitle').textContent = data.hero.subtitle;
+    
+    // Challenge
+    document.getElementById('challenge-title').textContent = data.challenge.title;
+    document.getElementById('challenge-content').innerHTML = data.challenge.items
+        .map(item => `<p>${item}</p>`).join('');
+    
+    // Solution
+    document.getElementById('solution-title').textContent = data.solution.title;
+    document.getElementById('solution-content').innerHTML = data.solution.items
+        .map(item => `<p>${item}</p>`).join('');
+    
+    // Features
+    document.getElementById('features-title').textContent = 'KEY FEATURES';
+    document.getElementById('features-grid').innerHTML = data.features
+        .map(feature => `
+            <div class="feature-card bg-slate-700/30 border border-slate-600/50 rounded-lg p-6">
+                <div class="text-4xl mb-4">${feature.icon}</div>
+                <h3 class="text-lg font-bold mb-2">${feature.title}</h3>
+                <p class="text-slate-300 text-sm">${feature.desc}</p>
+            </div>
+        `).join('');
+    
+    // Role
+    document.getElementById('role-title').textContent = data.role.title;
+    document.getElementById('role-content').innerHTML = data.role.teams
+        .map(team => `
+            <div>
+                <h3 class="text-lg font-bold mb-4 text-blue-300">${team.name}</h3>
+                <ul class="space-y-2 text-slate-200">
+                    ${team.items.map(item => `<li class="flex gap-3"><span class="text-blue-400">→</span><span>${item}</span></li>`).join('')}
+                </ul>
+            </div>
+        `).join('');
+    
+    // Tech Stack
+    document.getElementById('tech-title').textContent = data.techStack.title;
+    document.getElementById('tech-content').innerHTML = data.techStack.stacks
+        .map(stack => `
+            <div>
+                <h3 class="font-bold text-blue-300 mb-3">${stack.category}</h3>
+                <div class="flex flex-wrap gap-2">
+                    ${stack.items.map(item => `<span class="px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded text-sm">${item}</span>`).join('')}
+                </div>
+            </div>
+        `).join('');
+    
+    // Metrics
+    document.getElementById('metrics-title').textContent = data.metrics.title;
+    document.getElementById('metrics-content').innerHTML = data.metrics.items
+        .map(item => `<p class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>${item}</span></p>`)
+        .join('');
+}
+
+// Initialize
+document.getElementById('year').textContent = new Date().getFullYear();
+renderContent();
+</script>
+
+</body>
+</html>
