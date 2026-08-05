@@ -353,13 +353,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
             { icon: "inventory_2", text: "30 ML" },
             { icon: "eco", text: "Stevia Extract" }
         ],
-        price: "Rp 195.000",
-        priceNote: "🔥 Harga Promo",
-        oldPrice: "Rp 250.000",
+        price: "Rp 250.000",
+        priceNote: "Per Botol 30 ML",
         nomorRegistrasi: "MD 272824001500528",
         hargaTier: [
-            { label: 'Reseller', minQty: 'min. 3 pcs', harga: 'Rp 195.000' },
-            { label: 'Agen', minQty: 'min. 5 pcs', harga: 'Rp 195.000' },
+            { label: 'Reseller', minQty: 'min. 3 pcs', harga: 'Rp 216.000' },
+            { label: 'Agen', minQty: 'min. 5 pcs', harga: 'Rp 198.000' },
             { label: 'Agen Plus', minQty: 'min. 10 pcs', harga: 'Rp 180.000' },
         ],
         bgStyle: "blue",
