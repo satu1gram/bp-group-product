@@ -24,7 +24,7 @@ export function BusinessTestimonials() {
       nama: "Mbak Tila (Malang)",
       latarBelakang: "Mantan Dosen & Ibu 3 Anak",
       pencapaian: "Umroh sekeluarga & Sukses jadi Mompreneur",
-      cerita: "Sebagai mantan Dosen, saya sempat mengalami perang batin saat harus menitipkan anak-anak demi mengajar. Akhirnya saya memilih resign agar bisa membersamai anak di rumah. Alhamdulillah lewat BP, passion mengajar saya tetap tersalurkan melalui pembinaan komunitas. Bonusnya, saya bisa bantu ekonomi keluarga, sedekah untuk Palestina, bahkan mengumrohkan orang tua—semuanya dari rumah.",
+      cerita: "Sebagai mantan Dosen, saya sempat mengalami perang batin saat harus menitipkan anak-anak demi mengajar. Akhirnya saya memilih resign agar bisa membersamai anak di rumah. Alhamdulillah lewat BP, passion mengajar saya tetap tersalurkan melalui pembinaan komunitas. Bonusnya, saya bisa bantu ekonomi keluarga, sedekah untuk Palestina, bahkan mengumrohkan orang tua. Semuanya dari rumah.",
       thumbnail: "/images/bisnis/tila akbar umroh.jpeg"
     },
     {

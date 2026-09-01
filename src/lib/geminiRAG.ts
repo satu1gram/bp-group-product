@@ -258,9 +258,9 @@ function getDynamicFallback(query: string): RAGResult {
             name,
             emoji: productDetails[name]?.emoji || '🌿',
             reason: productDetails[name]?.reason || 'Mendukung kesehatan tubuh secara menyeluruh',
-            price: 'Rp 250.000'
+            price: 'Rp 265.000'
         })),
-        cta: "Untuk saran lebih akurat, konsultasikan langsung via chat — gratis! 💬",
+        cta: "Untuk saran lebih akurat, konsultasikan langsung via chat, gratis! 💬",
         testimonials: []
     };
     

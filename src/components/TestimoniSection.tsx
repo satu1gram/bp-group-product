@@ -197,7 +197,7 @@ export function TestimoniSection({
                         <em className="italic text-[#3D7A4F] not-italic">Keluarga Sehat</em>
                     </h2>
                     <p className="text-gray-500 mt-3 max-w-xl mx-auto text-sm md:text-base">
-                        Cerita nyata dari pengguna setia BP Group — bukan klaim kami 🌿
+                        Cerita nyata dari pengguna setia BP Group, bukan klaim kami 🌿
                     </p>
 
                     {/* ── Active Filter Badge ── */}
@@ -222,7 +222,7 @@ export function TestimoniSection({
                         <p className="text-xs text-gray-500">
                             {displayed.length > 0
                                 ? (externalData ? `${displayed.length} testimoni paling relevan ditemukan` : `${displayed.length} testimoni untuk keluhan ini`)
-                                : 'Belum ada testimoni spesifik — menampilkan pilihan kami'
+                                : 'Belum ada testimoni spesifik, menampilkan pilihan kami'
                             }
                         </p>
                     </div>

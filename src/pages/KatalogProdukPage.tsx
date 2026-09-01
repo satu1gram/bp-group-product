@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import '@/styles/katalog.css';
 import '@/styles/ai-advisor.css';
 import { KATALOG_PRODUCTS } from '@/data/katalogProducts';
@@ -100,7 +100,7 @@ export default function KatalogProdukPage() {
     const toggleTier = useCallback((id: string) => {
         setExpandedTiers(prev => {
             const next = new Set(prev);
-            next.has(id) ? next.delete(id) : next.add(id);
+            if (next.has(id)) { next.delete(id); } else { next.add(id); }
             return next;
         });
     }, []);
@@ -251,7 +251,7 @@ export default function KatalogProdukPage() {
 
                 {/* ── Value Proposition Banner ── */}
                 <div className="advisor-value-banner fade-in">
-                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah bebas dari asam urat, diabetes &amp; imun lemah — secara alami.
+                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah bebas dari asam urat, diabetes &amp; imun lemah, secara alami.
                 </div>
 
                 {/* ── AI Advisor Card ── */}
@@ -269,7 +269,7 @@ export default function KatalogProdukPage() {
                                 <em>Ceritakan Keluhanmu</em>
                             </h1>
                             <p className="advisor-embed-sub" style={{ marginTop: '16px' }}>
-                                Pilih keluhan di bawah — AI kami rekomendasikan produk paling tepat dalam hitungan detik.
+                                Pilih keluhan di bawah, AI kami rekomendasikan produk paling tepat dalam hitungan detik.
                             </p>
                         </div>
 
@@ -693,7 +693,7 @@ export default function KatalogProdukPage() {
                             target="_blank" rel="noopener noreferrer"
                             className="bisnis-hero-cta">
                             <WaIcon size={20} />
-                            Saya Mau Jadi Mitra — Info Lengkap via WA
+                            Saya Mau Jadi Mitra, Info Lengkap via WA
                         </a>
                     </div>
 
@@ -705,7 +705,7 @@ export default function KatalogProdukPage() {
                         </div>
                         <div className="bisnis-cards-grid">
                             {[
-                                { icon: 'sell', title: 'Harga Kemitraan', desc: 'Dapatkan harga khusus mitra mulai dari Rp 180.000/botol — jauh lebih hemat dari harga eceran.' },
+                                { icon: 'sell', title: 'Harga Kemitraan', desc: 'Dapatkan harga khusus mitra mulai dari Rp 195.000/botol, jauh lebih hemat dari harga eceran.' },
                                 { icon: 'school', title: 'Pembinaan Langsung', desc: 'Dibimbing langsung oleh Mas Ippho, para Leader, dan Mentor berpengalaman sampai menghasilkan.' },
                                 { icon: 'campaign', title: 'Bahan Promosi Harian', desc: 'Setiap hari mendapatkan materi promosi siap pakai untuk langsung dibagikan ke calon pelanggan.' },
                                 { icon: 'menu_book', title: 'Akses Pendidikan', desc: 'Akses penuh ke materi Knowledge & Skill untuk meningkatkan kemampuan bisnis dan produk.' },
@@ -764,9 +764,9 @@ export default function KatalogProdukPage() {
                                 {
                                     nama: 'Paket SE',
                                     jumlah: '200 Botol',
-                                    hargaPaket: 'Rp 30.000.000',
-                                    modal: 'Rp 150.000',
-                                    jual: 'Rp 250.000',
+                                    hargaPaket: 'Rp 33.000.000',
+                                    modal: 'Rp 165.000',
+                                    jual: 'Rp 265.000',
                                     untung: 'Rp 100.000',
                                     potensi: 'Rp 20.000.000',
                                     highlight: true,
@@ -774,21 +774,21 @@ export default function KatalogProdukPage() {
                                 {
                                     nama: 'Paket SAP',
                                     jumlah: '40 Botol',
-                                    hargaPaket: 'Rp 6.800.000',
-                                    modal: 'Rp 170.000',
-                                    jual: 'Rp 250.000',
-                                    untung: 'Rp 80.000',
-                                    potensi: 'Rp 3.200.000',
+                                    hargaPaket: 'Rp 7.800.000',
+                                    modal: 'Rp 195.000',
+                                    jual: 'Rp 265.000',
+                                    untung: 'Rp 70.000',
+                                    potensi: 'Rp 2.800.000',
                                     highlight: false,
                                 },
                                 {
                                     nama: 'Paket AP',
                                     jumlah: '10 Botol',
-                                    hargaPaket: 'Rp 1.800.000',
-                                    modal: 'Rp 180.000',
-                                    jual: 'Rp 250.000',
-                                    untung: 'Rp 70.000',
-                                    potensi: 'Rp 700.000',
+                                    hargaPaket: 'Rp 2.100.000',
+                                    modal: 'Rp 210.000',
+                                    jual: 'Rp 265.000',
+                                    untung: 'Rp 55.000',
+                                    potensi: 'Rp 550.000',
                                     highlight: false,
                                 },
                             ].map((paket, i) => (
@@ -832,7 +832,7 @@ export default function KatalogProdukPage() {
                     {/* CTA Bisnis */}
                     <div className="bisnis-cta-block fade-in">
                         <h3 className="bisnis-cta-title">Siap Memulai Perjalanan Bisnismu?</h3>
-                        <p className="bisnis-cta-sub">Konsultasi gratis — tim kami akan bantu kamu memulai tanpa rasa bingung.</p>
+                        <p className="bisnis-cta-sub">Konsultasi gratis, tim kami akan bantu kamu memulai tanpa rasa bingung.</p>
                         <div className="cta-btn-group">
                             <a href={getWaLink('Halo kak, saya tertarik bergabung sebagai Mitra Bisnis Quantum Millionaire. Bisa minta info lengkapnya?')}
                                 target="_blank" rel="noopener noreferrer" className="bisnis-cta-btn-primary">
@@ -862,7 +862,7 @@ export default function KatalogProdukPage() {
                 </div>
                 <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text-muted)' }}>
                     Komunitas Bisnis Quantum Millionaire<br />
-                    © 2025–2026 Quantum Millionaire
+                    © 2025-2026 Quantum Millionaire
                 </p>
             </footer>
 
