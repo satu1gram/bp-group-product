@@ -84,18 +84,18 @@ export const resilientStorage = {
     const idbVal = await idbGet(key);
     // Re-hydrate localStorage so future reads are fast
     if (idbVal !== null) {
-      try { localStorage.setItem(key, idbVal); } catch {}
+      try { localStorage.setItem(key, idbVal); } catch { /* ignore */ }
     }
     return idbVal;
   },
 
   async setItem(key: string, value: string): Promise<void> {
-    try { localStorage.setItem(key, value); } catch {}
+    try { localStorage.setItem(key, value); } catch { /* ignore */ }
     await idbSet(key, value);
   },
 
   async removeItem(key: string): Promise<void> {
-    try { localStorage.removeItem(key); } catch {}
+    try { localStorage.removeItem(key); } catch { /* ignore */ }
     await idbRemove(key);
   },
 };
