@@ -110,6 +110,7 @@ export default function KatalogProdukPage() {
     const sectionProdukRef = useRef<HTMLElement>(null);
     const sectionBisnisRef = useRef<HTMLElement>(null);
     const aiResultRef = useRef<HTMLDivElement>(null);
+    const complaintTextRef = useRef<HTMLTextAreaElement>(null);
 
     // ── Scroll + Fade-in observer ──
     useEffect(() => {
@@ -125,6 +126,9 @@ export default function KatalogProdukPage() {
         };
         // Trigger setelah 50ms untuk pastikan DOM sudah render
         const t = setTimeout(triggerVisible, 50);
+
+        // Fokus otomatis ke textarea keluhan
+        setTimeout(() => complaintTextRef.current?.focus(), 500);
 
         const observer = new IntersectionObserver(
             entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); }),
@@ -220,7 +224,7 @@ export default function KatalogProdukPage() {
                     </Link>
                 </div>
                 <ul className="nav-links desktop-only">
-                    <li><a href="#advisor">AI Advisor</a></li>
+                    <li><a href="#advisor">Konsultasi AI</a></li>
                     <li><a href="#produk">Produk</a></li>
                     <li><a href="#testimoni-wall">Testimoni</a></li>
                     <li><a href="#bisnis">Bisnis</a></li>
@@ -251,7 +255,7 @@ export default function KatalogProdukPage() {
 
                 {/* ── Value Proposition Banner ── */}
                 <div className="advisor-value-banner fade-in">
-                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah bebas dari asam urat, diabetes &amp; imun lemah, secara alami.
+                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah merasakan manfaat nyata untuk asam urat, diabetes &amp; imun lemah, dengan produk-produk pilihan.
                 </div>
 
                 {/* ── AI Advisor Card ── */}
@@ -282,7 +286,7 @@ export default function KatalogProdukPage() {
                             ))}
                         </div>
 
-                        <textarea className="ai-textarea"
+                        <textarea ref={complaintTextRef} className="ai-textarea"
                             placeholder="Atau ceritakan keluhan Anda secara lengkap di sini (opsional)..."
                             value={complaintText}
                             onChange={e => handleTextChange(e.target.value)}
@@ -710,7 +714,7 @@ export default function KatalogProdukPage() {
                                 { icon: 'campaign', title: 'Bahan Promosi Harian', desc: 'Setiap hari mendapatkan materi promosi siap pakai untuk langsung dibagikan ke calon pelanggan.' },
                                 { icon: 'menu_book', title: 'Akses Pendidikan', desc: 'Akses penuh ke materi Knowledge & Skill untuk meningkatkan kemampuan bisnis dan produk.' },
                                 { icon: 'groups', title: 'Komunitas & Grup WA', desc: 'Bergabung ke komunitas aktif dan grup-grup WhatsApp untuk saling support dan sharing.' },
-                                { icon: 'trending_up', title: 'Potensi Untung Besar', desc: 'Untung hingga Rp 100.000/botol dengan potensi maksimal Rp 20.000.000 dari paket SE 200 Botol.' },
+                                { icon: 'trending_up', title: 'Potensi Untung Besar', desc: 'Untung hingga Rp 90.000/botol dengan potensi maksimal Rp 18.000.000 dari paket SE 200 Botol.' },
                             ].map((item, i) => (
                                 <div key={i} className="bisnis-card">
                                     <div className="bisnis-card-icon">
@@ -764,11 +768,11 @@ export default function KatalogProdukPage() {
                                 {
                                     nama: 'Paket SE',
                                     jumlah: '200 Botol',
-                                    hargaPaket: 'Rp 33.000.000',
-                                    modal: 'Rp 165.000',
+                                    hargaPaket: 'Rp 35.000.000',
+                                    modal: 'Rp 175.000',
                                     jual: 'Rp 265.000',
-                                    untung: 'Rp 100.000',
-                                    potensi: 'Rp 20.000.000',
+                                    untung: 'Rp 90.000',
+                                    potensi: 'Rp 18.000.000',
                                     highlight: true,
                                 },
                                 {
@@ -862,7 +866,7 @@ export default function KatalogProdukPage() {
                 </div>
                 <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text-muted)' }}>
                     Komunitas Bisnis Quantum Millionaire<br />
-                    © 2025-2026 Quantum Millionaire
+                    © 2026 Quantum Millionaire
                 </p>
             </footer>
 
