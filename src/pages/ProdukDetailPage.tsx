@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router";
 import { KATALOG_PRODUCTS } from "@/data/katalogProducts";
 import { getProductFaqs } from "@/data/productFaq";
+import { KEBUTUHAN } from "@/data/kebutuhan";
 import { SiteLayout, Breadcrumbs } from "@/components/site/SiteLayout";
 import { WaIcon } from "@/components/site/WaIcon";
 import { ShareBar } from "@/components/site/ShareBar";
@@ -143,6 +144,19 @@ export default function ProdukDetailPage() {
                         ))}
                     </div>
                 </section>
+
+                {KEBUTUHAN.some((k) => k.productIds.includes(product.id)) && (
+                    <section className="pd-section">
+                        <h2 className="pd-h2">Sering Dipilih untuk</h2>
+                        <div className="need-chips">
+                            {KEBUTUHAN.filter((k) => k.productIds.includes(product.id)).map((k) => (
+                                <Link key={k.slug} to={`/kebutuhan/${k.slug}`} className="need-chip">
+                                    <span className="material-symbols-rounded" aria-hidden="true">{k.icon}</span>{k.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                )}
 
                 <section className="pd-section pd-consult">
                     <div>

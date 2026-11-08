@@ -22,7 +22,7 @@ const env = loadEnv("production", root, "");
 const SITE_URL = (env.SITE_URL || "https://katalog.mitrabp.biz.id").replace(/\/$/, "");
 
 const ssr = await import(pathToFileURL(path.join(root, "dist-ssr", "entry-server.js")).href);
-const { render, KATALOG_PRODUCTS, ARTICLE_COLUMNS, PROMO_COLUMNS, toListItem } = ssr;
+const { render, KATALOG_PRODUCTS, KEBUTUHAN, ARTICLE_COLUMNS, PROMO_COLUMNS, toListItem } = ssr;
 
 // ── 1. Data dari Supabase ──
 async function fetchTable(table, query) {
@@ -57,6 +57,9 @@ const pages = [
   ...KATALOG_PRODUCTS.map((p) => ({ route: `/produk/${p.id}`, data: {}, priority: "0.9" })),
   { route: "/mitra", data: {}, priority: "0.8" },
   { route: "/panduan-bisnis", data: {}, priority: "0.8" },
+  { route: "/kebutuhan", data: {}, priority: "0.8" },
+  ...KEBUTUHAN.map((k) => ({ route: `/kebutuhan/${k.slug}`, data: {}, priority: "0.8" })),
+  { route: "/british-propolis-malang", data: {}, priority: "0.8" },
   { route: "/promo", data: { promos, builtOn }, priority: "0.7" },
   { route: "/artikel", data: { articles: listItems }, priority: "0.8" },
   ...(articles ?? []).map((a) => ({

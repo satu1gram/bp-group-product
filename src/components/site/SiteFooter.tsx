@@ -10,6 +10,8 @@ export function SiteFooter() {
             <div className="site-footer-links">
                 <Link to="/">Beranda</Link>
                 <a href="/#produk">Produk</a>
+                <Link to="/kebutuhan">Sesuai Kebutuhan</Link>
+                <Link to="/british-propolis-malang">British Propolis Malang</Link>
                 <Link to="/artikel">Catatan Tila</Link>
                 <Link to="/promo">Promo</Link>
                 <Link to="/mitra">Jadi Mitra</Link>

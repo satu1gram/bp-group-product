@@ -130,3 +130,14 @@ Ubah kalimat yang kurang pas dengan gaya Tila, lalu minta developer memperbaruin
   Link otomatis diberi penanda `utm_source`, jadi terlihat di GA4 berapa kunjungan dari hasil bagikan.
 - Gambar pratinjau saat link dibagikan ada di `public/og/` (JPG 1200×630, aman untuk WhatsApp).
   Bila nama/harga produk berubah, buat ulang dengan: `npx tsx scripts/generate-og.ts`.
+
+## F. Halaman kebutuhan & halaman Malang (Tahap 3)
+
+- `/kebutuhan` + 8 halaman: daya tahan tubuh, si kecil, mata lelah, tidur nyenyak, badan pegal,
+  kurangi gula, perawatan kulit, perawatan rambut. Isinya tips harian + produk yang sering dipilih + FAQ,
+  ditulis mengikuti pedoman BPOM. Teks ada di `src/data/kebutuhan.ts`.
+- `/british-propolis-malang` untuk pencarian lokal ("jual british propolis malang").
+  Saat membuat **Google Business Profile**, isi kolom website dengan alamat halaman ini.
+- Bagikan halaman kebutuhan yang relevan saat menjawab pertanyaan pelanggan di WhatsApp,
+  misalnya ibu yang bertanya soal anak → `/kebutuhan/anak`.
+- Gambar produk dikecilkan ke lebar 1200 px (60–97% lebih ringan) supaya katalog lebih cepat dibuka.

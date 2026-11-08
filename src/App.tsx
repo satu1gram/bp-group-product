@@ -13,6 +13,9 @@ const ArtikelListPage = lazy(() => import("./pages/ArtikelListPage"));
 const ArtikelDetailPage = lazy(() => import("./pages/ArtikelDetailPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 const PanduanBisnisPage = lazy(() => import("./pages/PanduanBisnisPage"));
+const KebutuhanPage = lazy(() => import("./pages/KebutuhanPage"));
+const KebutuhanIndexPage = lazy(() => import("./pages/KebutuhanIndexPage"));
+const MalangPage = lazy(() => import("./pages/MalangPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 /** Pindah halaman (tanpa #anchor) → mulai dari atas. */
@@ -75,6 +78,9 @@ const App = () => (
       <Route path="/produk/:slug" element={page(<ProdukDetailPage />)} />
       <Route path="/mitra" element={page(<MitraPage />)} />
       <Route path="/panduan-bisnis" element={page(<PanduanBisnisPage />)} />
+      <Route path="/kebutuhan" element={page(<KebutuhanIndexPage />)} />
+      <Route path="/kebutuhan/:slug" element={page(<KebutuhanPage />)} />
+      <Route path="/british-propolis-malang" element={page(<MalangPage />)} />
       <Route path="/promo" element={page(<PromoPage />)} />
       <Route path="/artikel" element={page(<ArtikelListPage />)} />
       <Route path="/artikel/:slug" element={page(<ArtikelDetailPage />)} />
