@@ -2,12 +2,22 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { Link } from 'react-router';
 import '@/styles/katalog.css';
 import '@/styles/ai-advisor.css';
+import '@/styles/pages.css';
 import { KATALOG_PRODUCTS } from '@/data/katalogProducts';
 import { TestimoniSection } from '@/components/TestimoniSection';
 import { BusinessTestimonials } from '@/components/BusinessTestimonials';
 import { TestimonialWall } from '@/components/TestimonialWall';
 import { generateAIAdvice, type RAGResult } from '@/lib/geminiRAG';
 import { trackEvent } from '@/lib/analytics';
+import { getWaLink, SITE_URL } from '@/lib/site';
+import { Seo } from '@/lib/seo';
+import { storeLd, productLd } from '@/lib/structuredData';
+import { KEUNTUNGAN_MITRA, LANGKAH_MITRA, PAKET_KEMITRAAN } from '@/data/kemitraan';
+import { SiteNav } from '@/components/site/SiteNav';
+import { SiteFooter } from '@/components/site/SiteFooter';
+import { WaIcon } from '@/components/site/WaIcon';
+import { PromoStrip } from '@/components/site/PromoStrip';
+import { ArticleTeaser } from '@/components/site/ArticleTeaser';
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
 
@@ -81,14 +91,6 @@ function getRecommendedIds(rekomendasi: RAGResult['rekomendasi']): string[] {
     return Array.from(ids);
 }
 
-// ─── WA Icon SVG ─────────────────────────────────────────────────────────────
-
-const WaIcon = ({ size = 20, color = 'white' }: { size?: number; color?: string }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-    </svg>
-);
-
 // ─── Komponen Utama ───────────────────────────────────────────────────────────
 
 export default function KatalogProdukPage() {
@@ -101,7 +103,6 @@ export default function KatalogProdukPage() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [aiResult, setAiResult] = useState<RAGResult | null>(null);
     const [expandedTiers, setExpandedTiers] = useState<Set<string>>(new Set());
-    const [menuOpen, setMenuOpen] = useState(false);
     const toggleTier = useCallback((id: string) => {
         setExpandedTiers(prev => {
             const next = new Set(prev);
@@ -119,7 +120,8 @@ export default function KatalogProdukPage() {
 
     // ── Scroll + Fade-in observer ──
     useEffect(() => {
-        window.scrollTo(0, 0);
+        const hasHash = window.location.hash.length > 1;
+        if (!hasHash) window.scrollTo(0, 0);
         // Langsung tampilkan elemen yang sudah ada di viewport saat halaman dibuka
         const triggerVisible = () => {
             document.querySelectorAll('.fade-in:not(.in-view)').forEach(el => {
@@ -133,7 +135,7 @@ export default function KatalogProdukPage() {
         const t = setTimeout(triggerVisible, 50);
 
         // Fokus otomatis ke textarea keluhan
-        setTimeout(() => complaintTextRef.current?.focus(), 500);
+        if (!hasHash) setTimeout(() => complaintTextRef.current?.focus({ preventScroll: true }), 500);
 
         const observer = new IntersectionObserver(
             entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); }),
@@ -142,10 +144,6 @@ export default function KatalogProdukPage() {
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         return () => { observer.disconnect(); clearTimeout(t); };
     }, []);
-
-    // ── WA link helper ──
-    const getWaLink = (text: string) =>
-        `https://wa.me/6287782697973?text=${encodeURIComponent(text || 'Halo Mbak Tila, saya mau konsultasi produk British Propolis')}`;
 
     // ── Scroll helper ──
     const scrollTo = (ref: React.RefObject<HTMLElement | null>) => {
@@ -220,55 +218,27 @@ export default function KatalogProdukPage() {
     return (
         <div className="katalog-page-wrapper">
 
-            {/* ════════════════ NAV ════════════════ */}
-            <nav>
-                <div className="nav-logo-wrap">
-                    <Link to="/" className="nav-logo">
-                        <img src="/images/qm-logo.webp" alt="Quantum Millionaire"
-                            style={{ height: '50px', width: 'auto', display: 'block', minWidth: '100px' }}
-                            onError={e => {
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.parentElement!.innerHTML += '<span style="font-weight:bold;color:var(--green-dark)">Quantum Millionaire</span>';
-                            }} />
-                    </Link>
-                </div>
-                <ul className="nav-links desktop-only">
-                    <li><a href="#advisor">Konsultasi AI</a></li>
-                    <li><a href="#produk">Produk</a></li>
-                    <li><a href="#testimoni-wall">Testimoni</a></li>
-                    <li><a href="#bisnis">Bisnis</a></li>
-                </ul>
-                <div className="nav-right desktop-only">
-                    <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')} target="_blank" rel="noopener noreferrer" className="nav-cta">
-                        <span className="material-symbols-rounded" style={{ fontSize: '18px', marginRight: '6px', verticalAlign: 'bottom' }}>chat</span>
-                        Hubungi Kami
-                    </a>
-                </div>
-                <div className="mobile-controls mobile-only">
-                    <button className="hamburger-btn" type="button"
-                        aria-label="Buka menu" aria-expanded={menuOpen} aria-controls="mobile-drawer"
-                        onClick={() => setMenuOpen(true)}>
-                        <span className="line" /><span className="line" /><span className="line" />
-                    </button>
-                </div>
-            </nav>
-
-            {/* ════════════════ MOBILE DRAWER ════════════════ */}
-            <div className={`mobile-drawer-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(false)} aria-hidden="true" />
-            <aside id="mobile-drawer" className={`mobile-drawer ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen} aria-label="Menu navigasi">
-                <button type="button" className="drawer-close" aria-label="Tutup menu" onClick={() => setMenuOpen(false)}>
-                    <span className="material-symbols-rounded">close</span>
-                </button>
-                <div className="drawer-links" role="navigation" onClick={() => setMenuOpen(false)}>
-                    <a href="#advisor">Konsultasi AI</a>
-                    <a href="#produk">Produk</a>
-                    <a href="#testimoni-wall">Testimoni</a>
-                    <a href="#bisnis">Peluang Bisnis</a>
-                </div>
-                <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')} target="_blank" rel="noopener noreferrer" className="nav-cta drawer-cta">
-                    Chat Mbak Tila via WhatsApp
-                </a>
-            </aside>
+            <Seo
+                title="British Propolis Asli – Katalog & Konsultasi Gratis | Mbak Tila Malang"
+                description="Katalog lengkap British Propolis, Brassic, BP Norway & Belgie, terdaftar BPOM. Konsultasi produk gratis dan pesan langsung via WhatsApp bersama Mbak Tila, Malang."
+                path="/"
+                image="/images/produk/bp.webp"
+                jsonLd={[
+                    storeLd(),
+                    { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: 'Katalog British Propolis', inLanguage: 'id-ID' },
+                    {
+                        '@type': 'ItemList',
+                        name: 'Produk British Propolis',
+                        itemListElement: KATALOG_PRODUCTS.map((p, i) => ({
+                            '@type': 'ListItem',
+                            position: i + 1,
+                            url: `${SITE_URL}/produk/${p.id}`,
+                            item: productLd(p, `${SITE_URL}/produk/${p.id}`),
+                        })),
+                    },
+                ]}
+            />
+            <SiteNav />
 
             {/* ════════════════════════════════════════════════════════
                 DUNIA 1 — AI ADVISOR FLOW
@@ -280,6 +250,8 @@ export default function KatalogProdukPage() {
                     <span className="material-symbols-rounded">health_and_safety</span>
                     Konsultasi Kesehatan
                 </div>
+
+                <PromoStrip />
 
                 {/* ── Value Proposition Banner ── */}
                 <div className="advisor-value-banner fade-in">
@@ -622,9 +594,13 @@ export default function KatalogProdukPage() {
                                             </div>
                                             <div className="card-body">
                                                 <span className={`card-badge badge-${product.badgeColor}`}>{product.badgeText}</span>
-                                                <div className="card-name">{product.name}</div>
+                                                <Link to={`/produk/${product.id}`} className="card-name card-name-link">{product.name}</Link>
                                                 <div className="card-tagline">{product.tagline}</div>
                                                 <p className="card-desc">{product.description}</p>
+                                                <Link to={`/produk/${product.id}`} className="card-detail-link">
+                                                    Lihat detail, cara pesan & FAQ
+                                                    <span className="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
+                                                </Link>
                                                 <ul className="card-benefits">
                                                     {product.benefits.map((b, i) => <li key={i}>{b}</li>)}
                                                 </ul>
@@ -706,6 +682,8 @@ export default function KatalogProdukPage() {
             ════════════════════════════════════════════════════════ */}
             <TestimonialWall />
 
+            <ArticleTeaser />
+
             {/* ════════════════════════════════════════════════════════
                 DUNIA 3 — TENTANG BISNIS (Placeholder)
             ════════════════════════════════════════════════════════ */}
@@ -742,14 +720,7 @@ export default function KatalogProdukPage() {
                             <h3>Hak & Keuntungan Mitra <em>Quantum Millionaire</em></h3>
                         </div>
                         <div className="bisnis-cards-grid">
-                            {[
-                                { icon: 'sell', title: 'Harga Kemitraan', desc: 'Dapatkan harga khusus mitra mulai dari Rp 195.000/botol, jauh lebih hemat dari harga eceran.' },
-                                { icon: 'school', title: 'Pembinaan Langsung', desc: 'Dibimbing langsung oleh Mas Ippho, para Leader, dan Mentor berpengalaman sampai menghasilkan.' },
-                                { icon: 'campaign', title: 'Bahan Promosi Harian', desc: 'Setiap hari mendapatkan materi promosi siap pakai untuk langsung dibagikan ke calon pelanggan.' },
-                                { icon: 'menu_book', title: 'Akses Pendidikan', desc: 'Akses penuh ke materi Knowledge & Skill untuk meningkatkan kemampuan bisnis dan produk.' },
-                                { icon: 'groups', title: 'Komunitas & Grup WA', desc: 'Bergabung ke komunitas aktif dan grup-grup WhatsApp untuk saling support dan sharing.' },
-                                { icon: 'trending_up', title: 'Potensi Untung Besar', desc: 'Untung hingga Rp 90.000/botol dengan potensi maksimal Rp 18.000.000 dari paket SE 200 Botol.' },
-                            ].map((item, i) => (
+                            {KEUNTUNGAN_MITRA.map((item, i) => (
                                 <div key={i} className="bisnis-card">
                                     <div className="bisnis-card-icon">
                                         <span className="material-symbols-rounded">{item.icon}</span>
@@ -771,11 +742,7 @@ export default function KatalogProdukPage() {
                             <h3>3 Langkah Mudah Mulai Bisnis</h3>
                         </div>
                         <div className="bisnis-steps-grid">
-                            {[
-                                { step: '01', icon: 'chat_bubble', title: 'Hubungi Kami', desc: 'Chat WhatsApp & ceritakan minatmu. Tim kami bantu pilihkan paket yang cocok (SE/SAP/AP).' },
-                                { step: '02', icon: 'shopping_cart', title: 'Pilih & Beli Paket', desc: 'Pilih paket kemitraan (bisa MIX produk). Langsung dapat harga mitra dan akses komunitas.' },
-                                { step: '03', icon: 'rocket_launch', title: 'Dibimbing Sampai Cuan', desc: 'Dapat pembinaan, bahan promosi harian, masuk grup WA, dan akses pendidikan bisnis sampai menghasilkan.' },
-                            ].map((item, i) => (
+                            {LANGKAH_MITRA.map((item, i) => (
                                 <div key={i} className="bisnis-step-card">
                                     <div className="bisnis-step-num">{item.step}</div>
                                     <div className="bisnis-step-icon">
@@ -798,38 +765,7 @@ export default function KatalogProdukPage() {
                             </p>
                         </div>
                         <div className="bisnis-paket-grid">
-                            {[
-                                {
-                                    nama: 'Paket SE',
-                                    jumlah: '200 Botol',
-                                    hargaPaket: 'Rp 35.000.000',
-                                    modal: 'Rp 175.000',
-                                    jual: 'Rp 265.000',
-                                    untung: 'Rp 90.000',
-                                    potensi: 'Rp 18.000.000',
-                                    highlight: true,
-                                },
-                                {
-                                    nama: 'Paket SAP',
-                                    jumlah: '40 Botol',
-                                    hargaPaket: 'Rp 7.800.000',
-                                    modal: 'Rp 195.000',
-                                    jual: 'Rp 265.000',
-                                    untung: 'Rp 70.000',
-                                    potensi: 'Rp 2.800.000',
-                                    highlight: false,
-                                },
-                                {
-                                    nama: 'Paket AP',
-                                    jumlah: '10 Botol',
-                                    hargaPaket: 'Rp 2.100.000',
-                                    modal: 'Rp 210.000',
-                                    jual: 'Rp 265.000',
-                                    untung: 'Rp 55.000',
-                                    potensi: 'Rp 550.000',
-                                    highlight: false,
-                                },
-                            ].map((paket, i) => (
+                            {PAKET_KEMITRAAN.map((paket, i) => (
                                 <div key={i} className={`bisnis-paket-card ${paket.highlight ? 'paket-highlight' : ''}`}>
                                     {paket.highlight && <div className="paket-best-badge">Paling Untung</div>}
                                     <div className="paket-header">
@@ -883,27 +819,15 @@ export default function KatalogProdukPage() {
                                 Tanya-Tanya Dulu
                             </a>
                         </div>
+                        <Link to="/mitra" className="bisnis-more-link">
+                            Pelajari program kemitraan selengkapnya →
+                        </Link>
                     </div>
 
                 </div>
             </section>
 
-            {/* ════════════════ FOOTER ════════════════ */}
-            <footer>
-                <div className="logo-text">
-                    <img src="/images/qm-logo.webp" alt="Quantum Millionaire"
-                        style={{ height: '50px', width: 'auto', marginBottom: '12px' }}
-                        onError={e => {
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.parentElement!.innerHTML += '<div style="font-weight:bold;color:var(--green-dark);margin-bottom:12px">Quantum Millionaire</div>';
-                        }} />
-                </div>
-                <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text-muted)' }}>
-                    Mbak Tila · Mitra British Propolis, Malang<br />
-                    Bagian dari Komunitas Bisnis Quantum Millionaire<br />
-                    © {new Date().getFullYear()} Katalog British Propolis
-                </p>
-            </footer>
+            <SiteFooter />
 
             {/* ════════════════ STICKY WA (Desktop) ════════════════ */}
             <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')}

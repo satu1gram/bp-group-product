@@ -1,24 +1,20 @@
-import { useLocation } from "react-router";
-import { useEffect } from "react";
+import { Link } from "react-router";
+import { SiteLayout } from "@/components/site/SiteLayout";
+import { Seo } from "@/lib/seo";
 
-const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
-      </div>
-    </div>
-  );
-};
+const NotFound = () => (
+    <SiteLayout>
+        <Seo title="Halaman tidak ditemukan | Katalog British Propolis" description="Halaman yang kamu cari tidak ditemukan." path="/404" noindex />
+        <div className="container site-container site-empty">
+            <span className="material-symbols-rounded" aria-hidden="true">search_off</span>
+            <h1>Halaman tidak ditemukan</h1>
+            <p>Mungkin tautannya sudah berubah. Yuk kembali ke katalog atau baca Catatan Tila.</p>
+            <div className="site-btn-row">
+                <Link to="/" className="site-btn-primary">Ke Beranda</Link>
+                <Link to="/artikel" className="site-btn-outline">Catatan Tila</Link>
+            </div>
+        </div>
+    </SiteLayout>
+);
 
 export default NotFound;

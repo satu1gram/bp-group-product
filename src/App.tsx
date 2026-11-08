@@ -1,12 +1,31 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Routes, Route } from "react-router";
-import NotFound from "./pages/NotFound";
+import { Routes, Route, useLocation } from "react-router";
 import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { PWAUpdatePrompt } from "@/components/PWAUpdatePrompt";
 
 const KatalogProdukPage = lazy(() => import("./pages/KatalogProdukPage"));
+const ProdukDetailPage = lazy(() => import("./pages/ProdukDetailPage"));
+const MitraPage = lazy(() => import("./pages/MitraPage"));
+const PromoPage = lazy(() => import("./pages/PromoPage"));
+const ArtikelListPage = lazy(() => import("./pages/ArtikelListPage"));
+const ArtikelDetailPage = lazy(() => import("./pages/ArtikelDetailPage"));
+const AdminPage = lazy(() => import("./pages/AdminPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+/** Pindah halaman (tanpa #anchor) → mulai dari atas. */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
+}
+
+function page(el: ReactNode, variant: 'default' | 'katalog' = 'default') {
+  return <Suspense fallback={<PageLoader variant={variant} />}>{el}</Suspense>;
+}
 
 function PageLoader({ variant }: { variant?: 'default' | 'katalog' | 'dashboard' | 'list' }) {
   return <LoadingScreen variant={variant} />;
@@ -49,11 +68,16 @@ const App = () => (
         }}
       />
     </ClientOnly>
+    <ScrollToTop />
     <Routes>
-      <Route path="/" element={
-        <Suspense fallback={<PageLoader variant="katalog" />}><KatalogProdukPage /></Suspense>
-      } />
-      <Route path="*" element={<NotFound />} />
+      <Route path="/" element={page(<KatalogProdukPage />, 'katalog')} />
+      <Route path="/produk/:slug" element={page(<ProdukDetailPage />)} />
+      <Route path="/mitra" element={page(<MitraPage />)} />
+      <Route path="/promo" element={page(<PromoPage />)} />
+      <Route path="/artikel" element={page(<ArtikelListPage />)} />
+      <Route path="/artikel/:slug" element={page(<ArtikelDetailPage />)} />
+      <Route path="/admin" element={page(<AdminPage />)} />
+      <Route path="*" element={page(<NotFound />)} />
     </Routes>
   </>
 );

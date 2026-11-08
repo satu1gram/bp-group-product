@@ -14,6 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
+      admins: {
+        Row: {
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      articles: {
+        Row: {
+          id: string
+          slug: string
+          title: string
+          excerpt: string | null
+          content: string
+          cover_url: string | null
+          audience: string
+          status: string
+          keyword: string | null
+          published_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          title: string
+          excerpt?: string | null
+          content?: string
+          cover_url?: string | null
+          audience?: string
+          status?: string
+          keyword?: string | null
+          published_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          title?: string
+          excerpt?: string | null
+          content?: string
+          cover_url?: string | null
+          audience?: string
+          status?: string
+          keyword?: string | null
+          published_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      promos: {
+        Row: {
+          id: string
+          title: string
+          description: string | null
+          terms: string | null
+          image_url: string | null
+          starts_at: string | null
+          ends_at: string | null
+          wa_message: string | null
+          is_active: boolean
+          sort_order: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          description?: string | null
+          terms?: string | null
+          image_url?: string | null
+          starts_at?: string | null
+          ends_at?: string | null
+          wa_message?: string | null
+          is_active?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string | null
+          terms?: string | null
+          image_url?: string | null
+          starts_at?: string | null
+          ends_at?: string | null
+          wa_message?: string | null
+          is_active?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       customers: {
         Row: {
           address: string | null

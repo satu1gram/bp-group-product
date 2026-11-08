@@ -50,3 +50,8 @@ melengkapi GA4 untuk melihat jumlah kunjungan dasar.
   (mengisi HTML statis, data terstruktur produk, dan `sitemap.xml`).
 - Pastikan build command di Cloudflare tetap `npm run build` dan output directory `dist`.
 - Variabel `VITE_SUPABASE_URL` & `VITE_SUPABASE_PUBLISHABLE_KEY` tetap diperlukan seperti sebelumnya.
+
+## Tahap 1
+
+Halaman produk, /mitra, /promo, /artikel dan /admin: lihat `docs/panduan-admin-tila.md`.
+Setelah setup, kirim ulang sitemap di Search Console agar halaman baru cepat diindeks.
