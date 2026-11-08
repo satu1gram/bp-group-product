@@ -5,7 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import compression from "vite-plugin-compression";
 
 // https://vitejs.dev/config/
-export default defineConfig(() => ({
+export default defineConfig(({ isSsrBuild }) => ({
   server: {
     host: "::",
     port: 8080,
@@ -15,19 +15,20 @@ export default defineConfig(() => ({
   },
   plugins: [
     react(),
-    compression({
+    // Build SSR (prerender) hanya butuh React; PWA & kompresi khusus build klien
+    !isSsrBuild && compression({
       algorithm: "gzip",
       ext: ".gz",
       threshold: 1024,
       deleteOriginFile: false,
     }),
-    VitePWA({
+    !isSsrBuild && VitePWA({
       registerType: "prompt",
       includeAssets: ["favicon.ico", "robots.txt", "apple-touch-icon.png", "images/qm-logo.webp"],
       manifest: {
-        name: "Katalog BP",
+        name: "Katalog British Propolis – Mbak Tila",
         short_name: "Katalog BP",
-        description: "Katalog produk BP dengan pengalaman belanja yang cepat dan mobile-friendly.",
+        description: "Katalog British Propolis asli bersama Mbak Tila, Malang. Konsultasi produk gratis via WhatsApp.",
         theme_color: "#0f766e",
         background_color: "#F8FAFC",
         display: "standalone",
@@ -92,14 +93,19 @@ export default defineConfig(() => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      ...(isSsrBuild
+        ? { "virtual:pwa-register/react": path.resolve(__dirname, "./src/lib/pwa-register-stub.ts") }
+        : {}),
     },
   },
   build: {
     reportCompressedSize: false,
+    // Folder public cukup disalin sekali (build klien)
+    copyPublicDir: !isSsrBuild,
     chunkSizeWarningLimit: 1000,
-    rollupOptions: {
+    rollupOptions: isSsrBuild ? {} : {
       output: {
-        manualChunks(id) {
+        manualChunks(id: string) {
           if (!id.includes("node_modules")) return;
           // Pisahkan tiap library React agar tidak circular
           if (id.includes("react-dom")) return "vendor-react-dom";

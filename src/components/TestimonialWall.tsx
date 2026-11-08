@@ -112,7 +112,7 @@ export function TestimonialWall() {
                         Kisah Nyata Keluarga <em className="italic text-green-700 not-italic">British Propolis</em>
                     </h2>
                     <p className="text-gray-600 max-w-2xl mx-auto">
-                        Berikut adalah ribuan bukti pemulihan kesehatan yang dikirimkan langsung oleh mitra dan pelanggan kami.
+                        Cerita pengalaman memakai produk yang dikirimkan langsung oleh pelanggan dan mitra kami.
                     </p>
                 </div>
 
@@ -123,7 +123,7 @@ export function TestimonialWall() {
                             <span className="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                             <input 
                                 type="text"
-                                placeholder="Cari keluhan (misal: kista, amandel, stroke)..."
+                                placeholder="Cari cerita (misal: anak, tidur, kulit)..."
                                 className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -200,6 +200,11 @@ export function TestimonialWall() {
                         )}
                     </>
                 )}
+
+                <p className="text-center text-xs text-gray-400 max-w-2xl mx-auto mt-10">
+                    Testimoni adalah pengalaman pribadi masing-masing pengguna dan bukan klaim khasiat produk.
+                    Hasil pada setiap orang bisa berbeda. Produk ini bukan pengganti obat atau saran dokter.
+                </p>
             </div>
         </section>
     );

@@ -22,15 +22,15 @@ export const KATALOG_PRODUCTS: ProductData[] = [
     {
         id: "british-propolis",
         category: "propolis",
-        badgeText: "Suplemen Terbaik",
+        badgeText: "Paling Populer",
         badgeColor: "green",
         name: "British Propolis",
-        tagline: "Imunitas & Pemulihan Ekstra",
-        description: "Suplemen antibakteri, antioksidan murni dari lebah Inggris. Cepat bekerja mempercepat pemulihan dan menjaga daya tahan tubuh secara optimal.",
+        tagline: "Teman Harian Daya Tahan Tubuh",
+        description: "Propolis dari lebah Inggris, sumber flavonoid alami. Diminum rutin untuk membantu memelihara daya tahan tubuh keluarga sehari-hari.",
         benefits: [
-            "Mempercepat pemulihan tubuh yang drop",
-            "Imunitas kuat tanpa efek samping",
-            "Kaya flavonoid (Antioksidan tinggi)"
+            "Membantu memelihara daya tahan tubuh",
+            "Praktis: cukup diteteskan ke air minum",
+            "Mengandung flavonoid alami dari propolis"
         ],
         specs: [
             { icon: "water_drop", text: "Drop 6 ML" },
@@ -54,12 +54,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeText: "Untuk Anak",
         badgeColor: "kids",
         name: "British Propolis Green",
-        tagline: "Perisai Imunitas Si Kecil",
-        description: "Formulasi khusus anak 1-12 tahun dengan Madu Trigona. Melindungi anak dari virus agar tidak gampang sakit dan merangsang kecerdasan.",
+        tagline: "Propolis Pilihan untuk Si Kecil",
+        description: "Formulasi untuk anak dengan Madu Trigona. Membantu memelihara daya tahan tubuh si kecil. Ikuti aturan pakai sesuai usia di label.",
         benefits: [
-            "Meningkatkan nafsu makan & berat badan",
-            "Mendukung kecerdasan & daya ingat",
-            "Anak jarang gampang flu/sakit"
+            "Membantu memelihara daya tahan tubuh anak",
+            "Dengan Madu Trigona, rasa disukai anak",
+            "Mudah diberikan: diteteskan ke minuman"
         ],
         specs: [
             { icon: "water_drop", text: "Drop 6 ML" },
@@ -83,12 +83,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeText: "Untuk Wanita",
         badgeColor: "blue",
         name: "British Propolis Blue",
-        tagline: "✨ Varian Terbaru: Solusi Nyeri Haid & Hormon",
-        description: "PRODUK BARU! Varian premium khusus wanita untuk membantu regulasi sistem reproduksi, meredakan keluhan datang bulan, dan menjaga stabilitas hormonal secara alami.",
+        tagline: "✨ Varian Terbaru Khusus Wanita",
+        description: "PRODUK BARU! Varian propolis khusus wanita untuk menemani hari-hari aktifmu, termasuk saat datang bulan. Tanyakan detail manfaat sesuai label via WhatsApp.",
         benefits: [
-            "Meredakan nyeri haid & kram perut",
-            "Melancarkan siklus datang bulan",
-            "Menjaga keseimbangan hormonal & imunitas"
+            "Diformulasikan khusus untuk wanita",
+            "Menemani hari-hari saat datang bulan",
+            "Membantu memelihara daya tahan tubuh"
         ],
         specs: [
             { icon: "water_drop", text: "Drop 6 ML" },
@@ -111,12 +111,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeText: "Suplemen",
         badgeColor: "gold",
         name: "Brassic Pro",
-        tagline: "Bebas Nyeri Sendi & Insomnia",
-        description: "Moringa + Echinacea yang sangat ampuh meredakan pegal/linu linu, menenangkan syaraf, serta membantu tubuh mendapatkan tidur lelap berkualitas.",
+        tagline: "Badan Nyaman, Istirahat Lebih Berkualitas",
+        description: "Perpaduan Moringa dan Echinacea. Teman bagi kamu yang sering pegal-pegal dan ingin istirahat malam lebih nyenyak.",
         benefits: [
-            "Sendi nyaman, bebas nyeri saat gerak",
-            "Bantu atasi sulit tidur (insomnia)",
-            "Badan segar tak gampang penat"
+            "Membantu meredakan pegal-pegal",
+            "Mendukung istirahat yang lebih nyenyak",
+            "Badan terasa lebih segar"
         ],
         specs: [
             { icon: "pill", text: "40 Kapsul" },
@@ -141,11 +141,11 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeColor: "blue",
         name: "Brassic Eye",
         tagline: "Perlindungan Mata Era Gadget",
-        description: "Ekstrak Bilberry dan Gynura. Solusi untuk mata cepat lelah, iritasi merah, hingga keluhan rabun akibat paparan layar hp/laptop rutin tiap hari.",
+        description: "Ekstrak Bilberry dan Gynura. Teman bagi kamu yang setiap hari lama menatap layar HP atau laptop dan sering merasa mata lelah.",
         benefits: [
-            "Menghilangkan penat pada mata lelah",
-            "Menjaga ketajaman penglihatan",
-            "Menyaring paparan Radiasi Biru layar"
+            "Membantu meredakan mata lelah",
+            "Membantu memelihara kesehatan mata",
+            "Cocok untuk pengguna gadget harian"
         ],
         specs: [
             { icon: "pill", text: "40 Kapsul" },
@@ -169,12 +169,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeText: "Suplemen Otak",
         badgeColor: "supplement",
         name: "BP Norway",
-        tagline: "DHA Otak & Kesehatan Jantung",
-        description: "100% Atlantic Salmon Oil dari perairan Norwegia. Kaya Omega-3 dan Astaxanthin, menutrisi otak secara maksimal agar cepat respon dan fokus.",
+        tagline: "Omega-3 dari Salmon Norwegia",
+        description: "Minyak ikan Atlantic Salmon dari perairan Norwegia. Mengandung Omega-3 (DHA) dan Astaxanthin untuk melengkapi nutrisi harian keluarga.",
         benefits: [
-            "Meningkatkan fokus & respon mental",
-            "Nutrisi pembuluh darah & jantung",
-            "DHA tinggi bantu tumbuh kembang otak"
+            "Sumber Omega-3 (DHA & EPA)",
+            "Mengandung Astaxanthin",
+            "Soft capsule, mudah ditelan"
         ],
         specs: [
             { icon: "pill", text: "Soft Kapsul" },
@@ -200,11 +200,11 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeColor: "red",
         name: "Belgie Facial Wash",
         tagline: "Wajah Bersih Tanpa Ketarik",
-        description: "Sabun wajah yang melembabkan, tidak membuat kering kulit. Cepat bersihkan kotoran terdalam dan meninggalkan sensasi segar bercahaya.",
+        description: "Sabun wajah yang membersihkan kotoran dan minyak tanpa membuat kulit terasa kering. Wajah terasa segar dan lembap setelah dibilas.",
         benefits: [
-            "Bersih maksimal tanpa efek kering/ketarik",
-            "Wajah lebih lembab & cerah",
-            "Mengontrol produksi sebum minyak"
+            "Membersihkan tanpa rasa ketarik",
+            "Wajah terasa lembap & segar",
+            "Membantu mengangkat minyak berlebih"
         ],
         specs: [
             { icon: "sanitizer", text: "Gel 100 ML" },
@@ -227,12 +227,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeText: "Skincare Halal",
         badgeColor: "red",
         name: "Belgie Anti Aging Serum",
-        tagline: "Pudarkan Flek & Kerutan Cepat",
-        description: "Kandungan aktif tinggi Kolagen & Propolis. Meresap ke lapisan terdalam secara instan, menyamarkan flek hitam, sekaligus mengencangkan wajah.",
+        tagline: "Bantu Samarkan Flek & Garis Halus",
+        description: "Dengan Kolagen dan Propolis. Ringan dan mudah meresap, membantu menyamarkan tampilan flek dan garis halus agar wajah tampak lebih kencang.",
         benefits: [
-            "Menyamarkan flek hitam membandel",
-            "Kurangi garis halus kerutan drastis",
-            "Kenyalkan kulit (Anti-Aging)"
+            "Membantu menyamarkan tampilan flek",
+            "Membantu menyamarkan garis halus",
+            "Kulit tampak lebih kenyal"
         ],
         specs: [
             { icon: "water_drop", text: "Cair 10 ML" },
@@ -256,11 +256,11 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeColor: "red",
         name: "Belgie Day Cream",
         tagline: "Perlindungan Siang Anti UV",
-        description: "Melindungi wajah dari sengatan sinar UV (SPF30+), polusi udara serta kelembaban hilang saat beraktivitas dari pagi hingga menjelang sore.",
+        description: "Krim siang dengan SPF30+ untuk membantu melindungi kulit dari sinar matahari dan menjaga kelembapan saat beraktivitas.",
         benefits: [
-            "Proteksi matahari tinggi & polusi",
-            "Wajah tak mudah kusam di siang hari",
-            "Melembapkan seharian penuh"
+            "Dengan SPF30+",
+            "Wajah tampak segar di siang hari",
+            "Membantu menjaga kelembapan kulit"
         ],
         specs: [
             { icon: "light_mode", text: "Krim 10 gr" },
@@ -283,12 +283,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeText: "Skincare Halal",
         badgeColor: "red",
         name: "Belgie Night Cream",
-        tagline: "Regenerasi Maksimal di Malam Hari",
-        description: "Krim malam bekerja memperbaiki sel kulit yang rusak, berkat Salicylic Acid. Wajah terasa kenyal bagai lahir kembali saat di pagi hari.",
+        tagline: "Perawatan Kulit Saat Kamu Tidur",
+        description: "Krim malam dengan Salicylic Acid untuk merawat kulit selama kamu beristirahat. Bangun pagi dengan wajah yang terasa lebih kenyal dan lembap.",
         benefits: [
-            "Regenerasi sel kulit baru saat tidur",
-            "Otot wajah jadi rileks & kencang",
-            "Cepat perbaiki skin barrier rusak"
+            "Merawat kulit saat tidur",
+            "Kulit terasa lebih kenyal",
+            "Membantu menjaga kelembapan kulit"
         ],
         specs: [
             { icon: "dark_mode", text: "Malam" },
@@ -312,12 +312,12 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeText: "Perawatan Rambut",
         badgeColor: "red",
         name: "Belgie Hair Tonic",
-        tagline: "Bebas Rontok & Rambut Lebat",
-        description: "Bahan langka AnaGain dari Swiss bekerja langsung menstimulasi folikel rambut di kulit kepala, menghentikan kerontokan & merangsang rambut baru.",
+        tagline: "Rawat Kulit Kepala & Rambut",
+        description: "Dengan AnaGain dari Swiss. Disemprotkan ke kulit kepala untuk membantu merawat rambut agar tampak lebih sehat dan tidak mudah patah.",
         benefits: [
-            "Hentikan kerontokan dengan sangat cepat",
-            "Merangsang tunas rambut baru tumbuh",
-            "Sensasi dingin tenangkan kulit kepala"
+            "Membantu merawat kekuatan rambut",
+            "Dengan bahan aktif AnaGain",
+            "Sensasi dingin yang menyegarkan kulit kepala"
         ],
         specs: [
             { icon: "face_retouching_natural", text: "Spray" },
@@ -342,11 +342,11 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         badgeColor: "blue",
         name: "Steffi Pro",
         tagline: "Manisnya Teh Tanpa Rasa Bersalah",
-        description: "Pengganti gula dari ekstrak Stevia. Benar-benar nol kalori! Solusi nikmati rasa manis aman bagi pemilik diabetes atau yang ingin diet gula.",
+        description: "Pemanis dari ekstrak Stevia untuk teh, kopi, dan masakan. Pilihan bagi kamu yang sedang mengurangi konsumsi gula pasir.",
         benefits: [
-            "Nol gula, amankan lonjakan gula darah",
-            "1 tetes sama percis manis gula biasa",
-            "Tak ada rasa pahit di tenggorokan (aftertaste)"
+            "Pilihan saat mengurangi gula pasir",
+            "Cukup sedikit tetes untuk rasa manis",
+            "Tanpa rasa pahit di akhir (aftertaste)"
         ],
         specs: [
             { icon: "water_drop", text: "Cair" },
