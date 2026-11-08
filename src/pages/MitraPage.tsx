@@ -1,5 +1,7 @@
+import { Link } from "react-router";
 import { SiteLayout, Breadcrumbs } from "@/components/site/SiteLayout";
 import { WaIcon } from "@/components/site/WaIcon";
+import { ShareBar } from "@/components/site/ShareBar";
 import { BusinessTestimonials } from "@/components/BusinessTestimonials";
 import { KEUNTUNGAN_MITRA, LANGKAH_MITRA, PAKET_KEMITRAAN } from "@/data/kemitraan";
 import { Seo } from "@/lib/seo";
@@ -44,7 +46,7 @@ export default function MitraPage() {
                 title="Bisnis dari Rumah untuk Ibu: Jadi Mitra British Propolis bersama Mbak Tila"
                 description="Ingin berpenghasilan dari rumah dan tetap dekat dengan anak? Mulai jadi mitra British Propolis dari paket 10 botol, dibimbing langsung oleh Mbak Tila. Konsultasi gratis via WhatsApp."
                 path="/mitra"
-                image="/images/bisnis/tila akbar umroh.jpeg"
+                image="/og/mitra.jpg"
                 jsonLd={[
                     breadcrumbLd([{ name: "Beranda", path: "/" }, { name: "Jadi Mitra", path: "/mitra" }]),
                     faqLd(FAQ_MITRA),
@@ -92,6 +94,13 @@ export default function MitraPage() {
                     </div>
                 </section>
 
+                <section className="pd-section guide-cta-box">
+                    <div>
+                        <h3>Belum siap bergabung? Pelajari dulu.</h3>
+                        <p>Baca panduan gratis 7 langkah mulai bisnis British Propolis dari rumah.</p>
+                    </div>
+                    <Link to="/panduan-bisnis" className="site-btn-primary">Buka Panduan Gratis</Link>
+                </section>
             </div>
 
             <div className="world-bisnis mitra-band">
@@ -187,6 +196,10 @@ export default function MitraPage() {
                         <WaIcon size={18} /> Chat Mbak Tila via WhatsApp
                     </a>
                 </section>
+
+                <div className="site-center">
+                    <ShareBar path="/mitra" title="Bisnis dari rumah untuk ibu, bareng Mbak Tila" label="Kenal yang sedang cari peluang? Bagikan" />
+                </div>
             </div>
         </SiteLayout>
     );

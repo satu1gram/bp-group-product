@@ -13,6 +13,7 @@ export function SiteFooter() {
                 <Link to="/artikel">Catatan Tila</Link>
                 <Link to="/promo">Promo</Link>
                 <Link to="/mitra">Jadi Mitra</Link>
+                <Link to="/panduan-bisnis">Panduan Bisnis Gratis</Link>
             </div>
             <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text-muted)' }}>
                 Mbak Tila · Mitra British Propolis, Malang<br />

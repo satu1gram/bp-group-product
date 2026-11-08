@@ -1,5 +1,6 @@
 import { SiteLayout, Breadcrumbs } from "@/components/site/SiteLayout";
 import { WaIcon } from "@/components/site/WaIcon";
+import { ShareBar } from "@/components/site/ShareBar";
 import { usePromos } from "@/lib/initialData";
 import { Seo } from "@/lib/seo";
 import { formatTanggal, getWaLink } from "@/lib/site";
@@ -14,6 +15,7 @@ export default function PromoPage() {
                 title="Promo British Propolis Bulan Ini | Katalog Mbak Tila"
                 description="Program promo resmi British Propolis yang sedang berlaku. Cek periode dan syaratnya, lalu ambil promo langsung via WhatsApp bersama Mbak Tila."
                 path="/promo"
+                image="/og/promo.jpg"
                 jsonLd={[breadcrumbLd([{ name: "Beranda", path: "/" }, { name: "Promo", path: "/promo" }])]}
             />
             <div className="container site-container">
@@ -67,6 +69,12 @@ export default function PromoPage() {
                         <a href={getWaLink("INFO PROMO")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                             <WaIcon size={18} /> Kabari Saya
                         </a>
+                    </div>
+                )}
+
+                {promos.length > 0 && (
+                    <div className="site-center">
+                        <ShareBar path="/promo" title="Promo British Propolis bulan ini, cek di sini" label="Bagikan ke teman" />
                     </div>
                 )}
 

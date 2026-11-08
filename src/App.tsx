@@ -12,6 +12,7 @@ const PromoPage = lazy(() => import("./pages/PromoPage"));
 const ArtikelListPage = lazy(() => import("./pages/ArtikelListPage"));
 const ArtikelDetailPage = lazy(() => import("./pages/ArtikelDetailPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+const PanduanBisnisPage = lazy(() => import("./pages/PanduanBisnisPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 /** Pindah halaman (tanpa #anchor) → mulai dari atas. */
@@ -73,6 +74,7 @@ const App = () => (
       <Route path="/" element={page(<KatalogProdukPage />, 'katalog')} />
       <Route path="/produk/:slug" element={page(<ProdukDetailPage />)} />
       <Route path="/mitra" element={page(<MitraPage />)} />
+      <Route path="/panduan-bisnis" element={page(<PanduanBisnisPage />)} />
       <Route path="/promo" element={page(<PromoPage />)} />
       <Route path="/artikel" element={page(<ArtikelListPage />)} />
       <Route path="/artikel/:slug" element={page(<ArtikelDetailPage />)} />

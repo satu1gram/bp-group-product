@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      leads: {
+        Row: {
+          id: string
+          name: string
+          whatsapp: string
+          city: string | null
+          interest: string
+          source: string | null
+          note: string | null
+          status: string
+          consent: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          whatsapp: string
+          city?: string | null
+          interest?: string
+          source?: string | null
+          note?: string | null
+          status?: string
+          consent?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          whatsapp?: string
+          city?: string | null
+          interest?: string
+          source?: string | null
+          note?: string | null
+          status?: string
+          consent?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       admins: {
         Row: {
           user_id: string

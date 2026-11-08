@@ -222,7 +222,7 @@ export default function KatalogProdukPage() {
                 title="British Propolis Asli – Katalog & Konsultasi Gratis | Mbak Tila Malang"
                 description="Katalog lengkap British Propolis, Brassic, BP Norway & Belgie, terdaftar BPOM. Konsultasi produk gratis dan pesan langsung via WhatsApp bersama Mbak Tila, Malang."
                 path="/"
-                image="/images/produk/bp.webp"
+                image="/og/default.jpg"
                 jsonLd={[
                     storeLd(),
                     { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: 'Katalog British Propolis', inLanguage: 'id-ID' },
@@ -819,9 +819,10 @@ export default function KatalogProdukPage() {
                                 Tanya-Tanya Dulu
                             </a>
                         </div>
-                        <Link to="/mitra" className="bisnis-more-link">
-                            Pelajari program kemitraan selengkapnya →
-                        </Link>
+                        <div className="bisnis-more-links">
+                            <Link to="/mitra" className="bisnis-more-link">Pelajari program kemitraan →</Link>
+                            <Link to="/panduan-bisnis" className="bisnis-more-link">Panduan gratis 7 langkah mulai bisnis →</Link>
+                        </div>
                     </div>
 
                 </div>

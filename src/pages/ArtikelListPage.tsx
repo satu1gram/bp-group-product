@@ -23,6 +23,7 @@ export default function ArtikelListPage() {
                 title="Catatan Tila – Tips Hidup Sehat & Bisnis dari Rumah"
                 description="Tulisan mingguan Mbak Tila, mantan dosen dan ibu 3 anak: tips hidup sehat keluarga, mengenal produk British Propolis, dan cerita membangun bisnis dari rumah."
                 path="/artikel"
+                image="/og/artikel.jpg"
                 jsonLd={[
                     breadcrumbLd([{ name: "Beranda", path: "/" }, { name: "Catatan Tila", path: "/artikel" }]),
                     { "@type": "Blog", name: "Catatan Tila", inLanguage: "id-ID", author: { "@type": "Person", name: "Tila" } },

@@ -56,6 +56,7 @@ const pages = [
   { route: "/", data: { articles: articles?.slice(0, 3).map(toListItem), promos, builtOn }, priority: "1.0" },
   ...KATALOG_PRODUCTS.map((p) => ({ route: `/produk/${p.id}`, data: {}, priority: "0.9" })),
   { route: "/mitra", data: {}, priority: "0.8" },
+  { route: "/panduan-bisnis", data: {}, priority: "0.8" },
   { route: "/promo", data: { promos, builtOn }, priority: "0.7" },
   { route: "/artikel", data: { articles: listItems }, priority: "0.8" },
   ...(articles ?? []).map((a) => ({
