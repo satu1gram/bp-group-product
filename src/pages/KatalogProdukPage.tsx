@@ -6,23 +6,24 @@ import { KATALOG_PRODUCTS } from '@/data/katalogProducts';
 import { TestimoniSection } from '@/components/TestimoniSection';
 import { BusinessTestimonials } from '@/components/BusinessTestimonials';
 import { TestimonialWall } from '@/components/TestimonialWall';
-import { generateAIAdvice, RAGResult } from '@/lib/geminiRAG';
+import { generateAIAdvice, type RAGResult } from '@/lib/geminiRAG';
+import { trackEvent } from '@/lib/analytics';
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
 
 const COMPLAINT_OPTIONS = [
-    "Susah Tidur", "Nyeri Sendi", "Imun Lemah", "Mata Lelah",
-    "Gula Darah Tinggi", "Anak Susah Makan", "Rambut Rontok", "Kulit Kusam",
+    "Susah Tidur", "Badan Pegal", "Daya Tahan Tubuh", "Mata Lelah",
+    "Kurangi Gula", "Nutrisi Anak", "Rambut Rontok", "Kulit Kusam",
     "Sering Flu", "Kurang Fokus", "Flek Hitam", "Kurang Stamina"
 ];
 
 export const KELUHAN_FILTER_TABS = [
     { key: 'all', label: 'Semua' },
     { key: 'tidur', label: 'Susah Tidur' },
-    { key: 'sendi', label: 'Nyeri Sendi' },
-    { key: 'imun', label: 'Imun Lemah' },
+    { key: 'sendi', label: 'Badan Pegal' },
+    { key: 'imun', label: 'Daya Tahan' },
     { key: 'mata', label: 'Mata Lelah' },
-    { key: 'gula', label: 'Gula Darah' },
+    { key: 'gula', label: 'Kurangi Gula' },
     { key: 'anak', label: 'Anak' },
     { key: 'rambut', label: 'Rambut Rontok' },
     { key: 'kulit', label: 'Kulit & Flek' },
@@ -69,10 +70,13 @@ const PRODUCT_NAME_TO_ID: Record<string, string> = {
 function getRecommendedIds(rekomendasi: RAGResult['rekomendasi']): string[] {
     const ids = new Set<string>();
     rekomendasi.forEach(r => {
-        const nameLower = r.name.toLowerCase();
-        Object.entries(PRODUCT_NAME_TO_ID).forEach(([key, id]) => {
-            if (nameLower.includes(key) || key.includes(nameLower)) ids.add(id);
-        });
+        const nameLower = r.name.toLowerCase().trim();
+        // Ambil nama produk terpanjang yang cocok, supaya "British Propolis"
+        // tidak ikut menyeret varian Green & Blue.
+        const match = Object.keys(PRODUCT_NAME_TO_ID)
+            .filter(key => nameLower.includes(key))
+            .sort((a, b) => b.length - a.length)[0];
+        if (match) ids.add(PRODUCT_NAME_TO_ID[match]);
     });
     return Array.from(ids);
 }
@@ -97,6 +101,7 @@ export default function KatalogProdukPage() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [aiResult, setAiResult] = useState<RAGResult | null>(null);
     const [expandedTiers, setExpandedTiers] = useState<Set<string>>(new Set());
+    const [menuOpen, setMenuOpen] = useState(false);
     const toggleTier = useCallback((id: string) => {
         setExpandedTiers(prev => {
             const next = new Set(prev);
@@ -140,7 +145,7 @@ export default function KatalogProdukPage() {
 
     // ── WA link helper ──
     const getWaLink = (text: string) =>
-        `https://wa.me/6287782697973?text=${encodeURIComponent(text || 'Halo kak, saya mau konsultasi produk Quantum Millionaire')}`;
+        `https://wa.me/6287782697973?text=${encodeURIComponent(text || 'Halo Mbak Tila, saya mau konsultasi produk British Propolis')}`;
 
     // ── Scroll helper ──
     const scrollTo = (ref: React.RefObject<HTMLElement | null>) => {
@@ -166,6 +171,10 @@ export default function KatalogProdukPage() {
         if (!selectedKeluhan.length && !complaintText.trim()) return;
         setIsAnalyzing(true);
         setAiResult(null);
+        trackEvent('ai_consultation', {
+            keluhan: selectedKeluhan.join(', ').slice(0, 100),
+            pakai_teks: complaintText.trim().length > 0 && complaintText.trim() !== selectedKeluhan.join(', '),
+        });
         try {
             const result = await generateAIAdvice(selectedKeluhan, complaintText);
             setAiResult(result);
@@ -230,17 +239,36 @@ export default function KatalogProdukPage() {
                     <li><a href="#bisnis">Bisnis</a></li>
                 </ul>
                 <div className="nav-right desktop-only">
-                    <a href={getWaLink('Halo kak, saya mau konsultasi produk Quantum Millionaire')} target="_blank" rel="noopener noreferrer" className="nav-cta">
+                    <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')} target="_blank" rel="noopener noreferrer" className="nav-cta">
                         <span className="material-symbols-rounded" style={{ fontSize: '18px', marginRight: '6px', verticalAlign: 'bottom' }}>chat</span>
                         Hubungi Kami
                     </a>
                 </div>
                 <div className="mobile-controls mobile-only">
-                    <button className="hamburger-btn" type="button">
+                    <button className="hamburger-btn" type="button"
+                        aria-label="Buka menu" aria-expanded={menuOpen} aria-controls="mobile-drawer"
+                        onClick={() => setMenuOpen(true)}>
                         <span className="line" /><span className="line" /><span className="line" />
                     </button>
                 </div>
             </nav>
+
+            {/* ════════════════ MOBILE DRAWER ════════════════ */}
+            <div className={`mobile-drawer-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(false)} aria-hidden="true" />
+            <aside id="mobile-drawer" className={`mobile-drawer ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen} aria-label="Menu navigasi">
+                <button type="button" className="drawer-close" aria-label="Tutup menu" onClick={() => setMenuOpen(false)}>
+                    <span className="material-symbols-rounded">close</span>
+                </button>
+                <div className="drawer-links" role="navigation" onClick={() => setMenuOpen(false)}>
+                    <a href="#advisor">Konsultasi AI</a>
+                    <a href="#produk">Produk</a>
+                    <a href="#testimoni-wall">Testimoni</a>
+                    <a href="#bisnis">Peluang Bisnis</a>
+                </div>
+                <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')} target="_blank" rel="noopener noreferrer" className="nav-cta drawer-cta">
+                    Chat Mbak Tila via WhatsApp
+                </a>
+            </aside>
 
             {/* ════════════════════════════════════════════════════════
                 DUNIA 1 — AI ADVISOR FLOW
@@ -255,7 +283,7 @@ export default function KatalogProdukPage() {
 
                 {/* ── Value Proposition Banner ── */}
                 <div className="advisor-value-banner fade-in">
-                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah merasakan manfaat nyata untuk asam urat, diabetes &amp; imun lemah, dengan produk-produk pilihan.
+                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah memilih British Propolis untuk membantu menjaga kesehatan keluarga setiap hari.
                 </div>
 
                 {/* ── AI Advisor Card ── */}
@@ -364,7 +392,7 @@ export default function KatalogProdukPage() {
                                             const recoData = aiResult.rekomendasi.find(r =>
                                                 r.name.toLowerCase().includes(product.name.toLowerCase().split(' ')[0].toLowerCase())
                                             );
-                                            const waMsg = `Halo kak, saya mau konsultasi/pesan ${product.name} untuk keluhan: ${selectedKeluhan.map(k => k.replace(/^[^\s]+\s/, '')).join(', ')}`;
+                                            const waMsg = `Halo Mbak Tila, saya mau konsultasi/pesan ${product.name} untuk keluhan: ${selectedKeluhan.join(', ')}`;
                                             return (
                                                 <div key={product.id} className="inline-reco-card">
                                                     <div className={`inline-reco-img card-img-bg-wrap ${product.bgStyle}`}>
@@ -407,7 +435,7 @@ export default function KatalogProdukPage() {
                                         <div className="inline-section-title">Cerita Nyata dari Pengguna</div>
                                         <div className="inline-section-sub">
                                             {selectedKeluhan.length > 0
-                                                ? `Testimoni untuk keluhan: ${selectedKeluhan.map(k => k.replace(/^[^\s]+\s/, '')).join(', ')}`
+                                                ? `Testimoni untuk keluhan: ${selectedKeluhan.join(', ')}`
                                                 : 'Testimoni pilihan dari pelanggan kami'
                                             }
                                         </div>
@@ -419,6 +447,12 @@ export default function KatalogProdukPage() {
                                     externalData={aiResult.testimonials}
                                 />
                             </div>
+
+                            <p className="health-disclaimer">
+                                Rekomendasi ini bersifat informasi umum, bukan diagnosis atau pengganti saran dokter.
+                                Testimoni adalah pengalaman pribadi pengguna, hasil pada setiap orang bisa berbeda.
+                                Bila keluhan berlanjut, segera konsultasikan dengan tenaga kesehatan.
+                            </p>
                         </div>
                     </div>
                 )}
@@ -447,10 +481,10 @@ export default function KatalogProdukPage() {
                             <span className="section-tag">Healthy Living Guide</span>
                             <h2 className="brand-title">
                                 Semua Produk <em>British Propolis</em>
-                                <span className="brand-subtitle">(Komunitas Bisnis Quantum Millionaire)</span>
+                                <span className="brand-subtitle">(Katalog Mbak Tila, Malang)</span>
                             </h2>
                             <p className="brand-desc">
-                                Hasil terbaik dari lebah habitat 4 musim di East Yorkshire, Inggris dengan kadar Flavonoid superior. Suplemen premium yang telah teruji BPOM/FDA, diproses Halal (MUI/HMC), dan terbukti efektif untuk kesehatan keluarga secara internasional.
+                                Propolis dari lebah habitat 4 musim di East Yorkshire, Inggris, sumber flavonoid alami. Terdaftar di BPOM RI dan bersertifikat Halal (MUI/HMC), menjadi pilihan banyak keluarga Indonesia untuk menjaga kesehatan sehari-hari.
                             </p>
                             <div className="brand-stats">
                                 {[
@@ -470,9 +504,9 @@ export default function KatalogProdukPage() {
                             <div className="brand-img-grid ingredient-grid">
                                 {[
                                     { src: '/images/katalog/propolis-400.webp', title: 'British Propolis', desc: '100% Ekstrak Asli Inggris' },
-                                    { src: '/images/katalog/moringa-400.webp', title: 'Moringa Oleifera', desc: 'Superfood Anti Inflamasi' },
+                                    { src: '/images/katalog/moringa-400.webp', title: 'Moringa Oleifera', desc: 'Superfood Kaya Nutrisi' },
                                     { src: '/images/katalog/salmon-400.webp', title: 'Salmon Omega-3', desc: 'Tinggi DHA dari Norwegia' },
-                                    { src: '/images/katalog/collagen-400.webp', title: 'Marine Collagen', desc: 'Anti Aging Alami' },
+                                    { src: '/images/katalog/collagen-400.webp', title: 'Marine Collagen', desc: 'Untuk Perawatan Kulit' },
                                 ].map(item => (
                                     <div key={item.title} className="brand-img-card ingredient-card">
                                         <img src={item.src} alt={item.title} className="ingredient-img" />
@@ -573,7 +607,7 @@ export default function KatalogProdukPage() {
                     {filteredProducts.length > 0 ? (
                         <div className="product-grid" id="productGrid">
                             {filteredProducts.map((product, idx) => {
-                                const waMsg = `Halo kak, saya mau konsultasi/tanya-tanya/pesan ${product.name}`;
+                                const waMsg = `Halo Mbak Tila, saya mau tanya-tanya/pesan ${product.name}`;
                                 return (
                                     <div key={product.id}
                                         className="product-card product-card-animated"
@@ -693,7 +727,7 @@ export default function KatalogProdukPage() {
                             Bergabunglah bersama ribuan mitra aktif Quantum Millionaire.
                             Bangun bisnis kesehatan yang menguntungkan sambil membantu orang-orang di sekitarmu hidup lebih sehat.
                         </p>
-                        <a href={getWaLink('Halo kak, saya tertarik bergabung sebagai Mitra Bisnis Quantum Millionaire. Bisa minta info lengkapnya?')}
+                        <a href={getWaLink('Halo Mbak Tila, saya tertarik bergabung sebagai mitra British Propolis. Bisa minta info lengkapnya?')}
                             target="_blank" rel="noopener noreferrer"
                             className="bisnis-hero-cta">
                             <WaIcon size={20} />
@@ -821,7 +855,7 @@ export default function KatalogProdukPage() {
                                             <strong>{paket.potensi}</strong>
                                         </div>
                                     </div>
-                                    <a href={getWaLink(`Halo kak, saya tertarik dengan ${paket.nama} (${paket.jumlah}) seharga ${paket.hargaPaket}. Bisa info lebih lanjut?`)}
+                                    <a href={getWaLink(`Halo Mbak Tila, saya tertarik dengan ${paket.nama} (${paket.jumlah}) seharga ${paket.hargaPaket}. Bisa info lebih lanjut?`)}
                                         target="_blank" rel="noopener noreferrer"
                                         className="paket-cta-btn">
                                         <WaIcon size={16} />
@@ -838,12 +872,12 @@ export default function KatalogProdukPage() {
                         <h3 className="bisnis-cta-title">Siap Memulai Perjalanan Bisnismu?</h3>
                         <p className="bisnis-cta-sub">Konsultasi gratis, tim kami akan bantu kamu memulai tanpa rasa bingung.</p>
                         <div className="cta-btn-group">
-                            <a href={getWaLink('Halo kak, saya tertarik bergabung sebagai Mitra Bisnis Quantum Millionaire. Bisa minta info lengkapnya?')}
+                            <a href={getWaLink('Halo Mbak Tila, saya tertarik bergabung sebagai mitra British Propolis. Bisa minta info lengkapnya?')}
                                 target="_blank" rel="noopener noreferrer" className="bisnis-cta-btn-primary">
                                 <WaIcon size={20} />
                                 Gabung Jadi Mitra via WA
                             </a>
-                            <a href={getWaLink('Halo kak, saya mau konsultasi produk dulu sebelum bergabung sebagai mitra Quantum Millionaire')}
+                            <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk dulu sebelum bergabung sebagai mitra British Propolis')}
                                 target="_blank" rel="noopener noreferrer" className="bisnis-cta-btn-secondary">
                                 <span className="material-symbols-rounded">help_outline</span>
                                 Tanya-Tanya Dulu
@@ -865,13 +899,14 @@ export default function KatalogProdukPage() {
                         }} />
                 </div>
                 <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text-muted)' }}>
-                    Komunitas Bisnis Quantum Millionaire<br />
-                    © 2026 Quantum Millionaire
+                    Mbak Tila · Mitra British Propolis, Malang<br />
+                    Bagian dari Komunitas Bisnis Quantum Millionaire<br />
+                    © {new Date().getFullYear()} Katalog British Propolis
                 </p>
             </footer>
 
             {/* ════════════════ STICKY WA (Desktop) ════════════════ */}
-            <a href={getWaLink('Halo kak, saya mau konsultasi produk Quantum Millionaire')}
+            <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')}
                 target="_blank" rel="noopener noreferrer"
                 className="sticky-wa desktop-only" title="Hubungi via WhatsApp">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -897,7 +932,7 @@ export default function KatalogProdukPage() {
                     <span>Bisnis</span>
                 </button>
                 <div className="mobile-bar-divider" />
-                <a href={getWaLink('Halo kak, saya mau konsultasi produk Quantum Millionaire')}
+                <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')}
                     target="_blank" rel="noopener noreferrer"
                     className="mobile-bar-btn mobile-bar-wa">
                     <WaIcon size={20} />

@@ -3293,3 +3293,51 @@ nav {
 .btn-bisnis-cta .material-symbols-rounded {
     font-size: 16px;
 }
+
+/* ─── Mobile drawer: tombol tutup, CTA, sembunyikan dari keyboard saat tertutup ─── */
+.mobile-drawer:not(.open) {
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.3s;
+}
+
+.drawer-close {
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+.drawer-cta {
+    margin-top: auto;
+    text-align: center;
+    padding: 14px 22px;
+}
+
+/* ─── Catatan kesehatan (disclaimer BPOM) ─── */
+.health-disclaimer {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 640px;
+    margin: 24px auto 0;
+}
+
+/* ─── Cegah geser horizontal di HP: efek glow .brand-hero::before keluar layar ─── */
+@media (max-width: 768px) {
+    .brand-hero {
+        overflow-x: hidden;
+        overflow-x: clip;
+    }
+}
+
+.katalog-page-wrapper {
+    overflow-x: clip;
+}
