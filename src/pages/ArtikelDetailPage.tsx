@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router";
 import { SiteLayout, Breadcrumbs } from "@/components/site/SiteLayout";
 import { ArticleCard } from "@/components/site/ArticleCard";
 import { WaIcon } from "@/components/site/WaIcon";
+import { ShareBar } from "@/components/site/ShareBar";
 import { useArticle, useArticles } from "@/lib/initialData";
 import { readingMinutes } from "@/lib/content";
 import { plainText, renderMarkdown } from "@/lib/markdown";
@@ -40,7 +41,7 @@ export default function ArtikelDetailPage() {
                 title={`${article.title} | Catatan Tila`}
                 description={description}
                 path={path}
-                image={article.cover_url ?? undefined}
+                image={article.cover_url ?? "/og/artikel.jpg"}
                 ogType="article"
                 jsonLd={[
                     {
@@ -89,13 +90,16 @@ export default function ArtikelDetailPage() {
 
                     <div className="article-content" dangerouslySetInnerHTML={{ __html: renderMarkdown(article.content) }} />
 
+                    <ShareBar path={path} title={article.title} label="Bermanfaat? Bagikan" />
+
                     <aside className="article-cta">
                         {isMitra ? (
                             <>
                                 <h2>Tertarik memulai bisnis dari rumah?</h2>
-                                <p>Lihat cara mulainya, pilihan paket, dan cerita para mitra.</p>
+                                <p>Mulai dari panduan gratis 7 langkah, atau lihat program mitra dan pilihan paketnya.</p>
                                 <div className="site-btn-row">
-                                    <Link to="/mitra" className="site-btn-primary">Lihat Program Mitra</Link>
+                                    <Link to="/panduan-bisnis" className="site-btn-primary">Panduan Gratis</Link>
+                                    <Link to="/mitra" className="site-btn-outline">Program Mitra</Link>
                                     <a href={getWaLink(waText)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                                         <WaIcon size={18} /> Ngobrol dengan Tila
                                     </a>

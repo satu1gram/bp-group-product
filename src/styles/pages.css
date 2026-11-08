@@ -1330,3 +1330,270 @@
 .mitra-band .health-disclaimer.mitra-band-note {
     color: rgba(255, 255, 255, 0.6);
 }
+
+/* ─── Tombol bagikan ─── */
+.share-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.site-center .share-bar {
+    justify-content: center;
+}
+
+.share-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-right: 2px;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-md);
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.share-btn .material-symbols-rounded {
+    font-size: 18px;
+}
+
+.share-wa {
+    background: #25D366;
+    border-color: #25D366;
+    color: #fff;
+}
+
+.share-fb {
+    color: #1877F2;
+}
+
+/* ─── Panduan bisnis (lead magnet) ─── */
+.guide-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+}
+
+@media (max-width: 860px) {
+    .guide-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .guide-side {
+        order: -1;
+    }
+}
+
+.guide-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.guide-step {
+    display: flex;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    scroll-margin-top: 88px;
+}
+
+.guide-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guide-step h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    margin-bottom: 6px;
+}
+
+.guide-step p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 8px;
+}
+
+.guide-step .guide-summary {
+    color: var(--text);
+    margin-top: 0;
+}
+
+.guide-locked .guide-summary::after {
+    content: ' 🔒';
+    font-size: 13px;
+}
+
+.guide-side {
+    position: sticky;
+    top: 88px;
+}
+
+@media (max-width: 860px) {
+    .guide-side {
+        position: static;
+    }
+}
+
+.guide-form {
+    background: #fff;
+    border: 1px solid var(--border-md);
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.guide-form h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+.guide-form > p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.guide-consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 4px 0 12px;
+    cursor: pointer;
+}
+
+.guide-consent input {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--green);
+    flex-shrink: 0;
+}
+
+.guide-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.guide-done {
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.guide-done > .material-symbols-rounded {
+    font-size: 40px;
+    color: var(--gold);
+}
+
+.guide-cta-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    border-radius: 18px;
+    background: #fff8e8;
+    border: 1px solid rgba(200, 150, 42, 0.35);
+}
+
+.guide-cta-box h3 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+}
+
+.guide-cta-box p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+@media (max-width: 640px) {
+    .guide-cta-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.bisnis-more-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 20px;
+}
+
+.bisnis-more-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 20px;
+}
+
+.adm-lead-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.adm-lead-actions select {
+    font: inherit;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid var(--border-md);
+    border-radius: 10px;
+    background: #fff;
+}
+
+.adm-lead-actions .site-btn-wa {
+    min-height: 38px;
+    padding: 6px 16px;
+}
+
+@media (max-width: 560px) {
+    .adm-lead {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

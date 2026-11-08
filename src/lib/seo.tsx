@@ -40,6 +40,7 @@ export function buildHeadHtml(meta: PageMeta): string {
         `<meta property="og:title" content="${escapeAttr(meta.title)}" />`,
         `<meta property="og:description" content="${escapeAttr(meta.description)}" />`,
         meta.image ? `<meta property="og:image" content="${escapeAttr(absoluteUrl(meta.image))}" />` : "",
+        meta.image?.startsWith("/og/") ? `<meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />` : "",
         `<meta name="twitter:card" content="${meta.image ? "summary_large_image" : "summary"}" />`,
         ...(meta.jsonLd ?? []).map(
             (obj) =>

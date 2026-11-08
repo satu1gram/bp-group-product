@@ -100,3 +100,33 @@ URL deploy hook bersifat rahasia — jangan dibagikan.
    selama periode itu, lalu hilang sendiri setelah tanggal berakhir.
 4. Unggah flyer resmi (opsional) → **Simpan promo**.
 5. Bagikan link `https://katalog.mitrabp.biz.id/promo` di bio IG & status WA (link tetap sama tiap bulan).
+
+---
+
+## D. Panduan gratis & Kontak Masuk (Tahap 2)
+
+Halaman `/panduan-bisnis` berisi "7 Langkah Mulai Bisnis British Propolis dari Rumah".
+Judul dan ringkasan tiap langkah terbaca semua orang (dan Google); isi lengkapnya terbuka
+setelah pengunjung mengisi nama + nomor WhatsApp + persetujuan dihubungi.
+
+**Setup sekali:** jalankan `supabase/migrations/20261109_leads.sql` di Supabase → SQL Editor.
+Tanpa langkah ini panduan tetap terbuka, tetapi kontak **tidak tersimpan**.
+
+**Mohon ditinjau Tila:** isi panduan ada di `src/data/panduanBisnis.ts` (masih draf dari tim).
+Ubah kalimat yang kurang pas dengan gaya Tila, lalu minta developer memperbaruinya.
+
+**Follow-up:** `/admin` → tab **Kontak Masuk**
+- Tombol **Chat** membuka WhatsApp ke nomor calon mitra dengan sapaan pembuka (status otomatis jadi *Sudah dihubungi*).
+- Ubah status: *Baru → Sudah dihubungi → Jadi mitra / Tidak lanjut*.
+- **Unduh CSV** untuk disimpan atau diolah di Excel/Google Sheets.
+- Hubungi dalam 1×24 jam selagi masih hangat. Jangan kirim pesan massal/spam; hormati yang tidak berminat.
+
+**Privasi:** data hanya bisa dibaca akun admin. Hapus kontak yang minta datanya dihapus
+(Supabase → Table Editor → leads).
+
+## E. Tombol bagikan & gambar pratinjau
+
+- Halaman artikel, produk, promo, mitra & panduan punya tombol **Bagikan** (WhatsApp, Facebook, salin link).
+  Link otomatis diberi penanda `utm_source`, jadi terlihat di GA4 berapa kunjungan dari hasil bagikan.
+- Gambar pratinjau saat link dibagikan ada di `public/og/` (JPG 1200×630, aman untuk WhatsApp).
+  Bila nama/harga produk berubah, buat ulang dengan: `npx tsx scripts/generate-og.ts`.

@@ -21,6 +21,7 @@ import {
     slugify,
 } from "@/lib/content";
 import { formatTanggal } from "@/lib/site";
+import { LEAD_COLUMNS, LEAD_STATUS_LABEL, type Lead, type LeadStatus } from "@/lib/leads";
 
 // Tabel baru belum ada di tipe Supabase hasil generate → akses tanpa tipe ketat
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -489,6 +490,99 @@ function PromosTab() {
     );
 }
 
+// ───────────────────────── Kontak masuk ─────────────────────────
+
+function waFollowUp(lead: Lead): string {
+    const text = `Halo Kak ${lead.name}, saya Tila 😊 Terima kasih sudah membuka panduan mulai bisnis dari rumah di katalog. Boleh saya tahu, saat ini Kakak paling tertarik di bagian mana?`;
+    return `https://wa.me/${lead.whatsapp}?text=${encodeURIComponent(text)}`;
+}
+
+function csvCell(v: string | null): string {
+    const t = (v ?? "").replace(/"/g, '""');
+    return /[",\n;]/.test(t) ? `"${t}"` : t;
+}
+
+function LeadsTab() {
+    const [list, setList] = useState<Lead[] | null>(null);
+    const [filter, setFilter] = useState<LeadStatus | "semua">("semua");
+    const [msg, setMsg] = useState<Msg>(null);
+
+    const load = useCallback(async () => {
+        const { data, error } = await db.from("leads").select(LEAD_COLUMNS).order("created_at", { ascending: false }).limit(500);
+        if (error) setMsg({ type: "err", text: `Gagal memuat kontak: ${error.message}` });
+        setList((data ?? []) as Lead[]);
+    }, []);
+
+    useEffect(() => { load(); }, [load]);
+
+    const setStatus = async (lead: Lead, status: LeadStatus) => {
+        setList((l) => l?.map((x) => (x.id === lead.id ? { ...x, status } : x)) ?? null);
+        const { error } = await db.from("leads").update({ status }).eq("id", lead.id);
+        if (error) { setMsg({ type: "err", text: `Gagal mengubah status: ${error.message}` }); load(); }
+    };
+
+    const exportCsv = () => {
+        if (!list?.length) return;
+        const header = "Tanggal,Nama,WhatsApp,Kota,Status,Sumber";
+        const rows = list.map((l) => [formatTanggal(l.created_at), l.name, `+${l.whatsapp}`, l.city, LEAD_STATUS_LABEL[l.status], l.source].map(csvCell).join(","));
+        const blob = new Blob([`\ufeff${header}\n${rows.join("\n")}`], { type: "text/csv;charset=utf-8" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `kontak-katalog-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    };
+
+    const shown = list?.filter((l) => filter === "semua" || l.status === filter) ?? [];
+    const count = (st: LeadStatus) => list?.filter((l) => l.status === st).length ?? 0;
+
+    return (
+        <div>
+            <div className="adm-head">
+                <p style={{ color: "var(--text-muted)" }}>Orang yang membuka panduan bisnis gratis. Hubungi dalam 1×24 jam selagi masih hangat.</p>
+                <button type="button" className="site-btn-outline" onClick={exportCsv} disabled={!list?.length}>Unduh CSV</button>
+            </div>
+            <MsgBox msg={msg} />
+            <div className="adm-tabs" style={{ flexWrap: "wrap" }}>
+                <button type="button" className={`cfc-chip ${filter === "semua" ? "active" : ""}`} onClick={() => setFilter("semua")}>Semua ({list?.length ?? 0})</button>
+                {(Object.keys(LEAD_STATUS_LABEL) as LeadStatus[]).map((st) => (
+                    <button key={st} type="button" className={`cfc-chip ${filter === st ? "active" : ""}`} onClick={() => setFilter(st)}>
+                        {LEAD_STATUS_LABEL[st]} ({count(st)})
+                    </button>
+                ))}
+            </div>
+            {list === null ? <p>Memuat…</p> : shown.length === 0 ? (
+                <div className="adm-card">Belum ada kontak{filter !== "semua" ? " dengan status ini" : ""}.</div>
+            ) : (
+                <div className="adm-list">
+                    {shown.map((l) => (
+                        <div key={l.id} className="adm-item adm-lead">
+                            <div>
+                                <div className="adm-item-title">
+                                    {l.name}
+                                    {l.status === "baru" && <span className="adm-badge adm-badge-live">Baru</span>}
+                                </div>
+                                <div className="adm-item-meta">
+                                    +{l.whatsapp}{l.city && ` · ${l.city}`} · {formatTanggal(l.created_at)}{l.source && ` · dari ${l.source}`}
+                                </div>
+                            </div>
+                            <div className="adm-lead-actions">
+                                <select aria-label={`Status ${l.name}`} value={l.status} onChange={(e) => setStatus(l, e.target.value as LeadStatus)}>
+                                    {(Object.keys(LEAD_STATUS_LABEL) as LeadStatus[]).map((st) => <option key={st} value={st}>{LEAD_STATUS_LABEL[st]}</option>)}
+                                </select>
+                                <a className="site-btn-wa" href={waFollowUp(l)} target="_blank" rel="noopener noreferrer"
+                                    onClick={() => { if (l.status === "baru") setStatus(l, "dihubungi"); }}>
+                                    Chat
+                                </a>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
 // ───────────────────────── Login & kerangka ─────────────────────────
 
 function LoginForm() {
@@ -527,7 +621,7 @@ export default function AdminPage() {
     const [session, setSession] = useState<Session | null>(null);
     const [ready, setReady] = useState(false);
     const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-    const [tab, setTab] = useState<"artikel" | "promo">("artikel");
+    const [tab, setTab] = useState<"artikel" | "promo" | "kontak">("artikel");
 
     useEffect(() => {
         if (!supabase) { setReady(true); return; }
@@ -567,8 +661,9 @@ export default function AdminPage() {
                 <div className="adm-tabs" role="tablist">
                     <button type="button" role="tab" aria-selected={tab === "artikel"} className={`cfc-chip ${tab === "artikel" ? "active" : ""}`} onClick={() => setTab("artikel")}>Catatan Tila</button>
                     <button type="button" role="tab" aria-selected={tab === "promo"} className={`cfc-chip ${tab === "promo" ? "active" : ""}`} onClick={() => setTab("promo")}>Promo</button>
+                    <button type="button" role="tab" aria-selected={tab === "kontak"} className={`cfc-chip ${tab === "kontak" ? "active" : ""}`} onClick={() => setTab("kontak")}>Kontak Masuk</button>
                 </div>
-                {tab === "artikel" ? <ArticlesTab /> : <PromosTab />}
+                {tab === "artikel" ? <ArticlesTab /> : tab === "promo" ? <PromosTab /> : <LeadsTab />}
             </>
         );
     }

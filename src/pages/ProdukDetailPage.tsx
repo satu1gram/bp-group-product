@@ -4,6 +4,7 @@ import { KATALOG_PRODUCTS } from "@/data/katalogProducts";
 import { getProductFaqs } from "@/data/productFaq";
 import { SiteLayout, Breadcrumbs } from "@/components/site/SiteLayout";
 import { WaIcon } from "@/components/site/WaIcon";
+import { ShareBar } from "@/components/site/ShareBar";
 import { Seo } from "@/lib/seo";
 import { getWaLink, SITE_URL } from "@/lib/site";
 import { breadcrumbLd, faqLd, productLd } from "@/lib/structuredData";
@@ -39,7 +40,7 @@ export default function ProdukDetailPage() {
                 title={`${product.name} – Harga, Manfaat & Cara Pesan | Katalog British Propolis`}
                 description={`${product.name}: ${product.description} Harga ${product.price}. Pesan via WhatsApp bersama Mbak Tila, Malang.`.slice(0, 300)}
                 path={path}
-                image={product.image}
+                image={`/og/produk-${product.id}.jpg`}
                 ogType="product"
                 jsonLd={[
                     productLd(product, `${SITE_URL}${path}`),
@@ -127,6 +128,7 @@ export default function ProdukDetailPage() {
                                 </a>
                             </div>
                         </div>
+                        <ShareBar path={path} title={`${product.name} – ${product.tagline.replace(/^✨\s*/, "")}`} />
                     </div>
                 </article>
 
