@@ -1597,3 +1597,237 @@
         align-items: flex-start;
     }
 }
+
+/* ─── Halaman kebutuhan ─── */
+.need-head {
+    max-width: 760px;
+}
+
+.need-icon {
+    font-size: 40px;
+    color: var(--green);
+    background: var(--green-pale);
+    border-radius: 16px;
+    padding: 10px;
+    margin-bottom: 14px;
+}
+
+.need-head h1 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    line-height: 1.15;
+    margin-bottom: 14px;
+}
+
+.need-head p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.need-head .site-btn-row {
+    margin-top: 18px;
+}
+
+.need-tips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.need-tip {
+    display: flex;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.need-tip-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-pale);
+    color: var(--green-dark);
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.need-tip h3 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.need-tip p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.need-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.need-product {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.need-product-img {
+    display: block;
+    aspect-ratio: 3 / 2;
+    background: var(--green-pale);
+}
+
+.need-product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.need-product-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.need-product-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.need-product-body p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.need-product-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.need-product-foot strong {
+    color: var(--green-dark);
+    font-size: 1.1rem;
+}
+
+.need-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.need-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--border-md);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.need-chip .material-symbols-rounded {
+    font-size: 18px;
+    color: var(--green);
+}
+
+.need-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.need-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: border-color 0.15s, transform 0.15s;
+}
+
+.need-card:hover {
+    border-color: var(--green);
+    transform: translateY(-2px);
+}
+
+.need-card .material-symbols-rounded {
+    color: var(--green);
+    background: var(--green-pale);
+    border-radius: 10px;
+    padding: 6px;
+    font-size: 22px;
+}
+
+.need-card-label {
+    flex: 1;
+}
+
+.need-card-go {
+    color: var(--green);
+}
+
+.need-home {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 8px 24px 40px;
+}
+
+.need-home h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .need-home {
+        padding: 8px 16px 32px;
+    }
+
+    .need-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .need-card {
+        padding: 12px;
+        gap: 8px;
+        font-size: 14px;
+    }
+
+    .need-card-go {
+        display: none;
+    }
+}

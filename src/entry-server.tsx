@@ -9,6 +9,7 @@ import { HeadContext, buildHeadHtml, type HeadCollector } from "./lib/seo";
 import { InitialDataContext, type InitialData } from "./lib/initialData";
 
 export { KATALOG_PRODUCTS } from "./data/katalogProducts";
+export { KEBUTUHAN } from "./data/kebutuhan";
 export { ARTICLE_COLUMNS, PROMO_COLUMNS } from "./lib/content";
 export { buildHeadHtml };
 

@@ -18,6 +18,7 @@ import { SiteFooter } from '@/components/site/SiteFooter';
 import { WaIcon } from '@/components/site/WaIcon';
 import { PromoStrip } from '@/components/site/PromoStrip';
 import { ArticleTeaser } from '@/components/site/ArticleTeaser';
+import { KebutuhanGrid } from '@/components/site/KebutuhanGrid';
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
 
@@ -428,6 +429,12 @@ export default function KatalogProdukPage() {
                         </div>
                     </div>
                 )}
+
+                {/* Jelajah sesuai kebutuhan (tautan ke halaman /kebutuhan/...) */}
+                <div className="need-home fade-in">
+                    <h2>Atau cari sesuai kebutuhan</h2>
+                    <KebutuhanGrid />
+                </div>
 
                 {/* Separator bawah Dunia 1 */}
                 <div className="world-divider">
