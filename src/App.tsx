@@ -1,22 +1,50 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Routes, Route, useLocation } from "react-router";
-import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type ComponentType, type ReactNode } from "react";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
-import { PWAUpdatePrompt } from "@/components/PWAUpdatePrompt";
 
-const KatalogProdukPage = lazy(() => import("./pages/KatalogProdukPage"));
-const ProdukDetailPage = lazy(() => import("./pages/ProdukDetailPage"));
-const MitraPage = lazy(() => import("./pages/MitraPage"));
-const PromoPage = lazy(() => import("./pages/PromoPage"));
-const ArtikelListPage = lazy(() => import("./pages/ArtikelListPage"));
-const ArtikelDetailPage = lazy(() => import("./pages/ArtikelDetailPage"));
-const AdminPage = lazy(() => import("./pages/AdminPage"));
-const PanduanBisnisPage = lazy(() => import("./pages/PanduanBisnisPage"));
-const KebutuhanPage = lazy(() => import("./pages/KebutuhanPage"));
-const KebutuhanIndexPage = lazy(() => import("./pages/KebutuhanIndexPage"));
-const MalangPage = lazy(() => import("./pages/MalangPage"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+/**
+ * Setelah deploy baru, tab yang masih terbuka bisa gagal memuat file halaman
+ * versi lama (sudah tidak ada di server). Muat ulang sekali agar langsung
+ * mendapat versi terbaru, tanpa popup.
+ */
+function lazyPage<T extends ComponentType<object>>(load: () => Promise<{ default: T }>) {
+  return lazy(() =>
+    load().catch((err) => {
+      const key = "katalog_reload_after_chunk_error";
+      let last = 0;
+      try {
+        last = Number(sessionStorage.getItem(key) || 0);
+      } catch {
+        /* abaikan */
+      }
+      if (typeof window !== "undefined" && Date.now() - last > 30000) {
+        try {
+          sessionStorage.setItem(key, String(Date.now()));
+        } catch {
+          /* abaikan */
+        }
+        window.location.reload();
+        return new Promise<{ default: T }>(() => {});
+      }
+      throw err;
+    })
+  );
+}
+
+const KatalogProdukPage = lazyPage(() => import("./pages/KatalogProdukPage"));
+const ProdukDetailPage = lazyPage(() => import("./pages/ProdukDetailPage"));
+const MitraPage = lazyPage(() => import("./pages/MitraPage"));
+const PromoPage = lazyPage(() => import("./pages/PromoPage"));
+const ArtikelListPage = lazyPage(() => import("./pages/ArtikelListPage"));
+const ArtikelDetailPage = lazyPage(() => import("./pages/ArtikelDetailPage"));
+const AdminPage = lazyPage(() => import("./pages/AdminPage"));
+const PanduanBisnisPage = lazyPage(() => import("./pages/PanduanBisnisPage"));
+const KebutuhanPage = lazyPage(() => import("./pages/KebutuhanPage"));
+const KebutuhanIndexPage = lazyPage(() => import("./pages/KebutuhanIndexPage"));
+const MalangPage = lazyPage(() => import("./pages/MalangPage"));
+const NotFound = lazyPage(() => import("./pages/NotFound"));
 
 /** Pindah halaman → mulai dari atas; bila ada #anchor → gulir ke bagian itu (tunggu halaman lazy termuat). */
 function ScrollToTop() {
@@ -62,7 +90,6 @@ const App = () => (
   <>
     <ClientOnly>
       <Toaster />
-      <PWAUpdatePrompt />
       <Sonner
         position="top-center"
         duration={4000}
