@@ -3,9 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { Link } from "react-router";
-import "@/styles/katalog.css";
-import "@/styles/ai-advisor.css";
-import "@/styles/pages.css";
 import { supabase } from "@/integrations/supabase/client";
 import { Seo } from "@/lib/seo";
 import { checkClaims } from "@/lib/bpomChecker";

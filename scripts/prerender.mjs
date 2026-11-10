@@ -84,10 +84,48 @@ const safeJson = (obj) =>
     .replace(new RegExp(String.fromCharCode(0x2028), "g"), "\\u2028")
     .replace(new RegExp(String.fromCharCode(0x2029), "g"), "\\u2029");
 
+// ── Ikon: muat hanya ikon Material Symbols yang dipakai (±10 KB, bukan ±5 MB) ──
+const ICON_RE_HTML = /material-symbols-rounded[^"]*"[^>]*>([a-z0-9_]+)</g;
+function collectSourceIcons(dir, set) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) collectSourceIcons(full, set);
+    else if (/\.(tsx?|jsx?)$/.test(entry.name)) {
+      const src = fs.readFileSync(full, "utf-8");
+      for (const re of [
+        /material-symbols-rounded[^>]*>\s*([a-z0-9_]+)\s*</g,
+        /\bicon:\s*['"]([a-z0-9_]+)['"]/g,
+        /\bemoji:\s*['"]([a-z0-9_]+)['"]/g,
+      ]) for (const m of src.matchAll(re)) set.add(m[1]);
+      // Ikon kondisional: <span className="material-symbols-rounded">{a ? "x" : "y"}</span>
+      for (const m of src.matchAll(/material-symbols-rounded[^>]*>\{([^}]*)\}</g))
+        for (const q of m[1].matchAll(/['"]([a-z0-9_]+)['"]/g)) set.add(q[1]);
+    }
+  }
+}
+
+const rendered = [];
+const icons = new Set();
 for (const { route, data } of pages) {
-  const { html: appHtml, head } = await render(route, data);
+  const result = await render(route, data);
+  for (const m of result.html.matchAll(ICON_RE_HTML)) icons.add(m[1]);
+  rendered.push({ route, data, ...result });
+}
+collectSourceIcons(path.join(root, "src"), icons);
+const iconNames = [...icons].filter((n) => /^[a-z0-9_]{2,}$/.test(n) && !/^[0-9_]+$/.test(n)).sort();
+const ICON_HREF_RE = /https:\/\/fonts\.googleapis\.com\/css2\?family=Material\+Symbols\+Rounded[^"]*/;
+const iconHref =
+  "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" +
+  `&icon_names=${iconNames.join(",")}&display=block`;
+if (!ICON_HREF_RE.test(template)) throw new Error("[prerender] link font Material Symbols tidak ditemukan di index.html");
+console.log(`[prerender] ikon Material Symbols: ${iconNames.length}`);
+
+// index.html dasar (dipakai juga untuk halaman yang dirender di browser) ikut memakai subset ikon
+const baseTemplate = template.replace(ICON_HREF_RE, iconHref);
+
+for (const { route, data, html: appHtml, head } of rendered) {
   const dataScript = `<script>window.__INITIAL_DATA__=${safeJson(data)}</script>`;
-  const html = template
+  const html = baseTemplate
     .replace(SEO_BLOCK, head)
     .replace('<div id="root"></div>', `<div id="root" data-prerender-path="${route}">${appHtml}</div>\n  ${dataScript}`);
 

@@ -1,8 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { Link } from 'react-router';
-import '@/styles/katalog.css';
-import '@/styles/ai-advisor.css';
-import '@/styles/pages.css';
 import { KATALOG_PRODUCTS } from '@/data/katalogProducts';
 import { TestimoniSection } from '@/components/TestimoniSection';
 import { TestimonialWall } from '@/components/TestimonialWall';
@@ -18,6 +15,7 @@ import { PromoStrip } from '@/components/site/PromoStrip';
 import { ArticleTeaser } from '@/components/site/ArticleTeaser';
 import { KebutuhanGrid } from '@/components/site/KebutuhanGrid';
 import { MitraTeaser } from '@/components/site/MitraTeaser';
+import { setupReveal } from '@/lib/reveal';
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
 
@@ -120,31 +118,18 @@ export default function KatalogProdukPage() {
     const aiResultRef = useRef<HTMLDivElement>(null);
     const complaintTextRef = useRef<HTMLTextAreaElement>(null);
 
-    // ── Scroll + Fade-in observer ──
+    // ── Animasi muncul saat digulir ──
     useEffect(() => {
+        const cleanup = setupReveal();
+
+        // Fokus otomatis ke kolom keluhan hanya di desktop
+        // (di HP fokus otomatis memunculkan keyboard dan menggeser layar)
         const hasHash = window.location.hash.length > 1;
-        if (!hasHash) window.scrollTo(0, 0);
-        // Langsung tampilkan elemen yang sudah ada di viewport saat halaman dibuka
-        const triggerVisible = () => {
-            document.querySelectorAll('.fade-in:not(.in-view)').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight) {
-                    el.classList.add('in-view');
-                }
-            });
-        };
-        // Trigger setelah 50ms untuk pastikan DOM sudah render
-        const t = setTimeout(triggerVisible, 50);
-
-        // Fokus otomatis ke textarea keluhan
-        if (!hasHash) setTimeout(() => complaintTextRef.current?.focus({ preventScroll: true }), 500);
-
-        const observer = new IntersectionObserver(
-            entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); }),
-            { threshold: 0, rootMargin: '0px 0px -5% 0px' }
-        );
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-        return () => { observer.disconnect(); clearTimeout(t); };
+        const isDesktop = window.matchMedia?.('(pointer: fine)').matches;
+        const t = (!hasHash && isDesktop && window.scrollY < 50)
+            ? setTimeout(() => complaintTextRef.current?.focus({ preventScroll: true }), 500)
+            : undefined;
+        return () => { cleanup(); if (t) clearTimeout(t); };
     }, []);
 
     // ── Scroll helper ──

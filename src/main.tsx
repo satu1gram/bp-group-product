@@ -4,6 +4,11 @@ import App from "./App.tsx";
 import { initAnalytics } from "./lib/analytics";
 import { InitialDataContext } from "./lib/initialData";
 import "./index.css";
+// Semua CSS halaman dimuat di <head> sejak awal, supaya HTML hasil prerender
+// langsung tampil rapi (tanpa kedipan halaman polos / menu samping meluncur).
+import "./styles/katalog.css";
+import "./styles/ai-advisor.css";
+import "./styles/pages.css";
 
 const container = document.getElementById("root")!;
 const tree = (
