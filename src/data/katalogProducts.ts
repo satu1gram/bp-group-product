@@ -386,8 +386,14 @@ export const KATALOG_PRODUCTS: ProductData[] = [
             { icon: "auto_awesome", text: "Luxury Perfume" },
             { icon: "checkroom", text: "Semprot ke pakaian" }
         ],
-        price: "Rp 225.000",
+        price: "Rp 265.000",
         priceNote: "Per Botol",
+        // Harga mengikuti British Propolis (konsumen & mitra)
+        hargaTier: [
+            { label: 'Reseller', minQty: 'min. 3 pcs', harga: 'Rp 240.000' },
+            { label: 'Agen', minQty: 'min. 5 pcs', harga: 'Rp 225.000' },
+            { label: 'Agen Plus', minQty: 'min. 10 pcs', harga: 'Rp 210.000' },
+        ],
         bgStyle: "blue",
         emoji: "auto_awesome",
         image: "/images/produk/belgie-perfume.webp",
