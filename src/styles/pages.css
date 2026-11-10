@@ -2041,3 +2041,49 @@
 #paket {
     scroll-margin-top: 80px;
 }
+
+/* Panduan: ajakan kirim WA setelah formulir */
+.guide-done-new {
+    border-color: #25D366;
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.18);
+}
+
+.guide-done-new > .material-symbols-rounded {
+    color: #25D366;
+}
+
+.guide-wa-btn {
+    width: 100%;
+    min-height: 52px;
+    font-size: 16px;
+}
+
+.guide-done .site-btn-outline {
+    width: 100%;
+}
+
+.guide-redirect {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+    width: 100%;
+}
+
+.guide-redirect button {
+    background: none;
+    border: none;
+    color: var(--green-dark);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.guide-form-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 6px;
+    line-height: 1.5;
+}
