@@ -73,6 +73,8 @@ const PRODUCT_NAME_TO_ID: Record<string, string> = {
     'belgie night cream': 'belgie-night-cream',
     'belgie hair tonic': 'belgie-hair-tonic',
     'steffi pro': 'steffi-pro',
+    'belgie luxury perfume': 'belgie-luxury-perfume',
+    'belgie perfume': 'belgie-luxury-perfume',
 };
 
 // ─── Helper ──────────────────────────────────────────────────────────────────
@@ -194,7 +196,9 @@ export default function KatalogProdukPage() {
             const catOk = activeCategory === 'all' || p.category === activeCategory;
             const kelOk = activeKeluhan === 'all' || KELUHAN_PRODUCTS[activeKeluhan]?.includes(p.id);
             return catOk && kelOk;
-        });
+        })
+            // Produk baru tampil paling atas (urutan lain tetap)
+            .sort((a, b) => Number(Boolean(b.isNew)) - Number(Boolean(a.isNew)));
     }, [activeCategory, activeKeluhan]);
 
     const isFiltering = activeKeluhan !== 'all' || activeCategory !== 'all';
@@ -549,6 +553,7 @@ export default function KatalogProdukPage() {
                                     { key: 'propolis', label: 'Propolis' },
                                     { key: 'skincare', label: 'Skincare' },
                                     { key: 'suplemen', label: 'Suplemen' },
+                                    { key: 'parfum', label: 'Parfum' },
                                     { key: 'natural', label: 'Natural' },
                                 ].map(cat => (
                                     <button key={cat.key} type="button"
@@ -592,9 +597,10 @@ export default function KatalogProdukPage() {
                                         style={{ animationDelay: `${idx * 60}ms` }}>
                                         <div className="card-inner">
                                             <div className="card-img" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--green-ultra)', overflow: 'hidden' }}>
+                                                {product.isNew && <span className="new-badge new-badge-corner">BARU</span>}
                                                 <div className={`card-img-bg ${product.bgStyle}`} />
                                                 {product.image
-                                                    ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 2 }} />
+                                                    ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: product.imagePosition, position: 'relative', zIndex: 2 }} />
                                                     : <span className="material-symbols-rounded" style={{ fontSize: '72px', color: 'var(--green-dark)', position: 'relative', zIndex: 2 }}>{product.emoji}</span>
                                                 }
                                             </div>
