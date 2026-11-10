@@ -16,6 +16,12 @@ import { ArticleTeaser } from '@/components/site/ArticleTeaser';
 import { KebutuhanGrid } from '@/components/site/KebutuhanGrid';
 import { MitraTeaser } from '@/components/site/MitraTeaser';
 import { setupReveal } from '@/lib/reveal';
+import { setupParallax } from '@/lib/parallax';
+import { productImg, productThumb } from '@/lib/img';
+
+// Statistik katalog dihitung dari data produk (otomatis ikut bertambah)
+const JUMLAH_PRODUK = KATALOG_PRODUCTS.length;
+const JUMLAH_KATEGORI = new Set(KATALOG_PRODUCTS.map(p => p.category)).size;
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
 
@@ -117,6 +123,10 @@ export default function KatalogProdukPage() {
     const sectionBisnisRef = useRef<HTMLElement>(null);
     const aiResultRef = useRef<HTMLDivElement>(null);
     const complaintTextRef = useRef<HTMLTextAreaElement>(null);
+    const brandHeroRef = useRef<HTMLDivElement>(null);
+
+    // ── Parallax bagian "Semua Produk British Propolis" ──
+    useEffect(() => setupParallax(brandHeroRef.current), []);
 
     // ── Animasi muncul saat digulir ──
     useEffect(() => {
@@ -358,7 +368,7 @@ export default function KatalogProdukPage() {
                                                 <div key={product.id} className="inline-reco-card">
                                                     <div className={`inline-reco-img card-img-bg-wrap ${product.bgStyle}`}>
                                                         {product.image
-                                                            ? <img src={product.image} alt={product.name} />
+                                                            ? <img src={productThumb(product.image)} alt={product.name} loading="lazy" />
                                                             : <span className="material-symbols-rounded">{product.emoji}</span>
                                                         }
                                                     </div>
@@ -443,7 +453,9 @@ export default function KatalogProdukPage() {
                 <div className="container">
 
                     {/* ─── Merged Catalog Hero ─── */}
-                    <div className="brand-hero catalog-merged-hero fade-in" style={{ marginBottom: '80px' }}>
+                    <div className="brand-hero catalog-merged-hero parallax-section fade-in" ref={brandHeroRef} style={{ marginBottom: '80px' }}>
+                        <span className="plx-blob plx-blob-1" aria-hidden="true" />
+                        <span className="plx-blob plx-blob-2" aria-hidden="true" />
                         <div className="brand-hero-left">
                             <span className="section-tag">Healthy Living Guide</span>
                             <h2 className="brand-title">
@@ -455,8 +467,8 @@ export default function KatalogProdukPage() {
                             </p>
                             <div className="brand-stats">
                                 {[
-                                    { num: '12+', label: 'Produk Unggulan' },
-                                    { num: '4', label: 'Kategori Utama' },
+                                    { num: String(JUMLAH_PRODUK), label: 'Produk Unggulan' },
+                                    { num: String(JUMLAH_KATEGORI), label: 'Kategori Utama' },
                                     { num: '10rb+', label: 'Keluarga Terlayani' },
                                     { num: '2018', label: 'Berdiri Sejak' },
                                 ].map(s => (
@@ -468,7 +480,7 @@ export default function KatalogProdukPage() {
                             </div>
                         </div>
                         <div className="brand-hero-right">
-                            <div className="brand-img-grid ingredient-grid">
+                            <div className="brand-img-grid ingredient-grid parallax-grid">
                                 {[
                                     { src: '/images/katalog/propolis-400.webp', title: 'British Propolis', desc: '100% Ekstrak Asli Inggris' },
                                     { src: '/images/katalog/moringa-400.webp', title: 'Moringa Oleifera', desc: 'Superfood Kaya Nutrisi' },
@@ -476,7 +488,7 @@ export default function KatalogProdukPage() {
                                     { src: '/images/katalog/collagen-400.webp', title: 'Marine Collagen', desc: 'Untuk Perawatan Kulit' },
                                 ].map(item => (
                                     <div key={item.title} className="brand-img-card ingredient-card">
-                                        <img src={item.src} alt={item.title} className="ingredient-img" />
+                                        <img src={item.src} alt={item.title} className="ingredient-img" loading="lazy" width={400} height={400} />
                                         <div className="ingredient-info">
                                             <span className="title">{item.title}</span>
                                             <span className="desc">{item.desc}</span>
@@ -585,7 +597,7 @@ export default function KatalogProdukPage() {
                                                 {product.isNew && <span className="new-badge new-badge-corner">BARU</span>}
                                                 <div className={`card-img-bg ${product.bgStyle}`} />
                                                 {product.image
-                                                    ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: product.imagePosition, position: 'relative', zIndex: 2 }} />
+                                                    ? <img {...productImg(product.image)} sizes="(max-width: 768px) 45vw, 380px" alt={product.name} loading={idx < 2 ? 'eager' : 'lazy'} decoding="async" width={600} height={403} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: product.imagePosition, position: 'relative', zIndex: 2 }} />
                                                     : <span className="material-symbols-rounded" style={{ fontSize: '72px', color: 'var(--green-dark)', position: 'relative', zIndex: 2 }}>{product.emoji}</span>
                                                 }
                                             </div>

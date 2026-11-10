@@ -136,6 +136,16 @@ for (const { route, data, html: appHtml, head } of rendered) {
   console.log(`[prerender] ${route.padEnd(40)} ${(html.length / 1024).toFixed(1)} KB`);
 }
 
+// ── Gambar produk versi 600px: bila belum dibuat, pakai gambar asli (tidak pernah rusak) ──
+for (const prod of KATALOG_PRODUCTS) {
+  if (!prod.image || !prod.image.startsWith("/images/produk/") || !prod.image.endsWith(".webp")) continue;
+  const small = path.join(distDir, prod.image.replace(/\.webp$/, "-600.webp").slice(1));
+  if (!fs.existsSync(small)) {
+    fs.copyFileSync(path.join(distDir, prod.image.slice(1)), small);
+    console.warn(`[prerender] ${path.basename(small)} belum ada → memakai gambar asli. Jalankan: npx tsx scripts/generate-image-variants.ts`);
+  }
+}
+
 // ── 3. sitemap.xml ──
 const today = builtOn;
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

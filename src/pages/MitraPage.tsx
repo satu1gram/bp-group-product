@@ -74,7 +74,7 @@ export default function MitraPage() {
                         <p className="mitra-hero-note">Gratis dan tanpa kewajiban bergabung.</p>
                     </div>
                     <div className="mitra-hero-img">
-                        <img src="/images/bisnis/tila akbar umroh.jpeg" alt="Mbak Tila bersama keluarga saat umroh" />
+                        <img src="/images/bisnis/tila-600.webp" alt="Mbak Tila bersama keluarga saat umroh" width={600} height={800} {...{ fetchpriority: "high" }} />
                     </div>
                 </section>
 
