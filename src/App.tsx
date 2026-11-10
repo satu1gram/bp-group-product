@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Routes, Route, useLocation } from "react-router";
-import { lazy, Suspense, useEffect, useState, type ComponentType, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 
 /**
@@ -49,7 +49,14 @@ const NotFound = lazyPage(() => import("./pages/NotFound"));
 /** Pindah halaman → mulai dari atas; bila ada #anchor → gulir ke bagian itu (tunggu halaman lazy termuat). */
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
+  const first = useRef(true);
   useEffect(() => {
+    // Saat halaman pertama kali dibuka, biarkan browser mengatur posisi gulir
+    // (tidak melompat ke atas bila pengunjung sudah sempat menggulir)
+    if (first.current) {
+      first.current = false;
+      return;
+    }
     if (!hash) {
       window.scrollTo(0, 0);
       return;

@@ -1,9 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "react-router";
-import "@/styles/katalog.css";
-import "@/styles/ai-advisor.css";
-import "@/styles/pages.css";
 import { getWaLink } from "@/lib/site";
+import { setupReveal } from "@/lib/reveal";
 import { SiteNav } from "./SiteNav";
 import { SiteFooter } from "./SiteFooter";
 import { WaIcon } from "./WaIcon";
@@ -13,19 +11,7 @@ export function SiteLayout({ children, waMessage }: { children: ReactNode; waMes
     const { pathname } = useLocation();
 
     // Animasi muncul untuk elemen .fade-in (dipakai komponen bersama seperti kisah mitra)
-    useEffect(() => {
-        const els = document.querySelectorAll(".fade-in:not(.in-view)");
-        if (!("IntersectionObserver" in window)) {
-            els.forEach((el) => el.classList.add("in-view"));
-            return;
-        }
-        const observer = new IntersectionObserver(
-            (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in-view"); }),
-            { threshold: 0, rootMargin: "0px 0px -5% 0px" }
-        );
-        els.forEach((el) => observer.observe(el));
-        return () => observer.disconnect();
-    }, [pathname]);
+    useEffect(() => setupReveal(), [pathname]);
 
     return (
         <div className="katalog-page-wrapper site-page">
