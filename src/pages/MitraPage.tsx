@@ -121,7 +121,9 @@ export default function MitraPage() {
                     </div>
                 </section>
 
-                <BusinessTestimonials />
+                <div id="kisah" className="mitra-anchor">
+                    <BusinessTestimonials />
+                </div>
 
                 <section className="pd-section">
                     <div className="world-section-header">
