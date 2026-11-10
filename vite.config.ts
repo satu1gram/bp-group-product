@@ -22,8 +22,15 @@ export default defineConfig(({ isSsrBuild }) => ({
       threshold: 1024,
       deleteOriginFile: false,
     }),
+    // Service worker dimatikan (selfDestroying): katalog harus selalu tampil versi
+    // terbaru (harga & promo) tanpa popup "Update sekarang". Pengunjung lama yang
+    // masih punya service worker lama otomatis dibersihkan saat membuka website.
     !isSsrBuild && VitePWA({
-      registerType: "prompt",
+      selfDestroying: true,
+      registerType: "autoUpdate",
+      // Pengunjung baru tidak perlu mendaftarkan service worker sama sekali;
+      // browser pengunjung lama tetap mengambil sw.js baru (yang menghapus dirinya).
+      injectRegister: false,
       includeAssets: ["favicon.ico", "robots.txt", "apple-touch-icon.png", "images/qm-logo.webp"],
       manifest: {
         name: "Katalog British Propolis – Mbak Tila",
@@ -93,9 +100,6 @@ export default defineConfig(({ isSsrBuild }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      ...(isSsrBuild
-        ? { "virtual:pwa-register/react": path.resolve(__dirname, "./src/lib/pwa-register-stub.ts") }
-        : {}),
     },
   },
   build: {

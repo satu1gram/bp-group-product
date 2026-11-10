@@ -632,8 +632,14 @@ export default function AdminPage() {
 
     useEffect(() => {
         if (!session) { setIsAdmin(null); return; }
-        db.from("admins").select("user_id").eq("user_id", session.user.id).maybeSingle()
-            .then(({ data }: { data: unknown }) => setIsAdmin(Boolean(data)));
+        // is_admin(): admin katalog (tabel admins) ATAU admin Rekapan Mitra (profiles.role = 'admin')
+        (async () => {
+            const { data, error } = await db.rpc("is_admin");
+            if (!error) return setIsAdmin(Boolean(data));
+            // Cadangan bila migrasi terbaru belum dijalankan
+            const res = await db.from("admins").select("user_id").eq("user_id", session.user.id).maybeSingle();
+            setIsAdmin(Boolean(res.data));
+        })();
     }, [session]);
 
     let body;

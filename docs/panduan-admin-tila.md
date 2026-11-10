@@ -22,7 +22,15 @@ Website sekarang punya:
 
 > Catatan: file `20260830_multi_tenant_katalog.sql` (rencana multi-mitra) **tidak perlu** dijalankan.
 
-### 2. Buat akun admin untuk Tila
+### 2. Akun admin
+
+**Cara termudah:** katalog memakai database Supabase yang sama dengan Rekapan Mitra. Jalankan
+`supabase/migrations/20261111_admin_ikut_rekapan_mitra.sql` di SQL Editor, maka **akun yang
+ber-role admin di Rekapan Mitra** bisa langsung masuk `/admin` katalog dengan email & kata sandi yang sama.
+
+Untuk menambah admin khusus katalog (bukan admin Rekapan Mitra), pakai cara di bawah.
+
+#### Menambah admin khusus katalog
 1. Supabase → **Authentication → Users → Add user → Create new user**.
 2. Isi email & kata sandi Tila, centang **Auto Confirm User** → **Create user**.
 3. Kembali ke **SQL Editor**, jalankan (ganti email):
@@ -171,3 +179,11 @@ berisi nama, nomor WA, kota, dan tombol link untuk langsung chat.
 
 Token & chat id disimpan terenkripsi di Supabase Vault, tidak ada di kode website.
 Notifikasi berisi data pribadi calon mitra, jadi jangan tambahkan bot ke grup publik.
+
+
+## H. Pembaruan website otomatis
+
+Website tidak lagi memakai service worker (fitur aplikasi PWA), jadi tidak ada lagi popup
+"Versi baru tersedia / Update sekarang". Setiap kali website dibuka, pengunjung langsung mendapat
+versi terbaru (harga & promo selalu terkini). Pengunjung lama yang masih menyimpan versi lama
+otomatis dibersihkan saat membuka website, cukup sekali muat ulang tanpa perlu menekan apa pun.
