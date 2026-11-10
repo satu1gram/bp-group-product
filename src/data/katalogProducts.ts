@@ -16,6 +16,10 @@ export interface ProductData {
     bgStyle: 'green' | 'teal' | 'gold' | 'blue' | 'red' | 'purple';
     emoji: string;
     image?: string;
+    /** Titik fokus gambar saat terpotong (CSS object-position), mis. "32% center" */
+    imagePosition?: string;
+    /** Tampilkan badge "BARU" & taruh paling atas di katalog. Hapus/false bila sudah tidak baru. */
+    isNew?: boolean;
 }
 
 export const KATALOG_PRODUCTS: ProductData[] = [
@@ -364,5 +368,30 @@ export const KATALOG_PRODUCTS: ProductData[] = [
         bgStyle: "blue",
         emoji: "local_cafe",
         image: "/images/produk/steffi.webp"
+    },
+    {
+        id: "belgie-luxury-perfume",
+        category: "parfum",
+        badgeText: "Parfum Mewah",
+        badgeColor: "gold",
+        name: "Belgie Luxury Perfume",
+        tagline: "Aroma Elegan, Inspirasi Kemewahan Eropa",
+        description: "Parfum mewah beraroma elegan yang terinspirasi keanggunan Eropa. Disemprotkan ke pakaian untuk melengkapi penampilan dan menambah rasa percaya diri, dari aktivitas harian sampai acara spesial.",
+        benefits: [
+            "Aroma elegan dan berkelas",
+            "Dirancang agar wangi bertahan lama",
+            "Botol premium biru & emas, cocok untuk hadiah"
+        ],
+        specs: [
+            { icon: "auto_awesome", text: "Luxury Perfume" },
+            { icon: "checkroom", text: "Semprot ke pakaian" }
+        ],
+        price: "Rp 225.000",
+        priceNote: "Per Botol",
+        bgStyle: "blue",
+        emoji: "auto_awesome",
+        image: "/images/produk/belgie-perfume.webp",
+        imagePosition: "32% center",
+        isNew: true
     }
 ];

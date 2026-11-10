@@ -16,6 +16,7 @@ const CATEGORY_LABEL: Record<string, string> = {
     suplemen: "Suplemen",
     skincare: "Skincare",
     natural: "Natural",
+    parfum: "Parfum",
 };
 
 export default function ProdukDetailPage() {
@@ -66,6 +67,7 @@ export default function ProdukDetailPage() {
 
                     <div className="pd-info">
                         <div className="pd-chips">
+                            {product.isNew && <span className="new-badge new-badge-inline">BARU</span>}
                             <span className={`card-badge badge-${product.badgeColor}`}>{product.badgeText}</span>
                             <span className="pd-cat">{CATEGORY_LABEL[product.category] ?? product.category}</span>
                         </div>
@@ -186,8 +188,9 @@ export default function ProdukDetailPage() {
                 )}
 
                 <p className="health-disclaimer">
-                    Informasi produk mengacu pada klaim yang diizinkan. Produk ini bukan pengganti obat atau saran dokter.
-                    Hasil pada setiap orang bisa berbeda. Baca aturan pakai dan peringatan di kemasan.
+                    {product.category === "parfum" || product.category === "skincare"
+                        ? "Hasil dan kesan pemakaian bisa berbeda pada setiap orang. Baca cara pakai dan peringatan di kemasan sebelum digunakan."
+                        : "Informasi produk mengacu pada klaim yang diizinkan. Produk ini bukan pengganti obat atau saran dokter. Hasil pada setiap orang bisa berbeda. Baca aturan pakai dan peringatan di kemasan."}
                 </p>
             </div>
         </SiteLayout>

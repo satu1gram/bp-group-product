@@ -108,9 +108,13 @@ p{font-size:28px;line-height:1.4;color:#5A6B5C}
 <div class="r"><img src="${dataUri(c.image)}"><div class="bar"></div></div>
 </body></html>`;
 
+// Opsional: buat ulang sebagian saja, mis. `npx tsx scripts/generate-og.ts belgie-luxury-perfume`
+const only = process.argv[2];
+const selected = only ? cards.filter((c) => c.file.includes(only)) : cards;
+
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
-for (const c of cards) {
+for (const c of selected) {
     await page.setContent(html(c), { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: path.join(outDir, c.file), type: "jpeg", quality: 82 });
