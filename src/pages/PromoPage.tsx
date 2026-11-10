@@ -36,8 +36,16 @@ export default function PromoPage() {
                         {promos.map((p) => {
                             const waText = p.wa_message || `Halo Mbak Tila, saya mau ambil promo "${p.title}". Masih tersedia?`;
                             return (
-                                <article key={p.id} className="promo-card">
-                                    {p.image_url && <img className="promo-img" src={p.image_url} alt={p.title} loading="lazy" />}
+                                <article key={p.id} className={`promo-card ${p.image_url ? "promo-card-has-img" : ""}`}>
+                                    {p.image_url && (
+                                        <a className="promo-img-wrap" href={p.image_url} target="_blank" rel="noopener noreferrer"
+                                            aria-label={`Lihat flyer ${p.title} ukuran penuh`}>
+                                            <img className="promo-img" src={p.image_url} alt={p.title} />
+                                            <span className="promo-img-zoom" aria-hidden="true">
+                                                <span className="material-symbols-rounded">zoom_in</span> Perbesar
+                                            </span>
+                                        </a>
+                                    )}
                                     <div className="promo-body">
                                         {p.ends_at && (
                                             <span className="promo-deadline">
@@ -53,8 +61,8 @@ export default function PromoPage() {
                                                 <p>{p.terms}</p>
                                             </details>
                                         )}
-                                        <a href={getWaLink(waText)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
-                                            <WaIcon size={18} /> Ambil Promo Ini via WhatsApp
+                                        <a href={getWaLink(waText)} target="_blank" rel="noopener noreferrer" className="site-btn-wa promo-wa-btn">
+                                            <WaIcon size={18} /> Ambil Promo via WhatsApp
                                         </a>
                                     </div>
                                 </article>

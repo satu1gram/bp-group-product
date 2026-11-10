@@ -990,9 +990,9 @@
 /* ─── Promo ─── */
 .promo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    max-width: 960px;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 980px;
     margin: 0 auto;
 }
 
@@ -1003,24 +1003,89 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    box-shadow: var(--shadow-sm);
 }
 
+/* Desktop: flyer di kiri (tampil utuh), keterangan di kanan */
+@media (min-width: 761px) {
+    .promo-card-has-img {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        align-items: stretch;
+    }
+}
+
+.promo-img-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #efece6;
+    cursor: zoom-in;
+}
+
+/* Gambar flyer selalu utuh (tidak dipotong), proporsi asli */
 .promo-img {
+    display: block;
     width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+    height: auto;
+    max-height: 640px;
+    object-fit: contain;
+}
+
+@media (max-width: 760px) {
+    .promo-img {
+        max-height: 80vh;
+    }
+}
+
+.promo-img-zoom {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 999px;
+}
+
+.promo-img-zoom .material-symbols-rounded {
+    font-size: 16px;
 }
 
 .promo-body {
-    padding: 20px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     flex: 1;
 }
 
-.promo-body .site-btn-wa {
-    margin-top: auto;
+@media (max-width: 760px) {
+    .promo-body {
+        padding: 18px;
+    }
+}
+
+/* Tombol WA ringkas: satu baris, tidak melebar penuh di desktop */
+.promo-body .promo-wa-btn {
+    margin-top: 8px;
+    align-self: flex-start;
+    min-height: 46px;
+    padding: 10px 20px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+    .promo-body .promo-wa-btn {
+        align-self: stretch;
+    }
 }
 
 .promo-deadline {
@@ -1043,7 +1108,7 @@
 .promo-title {
     font-family: 'DM Serif Display', serif;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: clamp(1.4rem, 3.5vw, 1.75rem);
     line-height: 1.25;
 }
 
