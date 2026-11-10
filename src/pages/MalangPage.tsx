@@ -7,6 +7,7 @@ import { KATALOG_PRODUCTS } from "@/data/katalogProducts";
 import { Seo } from "@/lib/seo";
 import { getWaLink } from "@/lib/site";
 import { breadcrumbLd, faqLd, storeLd } from "@/lib/structuredData";
+import { productImg, productThumb } from "@/lib/img";
 
 const WA_MALANG = "Halo Mbak Tila, saya dari Malang, mau pesan British Propolis. Bisa dibantu?";
 const POPULER = ["british-propolis", "british-propolis-green", "brassic-pro", "brassic-eye"];
@@ -77,7 +78,7 @@ export default function MalangPage() {
                         </div>
                     </div>
                     <div className="mitra-hero-img">
-                        <img src="/images/produk/bp.webp" alt="Produk British Propolis" />
+                        <img {...productImg("/images/produk/bp.webp")} sizes="(max-width: 860px) 92vw, 440px" alt="Produk British Propolis" width={1200} height={805} {...{ fetchpriority: "high" }} />
                     </div>
                 </section>
 
@@ -103,7 +104,7 @@ export default function MalangPage() {
                         {populer.map((r) => (
                             <Link key={r.id} to={`/produk/${r.id}`} className="pd-related-card">
                                 <div className={`pd-related-img card-img-bg-wrap ${r.bgStyle}`}>
-                                    {r.image && <img src={r.image} alt={r.name} loading="lazy" />}
+                                    {r.image && <img src={productThumb(r.image)} alt={r.name} loading="lazy" width={64} height={64} />}
                                 </div>
                                 <div>
                                     <div className="pd-related-name">{r.name}</div>

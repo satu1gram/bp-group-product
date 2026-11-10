@@ -140,7 +140,7 @@ export function TestimonialWall() {
                                     }}
                                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-2 ${
                                         activeTab === tab.key 
-                                        ? 'bg-green-600 text-white shadow-lg shadow-green-200' 
+                                        ? 'bg-green-700 text-white shadow-lg shadow-green-200' 
                                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                     }`}
                                 >
@@ -192,7 +192,7 @@ export function TestimonialWall() {
                                 <p className="text-gray-500">Maaf, belum ada testimoni untuk kategori tersebut.</p>
                                 <button 
                                     onClick={() => {setSearchQuery(''); setActiveTab('all');}}
-                                    className="text-green-600 font-bold mt-2"
+                                    className="text-green-700 font-bold mt-2"
                                 >
                                     Reset Filter
                                 </button>
@@ -201,7 +201,7 @@ export function TestimonialWall() {
                     </>
                 )}
 
-                <p className="text-center text-xs text-gray-400 max-w-2xl mx-auto mt-10">
+                <p className="text-center text-xs text-gray-500 max-w-2xl mx-auto mt-10">
                     Testimoni adalah pengalaman pribadi masing-masing pengguna dan bukan klaim khasiat produk.
                     Hasil pada setiap orang bisa berbeda. Produk ini bukan pengganti obat atau saran dokter.
                 </p>

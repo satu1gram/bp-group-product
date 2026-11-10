@@ -4,7 +4,7 @@ export function SiteFooter() {
     return (
         <footer>
             <div className="logo-text">
-                <img src="/images/qm-logo.webp" alt="Quantum Millionaire"
+                <img src="/images/qm-logo-300.webp" width={152} height={50} alt="Quantum Millionaire"
                     style={{ height: '50px', width: 'auto', marginBottom: '12px' }} />
             </div>
             <div className="site-footer-links">

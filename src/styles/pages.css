@@ -2180,3 +2180,171 @@
     left: 12px;
     z-index: 3;
 }
+
+/* ─── Parallax bagian "Semua Produk British Propolis" ───
+   Native: CSS scroll-driven animation (tanpa JS). Lainnya: JS menyetel --plx
+   (src/lib/parallax.ts). Tanpa dukungan / "kurangi gerakan": tampil statis. */
+.parallax-section {
+    position: relative;
+    overflow-x: clip;
+    --plx-card: 28px;
+    --plx-img: 7%;
+    --plx-blob: 70px;
+}
+
+@media (max-width: 768px) {
+    .parallax-section {
+        --plx-card: 14px;
+        --plx-img: 5%;
+        --plx-blob: 40px;
+    }
+}
+
+.parallax-section > .brand-hero-left,
+.parallax-section > .brand-hero-right {
+    position: relative;
+    z-index: 1;
+}
+
+.plx-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(2px);
+}
+
+.plx-blob-1 {
+    width: 260px;
+    height: 260px;
+    right: 4%;
+    top: -40px;
+    background: radial-gradient(circle, rgba(91, 166, 104, 0.18) 0%, transparent 70%);
+}
+
+.plx-blob-2 {
+    width: 200px;
+    height: 200px;
+    left: 30%;
+    bottom: -30px;
+    background: radial-gradient(circle, rgba(200, 150, 42, 0.14) 0%, transparent 70%);
+}
+
+/* Gambar sedikit lebih tinggi dari kartu agar bisa bergeser tanpa celah */
+.parallax-grid .ingredient-card .ingredient-img {
+    top: -10% !important;
+    height: 120% !important;
+}
+
+@keyframes plx-card-up {
+    from { translate: 0 var(--plx-card); }
+    to { translate: 0 calc(var(--plx-card) * -1); }
+}
+
+@keyframes plx-card-down {
+    from { translate: 0 calc(var(--plx-card) * -0.5); }
+    to { translate: 0 calc(var(--plx-card) * 1.2); }
+}
+
+@keyframes plx-img {
+    from { translate: 0 calc(var(--plx-img) * -1); }
+    to { translate: 0 var(--plx-img); }
+}
+
+@keyframes plx-blob {
+    from { translate: 0 var(--plx-blob); }
+    to { translate: 0 calc(var(--plx-blob) * -1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+        .parallax-grid .ingredient-card:nth-child(odd),
+        .parallax-grid .ingredient-card:nth-child(even),
+        .parallax-grid .ingredient-card .ingredient-img,
+        .parallax-section .plx-blob {
+            animation-timing-function: linear;
+            animation-fill-mode: both;
+            animation-timeline: view();
+            animation-range: cover 0% cover 100%;
+        }
+
+        .parallax-grid .ingredient-card:nth-child(odd) {
+            animation-name: plx-card-up;
+        }
+
+        .parallax-grid .ingredient-card:nth-child(even) {
+            animation-name: plx-card-down;
+        }
+
+        .parallax-grid .ingredient-card .ingredient-img {
+            animation-name: plx-img;
+        }
+
+        .parallax-section .plx-blob {
+            animation-name: plx-blob;
+        }
+    }
+
+    /* Cadangan JS (Safari/iOS, Firefox lama) */
+    .plx-js .parallax-grid .ingredient-card:nth-child(odd) {
+        translate: 0 calc(var(--plx, 0) * var(--plx-card) * -1);
+    }
+
+    .plx-js .parallax-grid .ingredient-card:nth-child(even) {
+        translate: 0 calc(var(--plx, 0) * var(--plx-card) * 0.85);
+    }
+
+    .plx-js .parallax-grid .ingredient-card .ingredient-img {
+        translate: 0 calc(var(--plx, 0) * var(--plx-img));
+    }
+
+    .plx-js .plx-blob {
+        translate: 0 calc(var(--plx, 0) * var(--plx-blob) * -1);
+    }
+}
+
+/* Gambar bahan ditampilkan juga di HP/tablet (sebelumnya disembunyikan) agar
+   parallax terasa; tetap 2 kolom ringkas, juga di layar sempit */
+@media (max-width: 1024px) {
+    .ingredient-grid.parallax-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 12px;
+        background: var(--green-pale);
+        border-radius: 24px;
+        max-width: 520px;
+        margin: 8px auto 0;
+    }
+
+    .parallax-grid .ingredient-card {
+        aspect-ratio: 0.9 !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* ─── Kontras teks (aksesibilitas, standar WCAG AA 4.5:1) ─── */
+.card-tagline,
+.price-note,
+.article-card-meta {
+    color: var(--text-muted);
+}
+
+.world-label {
+    color: #4f7356;
+}
+
+.card-registrasi,
+.card-registrasi span,
+.card-registrasi strong,
+.card-detail-link {
+    color: var(--green-dark);
+}
+
+.card-badge.badge-gold {
+    color: #8a5300;
+}
+
+.share-fb {
+    color: #1464d8;
+}

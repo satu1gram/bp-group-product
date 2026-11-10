@@ -7,6 +7,7 @@ import { KATALOG_PRODUCTS } from "@/data/katalogProducts";
 import { Seo } from "@/lib/seo";
 import { SITE_URL, getWaLink } from "@/lib/site";
 import { breadcrumbLd, faqLd } from "@/lib/structuredData";
+import { productImg } from "@/lib/img";
 import NotFound from "./NotFound";
 
 export default function KebutuhanPage() {
@@ -83,7 +84,7 @@ export default function KebutuhanPage() {
                         {products.map((p) => (
                             <article key={p.id} className="need-product">
                                 <Link to={`/produk/${p.id}`} className={`need-product-img card-img-bg-wrap ${p.bgStyle}`}>
-                                    {p.image && <img src={p.image} alt={p.name} loading="lazy" />}
+                                    {p.image && <img {...productImg(p.image)} sizes="(max-width: 700px) 92vw, 340px" alt={p.name} loading="lazy" decoding="async" width={600} height={403} />}
                                 </Link>
                                 <div className="need-product-body">
                                     <Link to={`/produk/${p.id}`} className="need-product-name">{p.name}</Link>

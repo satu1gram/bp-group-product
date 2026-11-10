@@ -25,7 +25,7 @@ export function BusinessTestimonials() {
       latarBelakang: "Mantan Dosen & Ibu 3 Anak",
       pencapaian: "Umroh sekeluarga & Sukses jadi Mompreneur",
       cerita: "Sebagai mantan Dosen, saya sempat mengalami perang batin saat harus menitipkan anak-anak demi mengajar. Akhirnya saya memilih resign agar bisa membersamai anak di rumah. Alhamdulillah lewat BP, passion mengajar saya tetap tersalurkan melalui pembinaan komunitas. Bonusnya, saya bisa bantu ekonomi keluarga, sedekah untuk Palestina, bahkan mengumrohkan orang tua. Semuanya dari rumah.",
-      thumbnail: "/images/bisnis/tila akbar umroh.jpeg"
+      thumbnail: "/images/bisnis/tila-600.webp"
     },
     {
       id: 'estuning',
@@ -33,7 +33,7 @@ export function BusinessTestimonials() {
       latarBelakang: "Sosok Senior Mandiri",
       pencapaian: "Mulai Bisnis di Usia 79 & Produktif!",
       cerita: "Usia bukan halangan! Di usia 79 tahun, beliau belajar WhatsApp pelan-pelan dan berhasil menjual 2 botol dalam 2 hari. Semangatnya luar biasa untuk hidup mandiri tanpa merepotkan anak dan ingin memperbanyak sedekah. Beliau adalah bukti nyata bahwa yang penting adalah kesungguhan.",
-      thumbnail: "/images/bisnis/uti estuning.jpg"
+      thumbnail: "/images/bisnis/estuning-600.webp"
     },
     {
       id: 'masadib',

@@ -78,7 +78,7 @@ export default function ArtikelDetailPage() {
                         </span>
                         <h1>{article.title}</h1>
                         <div className="article-byline">
-                            <img src="/images/bisnis/tila akbar umroh.jpeg" alt="" aria-hidden="true" />
+                            <img src="/images/bisnis/avatar-tila.webp" alt="" aria-hidden="true" width={44} height={44} />
                             <div>
                                 <strong>Mbak Tila</strong>
                                 <span>{formatTanggal(article.published_at)} · {readingMinutes(article)} menit baca</span>

@@ -17,7 +17,7 @@ import {
     readingMinutes,
     slugify,
 } from "@/lib/content";
-import { formatTanggal } from "@/lib/site";
+import { formatTanggal, todayJakarta } from "@/lib/site";
 import { LEAD_COLUMNS, LEAD_STATUS_LABEL, type Lead, type LeadStatus } from "@/lib/leads";
 
 // Tabel baru belum ada di tipe Supabase hasil generate → akses tanpa tipe ketat
@@ -86,6 +86,15 @@ const EMPTY_ARTICLE: Omit<Article, "id" | "updated_at"> = {
 
 type ArticleDraft = typeof EMPTY_ARTICLE & { id?: string };
 
+/**
+ * "2026-11-03" → ISO pukul 08.00 WIB. Bila tanggalnya sama dengan yang tersimpan,
+ * jam aslinya dipertahankan (urutan artikel di hari yang sama tidak berubah).
+ */
+function pubDateToIso(date: string, current: string | null): string {
+    if (current && todayJakarta(new Date(current)) === date) return current;
+    return new Date(`${date}T08:00:00+07:00`).toISOString();
+}
+
 function insertAround(el: HTMLTextAreaElement, before: string, after = "", placeholder = "teks"): string {
     const { selectionStart: s, selectionEnd: e, value } = el;
     const selected = value.slice(s, e) || placeholder;
@@ -95,6 +104,8 @@ function insertAround(el: HTMLTextAreaElement, before: string, after = "", place
 function ArticleEditor({ initial, onDone }: { initial: ArticleDraft; onDone: (changed: boolean) => void }) {
     const [a, setA] = useState<ArticleDraft>(initial);
     const [slugTouched, setSlugTouched] = useState(Boolean(initial.id));
+    // Tanggal terbit (YYYY-MM-DD, WIB). Bisa diatur mundur sesuai kapan tulisan dibuat.
+    const [pubDate, setPubDate] = useState(initial.published_at ? todayJakarta(new Date(initial.published_at)) : "");
     const [preview, setPreview] = useState(false);
     const [saving, setSaving] = useState(false);
     const [msg, setMsg] = useState<Msg>(null);
@@ -129,7 +140,9 @@ function ArticleEditor({ initial, onDone }: { initial: ArticleDraft; onDone: (ch
             audience: a.audience,
             keyword: a.keyword?.trim() || null,
             status: publish ? "published" : "draft",
-            published_at: publish ? (a.published_at ?? new Date().toISOString()) : a.published_at,
+            published_at: pubDate
+                ? pubDateToIso(pubDate, a.published_at)
+                : publish ? (a.published_at ?? new Date().toISOString()) : a.published_at,
         };
         const query = a.id ? db.from("articles").update(row).eq("id", a.id) : db.from("articles").insert(row);
         const { data, error } = await query.select(ARTICLE_COLUMNS).single();
@@ -201,6 +214,15 @@ function ArticleEditor({ initial, onDone }: { initial: ArticleDraft; onDone: (ch
                         placeholder="Tampil di kartu artikel & hasil Google." />
                     <small>{(a.excerpt ?? "").length}/200</small>
                 </div>
+            </div>
+
+            <div className="adm-field">
+                <label htmlFor="a-date">Tanggal terbit</label>
+                <input id="a-date" type="date" value={pubDate} max={todayJakarta()} onChange={(e) => setPubDate(e.target.value)} />
+                <small>
+                    Kosongkan untuk memakai tanggal hari ini saat diterbitkan. Isi tanggal lampau bila tulisan dibuat
+                    sebelumnya (backdate). Urutan artikel di website mengikuti tanggal ini.
+                </small>
             </div>
 
             <ImageField label="Gambar sampul (opsional)" value={a.cover_url} folder="artikel" onChange={(v) => set("cover_url", v)} />

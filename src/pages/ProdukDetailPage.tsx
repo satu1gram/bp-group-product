@@ -9,6 +9,7 @@ import { ShareBar } from "@/components/site/ShareBar";
 import { Seo } from "@/lib/seo";
 import { getWaLink, SITE_URL } from "@/lib/site";
 import { breadcrumbLd, faqLd, productLd } from "@/lib/structuredData";
+import { productImg, productThumb } from "@/lib/img";
 import NotFound from "./NotFound";
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -61,7 +62,9 @@ export default function ProdukDetailPage() {
                 <article className="pd-hero">
                     <div className={`pd-img card-img-bg-wrap ${product.bgStyle}`}>
                         {product.image
-                            ? <img src={product.image} alt={product.name} />
+                            ? <img {...productImg(product.image)} sizes="(max-width: 860px) 92vw, 520px" alt={product.name}
+                                width={1200} height={805} decoding="async" {...{ fetchpriority: "high" }}
+                                style={product.imagePosition ? { objectPosition: product.imagePosition } : undefined} />
                             : <span className="material-symbols-rounded" aria-hidden="true">{product.emoji}</span>}
                     </div>
 
@@ -175,7 +178,7 @@ export default function ProdukDetailPage() {
                             {related.map((r) => (
                                 <Link key={r.id} to={`/produk/${r.id}`} className="pd-related-card">
                                     <div className={`pd-related-img card-img-bg-wrap ${r.bgStyle}`}>
-                                        {r.image && <img src={r.image} alt={r.name} loading="lazy" />}
+                                        {r.image && <img src={productThumb(r.image)} alt={r.name} loading="lazy" width={64} height={64} />}
                                     </div>
                                     <div>
                                         <div className="pd-related-name">{r.name}</div>
