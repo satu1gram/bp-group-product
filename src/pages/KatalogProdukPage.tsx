@@ -5,20 +5,19 @@ import '@/styles/ai-advisor.css';
 import '@/styles/pages.css';
 import { KATALOG_PRODUCTS } from '@/data/katalogProducts';
 import { TestimoniSection } from '@/components/TestimoniSection';
-import { BusinessTestimonials } from '@/components/BusinessTestimonials';
 import { TestimonialWall } from '@/components/TestimonialWall';
 import { generateAIAdvice, type RAGResult } from '@/lib/geminiRAG';
 import { trackEvent } from '@/lib/analytics';
 import { getWaLink, SITE_URL } from '@/lib/site';
 import { Seo } from '@/lib/seo';
 import { storeLd, productLd } from '@/lib/structuredData';
-import { KEUNTUNGAN_MITRA, LANGKAH_MITRA, PAKET_KEMITRAAN } from '@/data/kemitraan';
 import { SiteNav } from '@/components/site/SiteNav';
 import { SiteFooter } from '@/components/site/SiteFooter';
 import { WaIcon } from '@/components/site/WaIcon';
 import { PromoStrip } from '@/components/site/PromoStrip';
 import { ArticleTeaser } from '@/components/site/ArticleTeaser';
 import { KebutuhanGrid } from '@/components/site/KebutuhanGrid';
+import { MitraTeaser } from '@/components/site/MitraTeaser';
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
 
@@ -692,145 +691,13 @@ export default function KatalogProdukPage() {
             <ArticleTeaser />
 
             {/* ════════════════════════════════════════════════════════
-                DUNIA 3 — TENTANG BISNIS (Placeholder)
+                DUNIA 3 — PELUANG BISNIS (ringkas; detail lengkap di /mitra)
             ════════════════════════════════════════════════════════ */}
             <section className="world-section world-bisnis" id="bisnis" ref={sectionBisnisRef}>
 
                 <div className="container">
 
-                    {/* Hero Bisnis */}
-                    <div className="bisnis-hero fade-in">
-                        <div className="bisnis-hero-badge">
-                            <span className="material-symbols-rounded">trending_up</span>
-                            Quantum Millionaire Partner Program
-                        </div>
-                        <h2 className="bisnis-hero-title">
-                            Bukan Sekadar Konsumen<br />
-                            <em>Jadilah Mitra & Raih Penghasilan</em>
-                        </h2>
-                        <p className="bisnis-hero-sub">
-                            Bergabunglah bersama ribuan mitra aktif Quantum Millionaire.
-                            Bangun bisnis kesehatan yang menguntungkan sambil membantu orang-orang di sekitarmu hidup lebih sehat.
-                        </p>
-                        <a href={getWaLink('Halo Mbak Tila, saya tertarik bergabung sebagai mitra British Propolis. Bisa minta info lengkapnya?')}
-                            target="_blank" rel="noopener noreferrer"
-                            className="bisnis-hero-cta">
-                            <WaIcon size={20} />
-                            Saya Mau Jadi Mitra, Info Lengkap via WA
-                        </a>
-                    </div>
-
-                    {/* Keuntungan Menjadi Mitra */}
-                    <div className="bisnis-keuntungan-section fade-in" style={{ marginBottom: '60px' }}>
-                        <div className="world-section-header">
-                            <span className="tag">Mengapa Bergabung?</span>
-                            <h3>Hak & Keuntungan Mitra <em>Quantum Millionaire</em></h3>
-                        </div>
-                        <div className="bisnis-cards-grid">
-                            {KEUNTUNGAN_MITRA.map((item, i) => (
-                                <div key={i} className="bisnis-card">
-                                    <div className="bisnis-card-icon">
-                                        <span className="material-symbols-rounded">{item.icon}</span>
-                                    </div>
-                                    <div className="bisnis-card-title">{item.title}</div>
-                                    <div className="bisnis-card-desc">{item.desc}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Testimoni Bisnis (Sukses Mitra) */}
-                    <BusinessTestimonials />
-
-                    {/* Cara Bergabung */}
-                    <div className="bisnis-steps-section fade-in" style={{ marginBottom: '60px' }}>
-                        <div className="world-section-header">
-                            <span className="tag">Cara Bergabung</span>
-                            <h3>3 Langkah Mudah Mulai Bisnis</h3>
-                        </div>
-                        <div className="bisnis-steps-grid">
-                            {LANGKAH_MITRA.map((item, i) => (
-                                <div key={i} className="bisnis-step-card">
-                                    <div className="bisnis-step-num">{item.step}</div>
-                                    <div className="bisnis-step-icon">
-                                        <span className="material-symbols-rounded">{item.icon}</span>
-                                    </div>
-                                    <div className="bisnis-step-title">{item.title}</div>
-                                    <div className="bisnis-step-desc">{item.desc}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Paket Bisnis Mitra */}
-                    <div className="bisnis-paket-section fade-in">
-                        <div className="world-section-header">
-                            <span className="tag">Pilih Paket Kemitraan</span>
-                            <h3>Mulai Bisnis dengan <em>Membeli Produk BP</em></h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '12px' }}>
-                                Pembelian paket bisa di-MIX produknya (BP/Brassic/Norway/Belgie/Steffi)
-                            </p>
-                        </div>
-                        <div className="bisnis-paket-grid">
-                            {PAKET_KEMITRAAN.map((paket, i) => (
-                                <div key={i} className={`bisnis-paket-card ${paket.highlight ? 'paket-highlight' : ''}`}>
-                                    {paket.highlight && <div className="paket-best-badge">Paling Untung</div>}
-                                    <div className="paket-header">
-                                        <div className="paket-nama">{paket.nama}</div>
-                                        <div className="paket-jumlah">{paket.jumlah}</div>
-                                    </div>
-                                    <div className="paket-harga-utama">{paket.hargaPaket}</div>
-                                    <div className="paket-detail-table">
-                                        <div className="paket-row">
-                                            <span>Modal per botol</span>
-                                            <strong>{paket.modal}</strong>
-                                        </div>
-                                        <div className="paket-row">
-                                            <span>Harga jual satuan</span>
-                                            <strong>{paket.jual}</strong>
-                                        </div>
-                                        <div className="paket-row paket-row-untung">
-                                            <span>Untung per botol</span>
-                                            <strong>{paket.untung}</strong>
-                                        </div>
-                                        <div className="paket-row paket-row-potensi">
-                                            <span>Potensi untung max</span>
-                                            <strong>{paket.potensi}</strong>
-                                        </div>
-                                    </div>
-                                    <a href={getWaLink(`Halo Mbak Tila, saya tertarik dengan ${paket.nama} (${paket.jumlah}) seharga ${paket.hargaPaket}. Bisa info lebih lanjut?`)}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className="paket-cta-btn">
-                                        <WaIcon size={16} />
-                                        Ambil {paket.nama}
-                                    </a>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-
-                    {/* CTA Bisnis */}
-                    <div className="bisnis-cta-block fade-in">
-                        <h3 className="bisnis-cta-title">Siap Memulai Perjalanan Bisnismu?</h3>
-                        <p className="bisnis-cta-sub">Konsultasi gratis, tim kami akan bantu kamu memulai tanpa rasa bingung.</p>
-                        <div className="cta-btn-group">
-                            <a href={getWaLink('Halo Mbak Tila, saya tertarik bergabung sebagai mitra British Propolis. Bisa minta info lengkapnya?')}
-                                target="_blank" rel="noopener noreferrer" className="bisnis-cta-btn-primary">
-                                <WaIcon size={20} />
-                                Gabung Jadi Mitra via WA
-                            </a>
-                            <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk dulu sebelum bergabung sebagai mitra British Propolis')}
-                                target="_blank" rel="noopener noreferrer" className="bisnis-cta-btn-secondary">
-                                <span className="material-symbols-rounded">help_outline</span>
-                                Tanya-Tanya Dulu
-                            </a>
-                        </div>
-                        <div className="bisnis-more-links">
-                            <Link to="/mitra" className="bisnis-more-link">Pelajari program kemitraan →</Link>
-                            <Link to="/panduan-bisnis" className="bisnis-more-link">Panduan gratis 7 langkah mulai bisnis →</Link>
-                        </div>
-                    </div>
+                    <MitraTeaser />
 
                 </div>
             </section>

@@ -18,11 +18,23 @@ const KebutuhanIndexPage = lazy(() => import("./pages/KebutuhanIndexPage"));
 const MalangPage = lazy(() => import("./pages/MalangPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-/** Pindah halaman (tanpa #anchor) → mulai dari atas. */
+/** Pindah halaman → mulai dari atas; bila ada #anchor → gulir ke bagian itu (tunggu halaman lazy termuat). */
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    if (!hash) window.scrollTo(0, 0);
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (el || ++tries > 30) {
+        window.clearInterval(timer);
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+    return () => window.clearInterval(timer);
   }, [pathname, hash]);
   return null;
 }
