@@ -141,3 +141,26 @@ Ubah kalimat yang kurang pas dengan gaya Tila, lalu minta developer memperbaruin
 - Bagikan halaman kebutuhan yang relevan saat menjawab pertanyaan pelanggan di WhatsApp,
   misalnya ibu yang bertanya soal anak → `/kebutuhan/anak`.
 - Gambar produk dikecilkan ke lebar 1200 px (60–97% lebih ringan) supaya katalog lebih cepat dibuka.
+
+## G. Notifikasi Telegram saat ada kontak baru
+
+Setiap kali seseorang mengisi formulir di `/panduan-bisnis`, Tila menerima pesan Telegram
+berisi nama, nomor WA, kota, dan tombol link untuk langsung chat.
+
+1. **Buat bot.** Di Telegram buka **@BotFather** → kirim `/newbot` → beri nama, misalnya
+   `Notif Katalog Tila`, lalu username yang berakhiran `bot`. Salin **token** yang diberikan
+   (format `7123456789:AAH...`). Token ini rahasia.
+2. **Aktifkan bot.** Buka bot yang baru dibuat dari akun Telegram Tila → tekan **Start**
+   (atau kirim pesan apa saja).
+3. **Ambil chat id.** Buka di browser:
+   `https://api.telegram.org/bot<TOKEN>/getUpdates` (ganti `<TOKEN>`).
+   Cari `"chat":{"id":123456789` → angka itu adalah **chat id**.
+   Ingin dikirim ke grup (misalnya Tila + Anda)? Tambahkan bot ke grup, kirim satu pesan di grup,
+   lalu ulangi langkah ini. Chat id grup diawali tanda minus, contoh `-1001234567890`.
+4. **Pasang di Supabase.** Buka `supabase/migrations/20261110_notifikasi_leads_telegram.sql`,
+   ganti `ISI_TOKEN_BOT` dan `ISI_CHAT_ID`, lalu jalankan seluruhnya di **SQL Editor**.
+5. **Uji.** Isi formulir panduan sekali dengan data Anda sendiri, notifikasi masuk dalam beberapa detik.
+   Hapus kontak uji di tab Kontak Masuk / Table Editor.
+
+Token & chat id disimpan terenkripsi di Supabase Vault, tidak ada di kode website.
+Notifikasi berisi data pribadi calon mitra, jadi jangan tambahkan bot ke grup publik.
