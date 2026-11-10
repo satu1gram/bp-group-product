@@ -142,7 +142,14 @@ Ubah kalimat yang kurang pas dengan gaya Tila, lalu minta developer memperbaruin
   misalnya ibu yang bertanya soal anak → `/kebutuhan/anak`.
 - Gambar produk dikecilkan ke lebar 1200 px (60–97% lebih ringan) supaya katalog lebih cepat dibuka.
 
-## G. Notifikasi Telegram saat ada kontak baru
+## G. Notifikasi saat ada kontak baru
+
+**1) Calon mitra langsung chat Tila di WhatsApp.** Setelah mengisi formulir panduan, pengunjung
+melihat ajakan "Satu langkah lagi" dengan pesan WA yang sudah terisi (nama + kota). Di HP,
+WhatsApp terbuka otomatis setelah 3 detik (bisa dibatalkan dengan "Nanti saja"). Jadi sebagian besar
+kontak akan muncul sebagai chat masuk biasa di WA Tila.
+
+**2) Notifikasi Telegram sebagai jaring pengaman** — untuk yang tidak jadi mengirim chat:
 
 Setiap kali seseorang mengisi formulir di `/panduan-bisnis`, Tila menerima pesan Telegram
 berisi nama, nomor WA, kota, dan tombol link untuk langsung chat.

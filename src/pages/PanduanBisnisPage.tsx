@@ -11,6 +11,22 @@ import { getWaLink } from "@/lib/site";
 import { breadcrumbLd } from "@/lib/structuredData";
 
 const UNLOCK_KEY = "panduan_bisnis_terbuka";
+const CITY_KEY = "panduan_bisnis_kota";
+const REDIRECT_SECONDS = 3;
+
+/** Pesan WA yang dikirim calon mitra ke Mbak Tila setelah membuka panduan. */
+function leadWaMessage(name: string, city: string): string {
+    const asal = city.trim() ? ` dari ${city.trim()}` : "";
+    return `Halo Mbak Tila, saya ${name.trim()}${asal}. Saya baru membuka panduan 7 langkah mulai bisnis dari rumah di katalog dan ingin tanya-tanya soal jadi mitra.`;
+}
+
+function isTouchDevice(): boolean {
+    try {
+        return window.matchMedia("(pointer: coarse)").matches;
+    } catch {
+        return false;
+    }
+}
 
 function readUnlocked(): string | null {
     try {
@@ -23,6 +39,9 @@ function readUnlocked(): string | null {
 export default function PanduanBisnisPage() {
     // Selalu terkunci saat render awal (sama dengan HTML prerender), dibuka setelah mount bila tersimpan
     const [unlockedName, setUnlockedName] = useState<string | null>(null);
+    const [unlockedCity, setUnlockedCity] = useState("");
+    const [justSubmitted, setJustSubmitted] = useState(false);
+    const [redirectIn, setRedirectIn] = useState<number | null>(null);
     const [name, setName] = useState("");
     const [wa, setWa] = useState("");
     const [city, setCity] = useState("");
@@ -33,7 +52,32 @@ export default function PanduanBisnisPage() {
 
     useEffect(() => {
         setUnlockedName(readUnlocked());
+        try {
+            setUnlockedCity(localStorage.getItem(CITY_KEY) ?? "");
+        } catch {
+            /* abaikan */
+        }
     }, []);
+
+    const waAfter = getWaLink(leadWaMessage(unlockedName ?? "", unlockedCity));
+
+    // HP: setelah formulir terkirim, buka WhatsApp otomatis (bisa dibatalkan)
+    useEffect(() => {
+        if (redirectIn === null) return;
+        if (redirectIn <= 0) {
+            setRedirectIn(null);
+            trackEvent("lead_whatsapp_redirect", { lead_source: "panduan-bisnis" });
+            window.location.href = waAfter;
+            return;
+        }
+        const t = window.setTimeout(() => setRedirectIn((n) => (n === null ? null : n - 1)), 1000);
+        return () => window.clearTimeout(t);
+    }, [redirectIn, waAfter]);
+
+    const skipRedirect = () => {
+        setRedirectIn(null);
+        document.getElementById("langkah-1")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
 
     const submit = async (e: FormEvent) => {
         e.preventDefault();
@@ -55,15 +99,22 @@ export default function PanduanBisnisPage() {
         trackEvent("generate_lead", { lead_source: "panduan-bisnis" });
         try {
             localStorage.setItem(UNLOCK_KEY, name.trim());
+            localStorage.setItem(CITY_KEY, city.trim());
         } catch {
             /* abaikan */
         }
         setUnlockedName(name.trim());
-        setTimeout(() => document.getElementById("langkah-1")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+        setUnlockedCity(city.trim());
+        setJustSubmitted(true);
+        if (isTouchDevice()) {
+            setRedirectIn(REDIRECT_SECONDS);
+            setTimeout(() => document.querySelector(".guide-done")?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+        } else {
+            setTimeout(() => document.getElementById("langkah-1")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+        }
     };
 
     const unlocked = Boolean(unlockedName);
-    const waAfter = `Halo Mbak Tila, saya ${unlockedName ?? ""} sudah membaca panduan 7 langkah mulai bisnis dari rumah. Saya mau tanya-tanya lebih lanjut.`;
 
     return (
         <SiteLayout waMessage="Halo Mbak Tila, saya mau tanya soal panduan mulai bisnis dari rumah">
@@ -111,13 +162,29 @@ export default function PanduanBisnisPage() {
 
                     <aside className="guide-side">
                         {unlocked ? (
-                            <div className="guide-form guide-done">
-                                <span className="material-symbols-rounded" aria-hidden="true">celebration</span>
-                                <h2>Selamat membaca, {unlockedName}!</h2>
-                                <p>Ada yang ingin ditanyakan atau mau langsung mulai? Mbak Tila siap membantu.</p>
-                                <a href={getWaLink(waAfter)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
-                                    <WaIcon size={18} /> Chat Mbak Tila
+                            <div className={`guide-form guide-done ${justSubmitted ? "guide-done-new" : ""}`} aria-live="polite">
+                                <span className="material-symbols-rounded" aria-hidden="true">{justSubmitted ? "mark_chat_unread" : "celebration"}</span>
+                                {justSubmitted ? (
+                                    <>
+                                        <h2>Satu langkah lagi, {unlockedName}!</h2>
+                                        <p>Panduan sudah terbuka. Kirim pesan ke Mbak Tila supaya kamu dibantu memulai. Pesannya sudah kami siapkan, tinggal tekan kirim.</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <h2>Selamat membaca, {unlockedName}!</h2>
+                                        <p>Ada yang ingin ditanyakan atau mau langsung mulai? Mbak Tila siap membantu.</p>
+                                    </>
+                                )}
+                                <a href={waAfter} target="_blank" rel="noopener noreferrer" className="site-btn-wa guide-wa-btn"
+                                    onClick={() => setRedirectIn(null)}>
+                                    <WaIcon size={20} /> {justSubmitted ? "Kirim ke Mbak Tila via WhatsApp" : "Chat Mbak Tila"}
                                 </a>
+                                {redirectIn !== null && (
+                                    <p className="guide-redirect">
+                                        Membuka WhatsApp dalam {redirectIn} detik…{" "}
+                                        <button type="button" onClick={skipRedirect}>Nanti saja, baca panduan dulu</button>
+                                    </p>
+                                )}
                                 <Link to="/mitra#paket" className="site-btn-outline">Lihat pilihan paket</Link>
                             </div>
                         ) : (
@@ -148,6 +215,7 @@ export default function PanduanBisnisPage() {
                                 <button type="submit" className="site-btn-primary" disabled={busy}>
                                     {busy ? "Membuka…" : "Buka Panduan Gratis"}
                                 </button>
+                                <p className="guide-form-note">Setelah panduan terbuka, kamu bisa langsung ngobrol dengan Mbak Tila via WhatsApp.</p>
                             </form>
                         )}
                     </aside>
