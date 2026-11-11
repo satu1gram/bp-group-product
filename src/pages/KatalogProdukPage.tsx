@@ -244,13 +244,14 @@ export default function KatalogProdukPage() {
             ════════════════════════════════════════════════════════ */}
             <section className="world-section world-advisor" id="advisor" ref={sectionAdvisorRef}>
 
+                {/* Promo yang sedang berjalan: paling atas, sebelum konsultasi */}
+                <PromoStrip />
+
                 {/* Label dunia */}
                 <div className="world-label">
                     <span className="material-symbols-rounded">health_and_safety</span>
                     Konsultasi Kesehatan
                 </div>
-
-                <PromoStrip />
 
                 {/* ── Value Proposition Banner ── */}
                 <div className="advisor-value-banner fade-in">
