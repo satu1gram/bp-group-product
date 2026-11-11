@@ -17,7 +17,7 @@ export function BusinessTestimonials() {
       pencapaian: "Beli Mobil Pertama Secara CASH",
       cerita: "Alhamdulillah wa Syukurillah, berkah buat Pak Tamim dan Bu Idah, hasil wasilah bisnis BP bisa membeli mobil pertama mereka secara cash. Keberhasilan adalah hasil dari ketekunan dalam mengejar impian. Jika kami bisa, Anda pun pasti bisa!",
       videoUrl: "/videos/pak tamim.mp4",
-      thumbnail: "" // Menggunakan frame video sebagai cover
+      thumbnail: "/images/bisnis/poster-pak-tamim.webp" // cuplikan detik ke-3 video
     },
     {
       id: 'mbaktila',
@@ -42,7 +42,7 @@ export function BusinessTestimonials() {
       pencapaian: "Bebas dari Jeratan PHK & Jadi Distributor",
       cerita: "Dulu saya karyawan P13 yang rutinitasnya hanya rumah-pabrik dengan gaji pas-pasan. Beruntung saya merintis bisnis BP sejak usia 25, sehingga saat terkena PHK akibat pandemi, saya tidak panik karena sudah punya 'pegangan'. Sekarang omzet saya tembus ratusan juta, sudah 2x ke luar negeri, dan punya waktu fleksibel. Semua ini berkat bimbingan komunitas yang sangat positif.",
       videoUrl: "/videos/mas adib.mp4",
-      thumbnail: "" // Menggunakan frame video sebagai cover
+      thumbnail: "/images/bisnis/poster-mas-adib.webp" // cuplikan detik ke-12 video
     }
   ];
 
@@ -114,7 +114,7 @@ export function BusinessTestimonials() {
                     className="w-full h-full object-cover"
                     controls
                     playsInline
-                    preload="metadata"
+                    preload="none"
                     poster={mitra.thumbnail}
                   >
                     <source src={mitra.videoUrl} type="video/mp4" />
@@ -172,7 +172,7 @@ export function BusinessTestimonials() {
                     className="w-full h-full object-cover"
                     controls
                     playsInline
-                    preload="metadata"
+                    preload="none"
                     poster={mitra.thumbnail}
                   >
                     <source src={mitra.videoUrl} type="video/mp4" />
