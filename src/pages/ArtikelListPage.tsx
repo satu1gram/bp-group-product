@@ -4,18 +4,18 @@ import { ArticleCard } from "@/components/site/ArticleCard";
 import { useArticles } from "@/lib/initialData";
 import { Seo } from "@/lib/seo";
 import { breadcrumbLd } from "@/lib/structuredData";
-import type { ArticleAudience } from "@/lib/content";
-
-const FILTERS: { key: "all" | ArticleAudience; label: string }[] = [
-    { key: "all", label: "Semua" },
-    { key: "konsumen", label: "Hidup Sehat" },
-    { key: "mitra", label: "Bisnis dari Rumah" },
-];
+import { ARTICLE_CATEGORIES, resolveCategory, type ArticleCategory } from "@/lib/content";
 
 export default function ArtikelListPage() {
     const { data: articles, loading } = useArticles();
-    const [filter, setFilter] = useState<"all" | ArticleAudience>("all");
-    const shown = filter === "all" ? articles : articles.filter((a) => a.audience === filter);
+    const [filter, setFilter] = useState<"all" | ArticleCategory>("all");
+    // Hanya kategori yang sudah punya tulisan yang tampil di filter
+    const filters = [
+        { key: "all" as const, label: "Semua" },
+        ...ARTICLE_CATEGORIES.filter((c) => articles.some((a) => resolveCategory(a) === c.key)),
+    ];
+    const activeFilter = filters.some((f) => f.key === filter) ? filter : "all";
+    const shown = activeFilter === "all" ? articles : articles.filter((a) => resolveCategory(a) === activeFilter);
 
     return (
         <SiteLayout>
@@ -39,9 +39,9 @@ export default function ArtikelListPage() {
                 </header>
 
                 <div className="compact-filter-chips article-filters" role="tablist">
-                    {FILTERS.map((f) => (
-                        <button key={f.key} type="button" role="tab" aria-selected={filter === f.key}
-                            className={`cfc-chip ${filter === f.key ? "active" : ""}`} onClick={() => setFilter(f.key)}>
+                    {filters.map((f) => (
+                        <button key={f.key} type="button" role="tab" aria-selected={activeFilter === f.key}
+                            className={`cfc-chip ${activeFilter === f.key ? "active" : ""}`} onClick={() => setFilter(f.key)}>
                             {f.label}
                         </button>
                     ))}

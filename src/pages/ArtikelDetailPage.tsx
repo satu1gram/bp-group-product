@@ -6,7 +6,7 @@ import { WaIcon } from "@/components/site/WaIcon";
 import { ShareBar } from "@/components/site/ShareBar";
 import { Lightbox } from "@/components/site/Lightbox";
 import { useArticle, useArticles } from "@/lib/initialData";
-import { readingMinutes } from "@/lib/content";
+import { categoryMeta, readingMinutes, resolveCategory } from "@/lib/content";
 import { plainText, renderMarkdown } from "@/lib/markdown";
 import { Seo } from "@/lib/seo";
 import { SITE_URL, absoluteUrl, formatTanggal, getWaLink } from "@/lib/site";
@@ -37,7 +37,13 @@ export default function ArtikelDetailPage() {
     const waText = isMitra
         ? `Halo Mbak Tila, saya habis baca "${article.title}". Saya mau ngobrol soal bisnis dari rumah.`
         : `Halo Mbak Tila, saya habis baca "${article.title}". Mau tanya produk yang cocok untuk saya.`;
-    const others = all.filter((a) => a.slug !== article.slug && a.audience === article.audience).slice(0, 3);
+    const cat = categoryMeta(resolveCategory(article));
+    // Utamakan kategori yang sama, lalu lengkapi dengan artikel terbaru lainnya (maks. 3)
+    const rest = all.filter((a) => a.slug !== article.slug);
+    const others = [
+        ...rest.filter((a) => resolveCategory(a) === cat.key),
+        ...rest.filter((a) => resolveCategory(a) !== cat.key),
+    ].slice(0, 3);
 
     return (
         <SiteLayout waMessage={waText}>
@@ -56,6 +62,7 @@ export default function ArtikelDetailPage() {
                         datePublished: article.published_at,
                         dateModified: article.updated_at ?? article.published_at,
                         inLanguage: "id-ID",
+                        articleSection: cat.label,
                         mainEntityOfPage: `${SITE_URL}${path}`,
                         author: {
                             "@type": "Person",
@@ -77,9 +84,7 @@ export default function ArtikelDetailPage() {
 
                 <article className="article-detail">
                     <header>
-                        <span className={`article-chip article-chip-${article.audience}`}>
-                            {isMitra ? "Bisnis dari Rumah" : "Hidup Sehat"}
-                        </span>
+                        <span className={`article-chip article-chip-${cat.key}`}>{cat.label}</span>
                         <h1>{article.title}</h1>
                         <div className="article-byline">
                             <img src="/images/bisnis/avatar-tila.webp" alt="" aria-hidden="true" width={44} height={44} />

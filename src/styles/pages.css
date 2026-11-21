@@ -2607,3 +2607,29 @@
         to { opacity: 1; }
     }
 }
+
+/* ─── Warna label kategori artikel ─── */
+.article-chip-kisah {
+    background: #f3ecfb;
+    color: #5b3a8a;
+}
+
+.article-chip-produk {
+    background: #e8f1fb;
+    color: #1f4f8a;
+}
+
+.article-chip-sehat {
+    background: var(--green-pale);
+    color: var(--green-dark);
+}
+
+.article-chip-bisnis {
+    background: #fff4dc;
+    color: #8a6315;
+}
+
+.article-chip-gaya-hidup {
+    background: #e6f6f3;
+    color: #1d6b5c;
+}

@@ -22,10 +22,10 @@ const env = loadEnv("production", root, "");
 const SITE_URL = (env.SITE_URL || "https://katalog.mitrabp.biz.id").replace(/\/$/, "");
 
 const ssr = await import(pathToFileURL(path.join(root, "dist-ssr", "entry-server.js")).href);
-const { render, KATALOG_PRODUCTS, KEBUTUHAN, ARTICLE_COLUMNS, PROMO_COLUMNS, toListItem } = ssr;
+const { render, KATALOG_PRODUCTS, KEBUTUHAN, ARTICLE_COLUMNS, ARTICLE_COLUMNS_BASE, PROMO_COLUMNS, resolveCategory, toListItem } = ssr;
 
 // ── 1. Data dari Supabase ──
-async function fetchTable(table, query) {
+async function fetchTable(table, query, { quiet = false } = {}) {
   const url = env.VITE_SUPABASE_URL;
   const key = env.VITE_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return undefined;
@@ -37,15 +37,16 @@ async function fetchTable(table, query) {
     if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
     return await res.json();
   } catch (err) {
-    console.warn(`[prerender] gagal mengambil ${table}: ${err.message} → halaman tetap dibuat tanpa data ini`);
+    if (!quiet) console.warn(`[prerender] gagal mengambil ${table}: ${err.message} → halaman tetap dibuat tanpa data ini`);
     return undefined;
   }
 }
 
-const articles = await fetchTable(
-  "articles",
-  `select=${ARTICLE_COLUMNS}&status=eq.published&order=published_at.desc`
-);
+const articleQuery = (cols) => `select=${cols}&status=eq.published&order=published_at.desc`;
+// Bila migrasi kategori belum dijalankan, ambil tanpa kolom `category` (diturunkan dari "audience")
+const articles =
+  (await fetchTable("articles", articleQuery(ARTICLE_COLUMNS), { quiet: true })) ??
+  (await fetchTable("articles", articleQuery(ARTICLE_COLUMNS_BASE)));
 const promos = await fetchTable("promos", `select=${PROMO_COLUMNS}&is_active=eq.true`);
 const builtOn = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jakarta" }).format(new Date());
 console.log(`[prerender] data: ${articles ? articles.length : "-"} artikel, ${promos ? promos.length : "-"} promo`);
@@ -65,7 +66,14 @@ const pages = [
   ...(articles ?? []).map((a) => ({
     route: `/artikel/${a.slug}`,
     data: {
-      articles: [a, ...listItems.filter((o) => o.slug !== a.slug && o.audience === a.audience).slice(0, 3)],
+      // Sama dengan urutan di halaman artikel: kategori yang sama dulu, lalu artikel lain (maks. 3)
+      articles: [
+        a,
+        ...[
+          ...listItems.filter((o) => o.slug !== a.slug && resolveCategory(o) === resolveCategory(a)),
+          ...listItems.filter((o) => o.slug !== a.slug && resolveCategory(o) !== resolveCategory(a)),
+        ].slice(0, 3),
+      ],
     },
     lastmod: (a.updated_at || a.published_at || "").slice(0, 10),
     priority: "0.7",
