@@ -27,11 +27,11 @@ export function SiteNav({ waMessage }: { waMessage?: string }) {
         <>
             <nav>
                 <div className="nav-logo-wrap">
-                    <Link to="/" className="nav-logo nav-brand" aria-label="Beranda katalog Mbak Tila, Mitra British Propolis Malang">
-                        <img src="/images/bisnis/avatar-tila.webp" width={40} height={40} alt="" />
+                    <Link to="/" className="nav-logo nav-brand" aria-label="Beranda Katalog British Propolis">
+                        <span className="nav-brand-icon material-symbols-rounded" aria-hidden="true">hive</span>
                         <span className="nav-brand-text">
-                            <strong>Mbak Tila</strong>
-                            <span>Mitra British Propolis · Malang</span>
+                            <span>Katalog</span>
+                            <strong>British Propolis</strong>
                         </span>
                     </Link>
                 </div>

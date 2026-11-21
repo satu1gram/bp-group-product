@@ -13,7 +13,7 @@ export function HomeHero({ onPilihProduk }: { onPilihProduk: () => void }) {
                 <img src="/images/bisnis/avatar-tila.webp" alt="Foto Mbak Tila" width={56} height={56} {...{ fetchpriority: "high" }} />
                 <div>
                     <strong>Halo, saya Mbak Tila 👋</strong>
-                    <span>Siap bantu lewat WhatsApp</span>
+                    <span>Mitra British Propolis</span>
                 </div>
             </div>
 
@@ -36,7 +36,7 @@ export function HomeHero({ onPilihProduk }: { onPilihProduk: () => void }) {
             <ul className="home-hero-trust" aria-label="Jaminan">
                 <li><span className="material-symbols-rounded" aria-hidden="true">verified_user</span>Terdaftar BPOM</li>
                 <li><span className="material-symbols-rounded" aria-hidden="true">verified</span>Bersertifikat halal</li>
-                <li><span className="material-symbols-rounded" aria-hidden="true">local_shipping</span>Dikirim dari Malang</li>
+                <li><span className="material-symbols-rounded" aria-hidden="true">local_shipping</span>Kirim ke seluruh Indonesia</li>
             </ul>
             <p className="home-hero-cek">
                 Cek keaslian izin edar di{" "}
