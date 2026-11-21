@@ -1,8 +1,10 @@
+import { useCallback, useState } from "react";
 import { Link, useParams } from "react-router";
 import { SiteLayout, Breadcrumbs } from "@/components/site/SiteLayout";
 import { ArticleCard } from "@/components/site/ArticleCard";
 import { WaIcon } from "@/components/site/WaIcon";
 import { ShareBar } from "@/components/site/ShareBar";
+import { Lightbox } from "@/components/site/Lightbox";
 import { useArticle, useArticles } from "@/lib/initialData";
 import { readingMinutes } from "@/lib/content";
 import { plainText, renderMarkdown } from "@/lib/markdown";
@@ -15,6 +17,8 @@ export default function ArtikelDetailPage() {
     const { slug = "" } = useParams();
     const { data: article, loading } = useArticle(slug);
     const { data: all } = useArticles();
+    const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
+    const closeZoom = useCallback(() => setZoom(null), []);
 
     if (!article) {
         if (loading) {
@@ -86,9 +90,25 @@ export default function ArtikelDetailPage() {
                         </div>
                     </header>
 
-                    {article.cover_url && <img className="article-cover" src={article.cover_url} alt={article.title} />}
+                    {article.cover_url && (
+                        <button type="button" className="article-cover-btn" aria-label="Perbesar gambar sampul"
+                            onClick={() => setZoom({ src: article.cover_url!, alt: article.title })}>
+                            <img className="article-cover" src={article.cover_url} alt={article.title} width={1280} height={720} decoding="async" />
+                            <span className="article-cover-hint" aria-hidden="true">
+                                <span className="material-symbols-rounded">zoom_in</span> Perbesar
+                            </span>
+                        </button>
+                    )}
 
-                    <div className="article-content" dangerouslySetInnerHTML={{ __html: renderMarkdown(article.content) }} />
+                    <div className="article-content" dangerouslySetInnerHTML={{ __html: renderMarkdown(article.content) }}
+                        onClick={(e) => {
+                            // Klik gambar di dalam isi artikel → tampilkan lebih besar
+                            const t = e.target as HTMLElement;
+                            if (t.tagName === "IMG") {
+                                const img = t as HTMLImageElement;
+                                setZoom({ src: img.currentSrc || img.src, alt: img.alt || article.title });
+                            }
+                        }} />
 
                     <ShareBar path={path} title={article.title} label="Bermanfaat? Bagikan" />
 
@@ -136,6 +156,7 @@ export default function ArtikelDetailPage() {
                     </section>
                 )}
             </div>
+            {zoom && <Lightbox src={zoom.src} alt={zoom.alt} onClose={closeZoom} />}
         </SiteLayout>
     );
 }

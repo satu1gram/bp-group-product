@@ -187,3 +187,13 @@ Website tidak lagi memakai service worker (fitur aplikasi PWA), jadi tidak ada l
 "Versi baru tersedia / Update sekarang". Setiap kali website dibuka, pengunjung langsung mendapat
 versi terbaru (harga & promo selalu terkini). Pengunjung lama yang masih menyimpan versi lama
 otomatis dibersihkan saat membuka website, cukup sekali muat ulang tanpa perlu menekan apa pun.
+
+## I. Gambar sampul Catatan Tila
+
+- Di daftar `/artikel` semua gambar sampul tampil **16:9 dengan ukuran kartu yang sama**; bagian yang tidak
+  muat dipotong otomatis. Karena itu letakkan objek utama (wajah, produk) di **tengah** gambar.
+- Judul dan ringkasan dibatasi 3 baris, dan setiap kartu punya tautan **"Baca selengkapnya"**.
+- Di halaman artikel, **klik gambar sampul atau gambar di dalam tulisan** untuk melihatnya lebih besar
+  (tutup dengan tombol ✕, tombol Esc, atau klik di luar gambar).
+- Foto dari HP yang besar **dikecilkan otomatis** saat diunggah (sisi terpanjang maksimal 1800 px, format WebP),
+  jadi halaman tetap cepat dibuka.
