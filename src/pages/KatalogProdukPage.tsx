@@ -263,11 +263,6 @@ export default function KatalogProdukPage() {
                     Bantu Pilih Produk
                 </div>
 
-                {/* ── Value Proposition Banner ── */}
-                <div className="advisor-value-banner fade-in">
-                    <span className="advisor-value-stat">10.000+</span> keluarga Indonesia sudah memilih British Propolis untuk membantu menjaga kesehatan keluarga setiap hari.
-                </div>
-
                 {/* ── AI Advisor Card ── */}
                 <div className="advisor-embed-container">
                     <div className="advisor-embed-card fade-in">
@@ -483,7 +478,7 @@ export default function KatalogProdukPage() {
                                 {[
                                     { num: String(JUMLAH_PRODUK), label: 'Produk Unggulan' },
                                     { num: String(JUMLAH_KATEGORI), label: 'Kategori Utama' },
-                                    { num: '10rb+', label: 'Keluarga Terlayani' },
+                                    { num: 'UK', label: 'Asal Propolis' },
                                     { num: '2018', label: 'Berdiri Sejak' },
                                 ].map(s => (
                                     <div key={s.label}>
