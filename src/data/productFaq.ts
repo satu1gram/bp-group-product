@@ -1,5 +1,6 @@
 // FAQ per produk — bahasa disesuaikan pedoman klaim BPOM (lihat docs/pedoman-klaim-bpom.md).
 import type { ProductData } from "./katalogProducts";
+import { MARKETPLACES, marketplaceNames } from "./marketplace";
 
 export interface Faq {
     q: string;
@@ -45,6 +46,13 @@ export function getProductFaqs(p: ProductData): Faq[] {
         q: "Bagaimana cara pesan dan pengirimannya?",
         a: "Pesan cukup lewat WhatsApp: sebutkan produk, jumlah, dan alamat pengiriman. Pesanan dikirim dari Malang, ongkos kirim dihitung sesuai alamatmu.",
     });
+
+    if (MARKETPLACES.length > 0) {
+        faqs.push({
+            q: "Bisakah beli lewat marketplace?",
+            a: `Bisa, toko kami juga ada di ${marketplaceNames()}. Untuk konsultasi dan promo resmi, pesan lewat WhatsApp karena promo tidak berlaku di marketplace.`,
+        });
+    }
 
     if (p.category === "parfum") {
         faqs.push(

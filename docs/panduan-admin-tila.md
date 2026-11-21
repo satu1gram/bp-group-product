@@ -210,3 +210,10 @@ tulisan yang muncul sebagai filter.
 **Setup:** jalankan `supabase/migrations/20261121_kategori_artikel.sql` di Supabase → SQL Editor. SQL ini juga
 memetakan tulisan yang sudah ada (4 kisah Tila → Kisah & Hikmah, Goodie Bag → Gaya Hidup & Rumah Tangga).
 Sebelum SQL dijalankan website tetap normal (kategori diturunkan dari "untuk pembaca").
+
+## K. Toko marketplace
+
+Tautan toko diatur di `src/data/marketplace.ts` (Tokopedia sudah aktif). Untuk menampilkan Shopee, isi `url` Shopee di
+file itu; tombol di halaman produk & beranda, tautan footer, dan FAQ produk otomatis ikut. Promo hanya berlaku lewat
+WhatsApp (tertulis di halaman Promo). Klik tombol marketplace tercatat di GA4 sebagai `click_marketplace`
+(platform, halaman, produk).

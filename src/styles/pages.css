@@ -2633,3 +2633,65 @@
     background: #e6f6f3;
     color: #1d6b5c;
 }
+
+/* ─── Tautan toko marketplace ─── */
+.market-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-top: 4px;
+}
+
+.market-label {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.market-btns {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.market-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-md);
+    background: #fff;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.market-btn .material-symbols-rounded {
+    font-size: 18px;
+}
+
+.market-tokopedia .material-symbols-rounded {
+    color: #03840b;
+}
+
+.market-shopee .material-symbols-rounded {
+    color: #d23f1f;
+}
+
+.market-btn:hover {
+    border-color: var(--green);
+}
+
+.market-note {
+    display: flex;
+    justify-content: center;
+    margin: 14px 0 20px;
+}
+
+.market-note .market-links {
+    justify-content: center;
+    text-align: center;
+}

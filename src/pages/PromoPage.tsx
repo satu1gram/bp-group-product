@@ -87,7 +87,8 @@ export default function PromoPage() {
                 )}
 
                 <p className="health-disclaimer">
-                    Program promo mengikuti ketentuan resmi dari BP Group dan dapat berakhir lebih cepat bila kuota habis.
+                    Promo hanya berlaku untuk pemesanan lewat WhatsApp, tidak berlaku untuk pembelian di marketplace.
+                    Program mengikuti ketentuan resmi dari BP Group dan dapat berakhir lebih cepat bila kuota habis.
                 </p>
             </div>
         </SiteLayout>
