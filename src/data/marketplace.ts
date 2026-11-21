@@ -9,7 +9,7 @@ export interface Marketplace {
 
 const ALL: Marketplace[] = [
     { key: "tokopedia", name: "Tokopedia", url: "https://www.tokopedia.com/steffipro", logo: "/images/marketplace/tokopedia.svg" },
-    { key: "shopee", name: "Shopee", url: "", logo: "/images/marketplace/shopee.svg" }, // menyusul
+    { key: "shopee", name: "Shopee", url: "", logo: "/images/marketplace/shopee.svg" }, // menyusul: isi URL toko Shopee agar kartunya tampil
 ];
 
 export const MARKETPLACES: Marketplace[] = ALL.filter((m) => m.url);
