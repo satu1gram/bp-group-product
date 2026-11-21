@@ -2751,12 +2751,15 @@
     gap: 10px;
 }
 
-.nav-brand img {
+.nav-brand-icon {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--green-pale);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--green-pale);
+    color: var(--gold);
+    font-size: 24px;
 }
 
 .nav-brand .nav-brand-text {
@@ -2768,15 +2771,17 @@
 
 .nav-brand .nav-brand-text strong {
     font-family: 'DM Serif Display', serif;
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 400;
 }
 
 .nav-brand .nav-brand-text span {
     font-family: 'DM Sans', sans-serif;
-    font-size: 11.5px;
+    font-size: 10.5px;
+    font-weight: 600;
     color: var(--text-muted);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
 /* ── Hero beranda ── */

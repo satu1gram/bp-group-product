@@ -222,8 +222,8 @@ export default function KatalogProdukPage() {
         <div className="katalog-page-wrapper">
 
             <Seo
-                title="British Propolis Asli – Katalog & Konsultasi Gratis | Mbak Tila Malang"
-                description="Katalog lengkap British Propolis, Brassic, BP Norway & Belgie, terdaftar BPOM. Konsultasi produk gratis dan pesan langsung via WhatsApp bersama Mbak Tila, Malang."
+                title="British Propolis Asli – Katalog & Konsultasi Gratis | Mbak Tila"
+                description="Katalog lengkap British Propolis, Brassic, BP Norway & Belgie, terdaftar BPOM. Konsultasi produk gratis dan pesan langsung via WhatsApp bersama Mbak Tila. Kirim ke seluruh Indonesia."
                 path="/"
                 image="/og/default.jpg"
                 jsonLd={[
@@ -469,7 +469,7 @@ export default function KatalogProdukPage() {
                             <span className="section-tag">Healthy Living Guide</span>
                             <h2 className="brand-title">
                                 Semua Produk <em>British Propolis</em>
-                                <span className="brand-subtitle">(Katalog Mbak Tila, Malang)</span>
+                                <span className="brand-subtitle">(Katalog Mbak Tila)</span>
                             </h2>
                             <p className="brand-desc">
                                 Propolis dari lebah habitat 4 musim di East Yorkshire, Inggris, sumber flavonoid alami. Terdaftar di BPOM RI dan bersertifikat Halal (MUI/HMC), menjadi pilihan banyak keluarga Indonesia untuk menjaga kesehatan sehari-hari.
