@@ -2659,8 +2659,8 @@
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    min-width: 210px;
-    padding: 9px 16px 9px 10px;
+    min-width: 230px;
+    padding: 10px 16px 10px 16px;
     background: #fff;
     border: 1.5px solid color-mix(in srgb, var(--mk) 35%, #fff);
     border-radius: 14px;
@@ -2689,14 +2689,18 @@
 }
 
 .market-card img {
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
+    height: 26px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    align-self: flex-start;
+    display: block;
 }
 
 .market-card-text {
     display: flex;
     flex-direction: column;
+    gap: 3px;
     line-height: 1.15;
     flex: 1;
 }
