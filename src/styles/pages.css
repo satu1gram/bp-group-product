@@ -453,6 +453,8 @@
     overflow: hidden;
 }
 
+/* Area judul & ringkasan selalu setinggi 3 baris, sehingga SEMUA kartu (di daftar,
+   beranda, dan "Catatan Tila Lainnya") persis sama tinggi apa pun panjang tulisannya */
 .article-card-title {
     -webkit-line-clamp: 3;
     line-clamp: 3;
@@ -460,6 +462,7 @@
     font-weight: 400;
     font-size: 1.3rem;
     line-height: 1.25;
+    min-height: calc(3 * 1.25em);
     color: var(--text);
 }
 
@@ -469,6 +472,7 @@
     color: var(--text-muted);
     font-size: 14px;
     line-height: 1.6;
+    min-height: calc(3 * 1.6em);
 }
 
 .article-card-foot {
