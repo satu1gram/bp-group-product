@@ -4,7 +4,7 @@ import { getWaLink } from "@/lib/site";
 
 // Tautan halaman: Link (pindah halaman tanpa reload); tautan bagian beranda: <a href="/#...">
 export const NAV_ITEMS: { label: string; href: string; page?: boolean }[] = [
-    { label: "Konsultasi AI", href: "/#advisor" },
+    { label: "Pilih Produk", href: "/#advisor" },
     { label: "Produk", href: "/#produk" },
     { label: "Catatan Tila", href: "/artikel", page: true },
     { label: "Promo", href: "/promo", page: true },
@@ -21,15 +21,18 @@ function NavLink({ item, className }: { item: (typeof NAV_ITEMS)[number]; classN
 
 export function SiteNav({ waMessage }: { waMessage?: string }) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const waLink = getWaLink(waMessage);
+    const waLink = getWaLink(waMessage, waMessage && /mitra|bisnis|reseller|agen/i.test(waMessage) ? "M-NAV" : "K-NAV");
 
     return (
         <>
             <nav>
                 <div className="nav-logo-wrap">
-                    <Link to="/" className="nav-logo" aria-label="Beranda Katalog British Propolis">
-                        <img src="/images/qm-logo-300.webp" width={152} height={50} alt="Quantum Millionaire"
-                            style={{ height: '50px', width: 'auto', display: 'block', minWidth: '100px' }} />
+                    <Link to="/" className="nav-logo nav-brand" aria-label="Beranda katalog Mbak Tila, Mitra British Propolis Malang">
+                        <img src="/images/bisnis/avatar-tila.webp" width={40} height={40} alt="" />
+                        <span className="nav-brand-text">
+                            <strong>Mbak Tila</strong>
+                            <span>Mitra British Propolis · Malang</span>
+                        </span>
                     </Link>
                 </div>
                 <ul className="nav-links desktop-only">

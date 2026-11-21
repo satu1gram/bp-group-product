@@ -15,6 +15,7 @@ declare global {
 }
 
 const GA4_ID = import.meta.env.VITE_GA4_ID as string | undefined;
+const CLARITY_ID = import.meta.env.VITE_CLARITY_ID as string | undefined;
 let initialized = false;
 
 /** Kirim event ke GA4. Aman dipanggil walau GA belum aktif. */
@@ -43,11 +44,49 @@ function handleDocumentClick(e: MouseEvent): void {
         /* abaikan URL tidak valid */
     }
 
+    const code = message.match(/\[([KM]-[A-Z-]+)\]\s*$/)?.[1];
+    const intent = code ? (code.startsWith("M-") ? "mitra" : "beli")
+        : /mitra|bisnis|reseller|agen|paket/i.test(message) ? "mitra" : "beli";
+
     trackEvent("click_whatsapp", {
         section: link.closest("section[id], footer, nav, aside")?.id || link.closest("footer, nav, aside")?.tagName.toLowerCase() || "lainnya",
+        cta_location: (link.closest("[data-cta]") as HTMLElement | null)?.dataset.cta || code || "lainnya",
+        intent,
+        code,
         link_text: linkText(link),
         wa_message: message.slice(0, 100),
     });
+}
+
+/** Kedalaman gulir 25/50/75/90% per halaman → event `scroll_depth`. */
+function setupScrollDepth(): void {
+    let sent = new Set<number>();
+    let path = location.pathname;
+    let ticking = false;
+    const check = () => {
+        ticking = false;
+        if (location.pathname !== path) { path = location.pathname; sent = new Set(); }
+        const max = document.documentElement.scrollHeight - innerHeight;
+        if (max <= 0) return;
+        const pct = (scrollY / max) * 100;
+        for (const mark of [25, 50, 75, 90]) {
+            if (pct >= mark && !sent.has(mark)) {
+                sent.add(mark);
+                trackEvent("scroll_depth", { percent: mark, page_path: path });
+            }
+        }
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+}
+
+/** Microsoft Clarity (gratis: rekaman sesi & peta gulir). Aktif bila VITE_CLARITY_ID diisi. */
+function loadClarity(id: string): void {
+    const w = window as unknown as { clarity?: ((...a: unknown[]) => void) & { q?: unknown[] } };
+    w.clarity = w.clarity || Object.assign((...a: unknown[]) => { (w.clarity!.q = w.clarity!.q || []).push(a); }, {});
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = `https://www.clarity.ms/tag/${encodeURIComponent(id)}`;
+    document.head.appendChild(s);
 }
 
 export function initAnalytics(): void {
@@ -69,5 +108,8 @@ export function initAnalytics(): void {
         window.gtag("config", GA4_ID);
     }
 
+    if (CLARITY_ID) loadClarity(CLARITY_ID);
+
     document.addEventListener("click", handleDocumentClick, { capture: true });
+    setupScrollDepth();
 }

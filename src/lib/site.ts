@@ -8,8 +8,13 @@ export const WA_NUMBER = "6287782697973";
 
 export const DEFAULT_WA_MESSAGE = "Halo Mbak Tila, saya mau konsultasi produk British Propolis";
 
-export function getWaLink(text?: string): string {
-    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text || DEFAULT_WA_MESSAGE)}`;
+/**
+ * Link WhatsApp. `code` (mis. "K-HERO", "M-MITRA") ditempel di akhir pesan agar Tila tahu
+ * chat datang dari tombol mana. Awalan K- = calon pembeli, M- = calon mitra.
+ */
+export function getWaLink(text?: string, code?: string): string {
+    const msg = (text || DEFAULT_WA_MESSAGE) + (code ? ` [${code}]` : "");
+    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
 export function absoluteUrl(path: string): string {

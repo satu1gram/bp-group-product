@@ -29,7 +29,7 @@ export function MitraTeaser() {
                     Mau Punya Penghasilan <em>dari Rumah?</em>
                 </h2>
                 <blockquote className="mitra-teaser-quote">
-                    “Saya Tila, mantan dosen dan ibu 3 anak. Sejak resign, saya membangun bisnis British Propolis dari
+                    “Saya Mbak Tila, mantan dosen dan ibu 3 anak. Sejak resign, saya membangun bisnis British Propolis dari
                     rumah, dan sekarang membimbing ibu-ibu lain untuk memulainya.”
                 </blockquote>
 
@@ -62,7 +62,7 @@ export function MitraTeaser() {
                     <Link to="/panduan-bisnis" className="mt-btn-ghost">Panduan Gratis 7 Langkah</Link>
                 </div>
                 <a className="mitra-teaser-wa" target="_blank" rel="noopener noreferrer"
-                    href={getWaLink("Halo Mbak Tila, saya lihat bagian peluang bisnis di katalog. Saya mau tanya-tanya dulu.")}>
+                    href={getWaLink("Halo Mbak Tila, saya lihat bagian peluang bisnis di katalog. Saya mau tanya-tanya dulu.", "M-BERANDA")}>
                     <WaIcon size={16} /> atau tanya-tanya dulu via WhatsApp
                 </a>
             </div>

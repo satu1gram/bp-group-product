@@ -56,7 +56,7 @@ export default function KebutuhanPage() {
                     <h1>{k.h1}</h1>
                     {k.intro.map((p) => <p key={p}>{p}</p>)}
                     <div className="site-btn-row">
-                        <a href={getWaLink(waText)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
+                        <a href={getWaLink(waText, "K-KEBUTUHAN")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                             <WaIcon size={18} /> Tanya Mbak Tila (gratis)
                         </a>
                         <a href="/#advisor" className="site-btn-outline">Coba Konsultasi AI</a>
@@ -91,7 +91,7 @@ export default function KebutuhanPage() {
                                     <p>{p.description}</p>
                                     <div className="need-product-foot">
                                         <strong>{p.price}</strong>
-                                        <a href={getWaLink(`Halo Mbak Tila, saya mau pesan ${p.name}`)} target="_blank" rel="noopener noreferrer" className="share-btn share-wa">
+                                        <a href={getWaLink(`Halo Mbak Tila, saya mau pesan ${p.name}`, "K-KEBUTUHAN")} target="_blank" rel="noopener noreferrer" className="share-btn share-wa">
                                             <WaIcon size={14} /> Pesan
                                         </a>
                                     </div>

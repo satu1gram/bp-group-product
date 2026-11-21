@@ -16,6 +16,8 @@ import { ArticleTeaser } from '@/components/site/ArticleTeaser';
 import { KebutuhanGrid } from '@/components/site/KebutuhanGrid';
 import { MitraTeaser } from '@/components/site/MitraTeaser';
 import { MarketplaceLinks } from '@/components/site/MarketplaceLinks';
+import { HomeHero } from '@/components/site/HomeHero';
+import { MitraBridge } from '@/components/site/MitraBridge';
 import { setupReveal } from '@/lib/reveal';
 import { setupParallax } from '@/lib/parallax';
 import { productImg, productThumb } from '@/lib/img';
@@ -26,10 +28,11 @@ const JUMLAH_KATEGORI = new Set(KATALOG_PRODUCTS.map(p => p.category)).size;
 
 // ─── Konstanta ───────────────────────────────────────────────────────────────
 
+// Pilihan berupa kebutuhan umum (bukan nama penyakit) agar sesuai aturan klaim BPOM.
 const COMPLAINT_OPTIONS = [
-    "Susah Tidur", "Badan Pegal", "Daya Tahan Tubuh", "Mata Lelah",
-    "Kurangi Gula", "Nutrisi Anak", "Rambut Rontok", "Kulit Kusam",
-    "Sering Flu", "Kurang Fokus", "Flek Hitam", "Kurang Stamina"
+    "Daya Tahan Tubuh", "Nutrisi Anak", "Stamina Harian", "Istirahat Nyaman",
+    "Mata Sering Menatap Layar", "Kurangi Gula", "Badan Pegal", "Fokus Belajar & Kerja",
+    "Musim Pancaroba", "Perawatan Rambut", "Perawatan Kulit", "Parfum & Wangi"
 ];
 
 export const KELUHAN_FILTER_TABS = [
@@ -245,13 +248,19 @@ export default function KatalogProdukPage() {
             ════════════════════════════════════════════════════════ */}
             <section className="world-section world-advisor" id="advisor" ref={sectionAdvisorRef}>
 
-                {/* Promo yang sedang berjalan: paling atas, sebelum konsultasi */}
+                {/* Pembuka: identitas Tila + satu ajakan utama (pembeli) + jalur tenang (mitra) */}
+                <HomeHero onPilihProduk={() => {
+                    document.querySelector('.advisor-embed-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    window.setTimeout(() => (document.querySelector('.advisor-chips .chip') as HTMLElement | null)?.focus({ preventScroll: true }), 600);
+                }} />
+
+                {/* Promo yang sedang berjalan */}
                 <PromoStrip />
 
                 {/* Label dunia */}
                 <div className="world-label">
-                    <span className="material-symbols-rounded">health_and_safety</span>
-                    Konsultasi Kesehatan
+                    <span className="material-symbols-rounded">auto_awesome</span>
+                    Bantu Pilih Produk
                 </div>
 
                 {/* ── Value Proposition Banner ── */}
@@ -266,15 +275,15 @@ export default function KatalogProdukPage() {
                         <div className="advisor-embed-header" style={{ marginBottom: '40px' }}>
                             <div className="advisor-live-badge" style={{ marginBottom: '16px' }}>
                                 <span className="advisor-dot" />
-                                <span>Konsultasi AI</span>
+                                <span>Asisten AI</span>
                                 <span className="advisor-free-tag">Gratis</span>
                             </div>
-                            <h1 className="advisor-embed-title">
-                                Bingung Pilih Produk?<br />
-                                <em>Ceritakan Keluhanmu</em>
-                            </h1>
+                            <h2 className="advisor-embed-title">
+                                Apa yang Sedang<br />
+                                <em>Kamu Butuhkan?</em>
+                            </h2>
                             <p className="advisor-embed-sub" style={{ marginTop: '16px' }}>
-                                Pilih keluhan di bawah, AI kami rekomendasikan produk paling tepat dalam hitungan detik.
+                                Pilih kebutuhan di bawah, asisten AI bantu cocokkan dengan produk sesuai label dalam hitungan detik.
                             </p>
                         </div>
 
@@ -288,7 +297,7 @@ export default function KatalogProdukPage() {
                         </div>
 
                         <textarea ref={complaintTextRef} className="ai-textarea"
-                            placeholder="Atau ceritakan keluhan Anda secara lengkap di sini (opsional)..."
+                            placeholder="Atau ceritakan kebutuhanmu di sini, misalnya: untuk anak 5 tahun yang aktif (opsional)..."
                             value={complaintText}
                             onChange={e => handleTextChange(e.target.value)}
                             rows={3}
@@ -300,7 +309,7 @@ export default function KatalogProdukPage() {
                         >
                             {isAnalyzing
                                 ? <><span className="ai-spinner" style={{ display: 'block' }} />Sedang Menganalisis...</>
-                                : <><span className="material-symbols-rounded" style={{ fontSize: '20px' }}>health_and_safety</span>Analisis & Rekomendasikan Produk</>
+                                : <><span className="material-symbols-rounded" style={{ fontSize: '20px' }}>auto_awesome</span>Cocokkan Produk untuk Saya</>
                             }
                         </button>
 
@@ -317,6 +326,9 @@ export default function KatalogProdukPage() {
                                     </span>
                                 ))}
                             </div>
+                            <p className="advisor-disclaimer">
+                                Rekomendasi bersifat umum sesuai label produk, bukan diagnosis. Untuk kondisi medis, konsultasikan dengan tenaga kesehatan.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -381,7 +393,7 @@ export default function KatalogProdukPage() {
                                                         )}
                                                         <div className="inline-reco-price">{product.price}</div>
                                                     </div>
-                                                    <a href={getWaLink(waMsg)} target="_blank" rel="noopener noreferrer"
+                                                    <a href={getWaLink(waMsg, 'K-AI')} target="_blank" rel="noopener noreferrer"
                                                         className="inline-reco-wa-btn">
                                                         <WaIcon size={16} />
                                                         <span>Pesan</span>
@@ -521,6 +533,9 @@ export default function KatalogProdukPage() {
                     <div className="market-note fade-in">
                         <MarketplaceLinks placement="beranda" label="Tersedia juga di marketplace:" />
                     </div>
+
+                    {/* Jembatan ke /mitra di layar 2–3 (bagian Bisnis lengkap ada di bawah & di /mitra) */}
+                    <MitraBridge />
 
                     {/* ── Compact Filter Bar ── */}
                     <div className="compact-filter-bar fade-in">
@@ -662,7 +677,7 @@ export default function KatalogProdukPage() {
                                                             )}
                                                         </div>
                                                     )}
-                                                    <a href={getWaLink(waMsg)} target="_blank" rel="noopener noreferrer"
+                                                    <a href={getWaLink(waMsg, 'K-PRODUK')} target="_blank" rel="noopener noreferrer"
                                                         className="btn-cta-wa" style={{ width: '100%', justifyContent: 'center' }}>
                                                         <span className="material-symbols-rounded" style={{ marginRight: '8px' }}>chat_bubble</span>
                                                         Pesan Sekarang via WA
@@ -713,7 +728,7 @@ export default function KatalogProdukPage() {
             <SiteFooter />
 
             {/* ════════════════ STICKY WA (Desktop) ════════════════ */}
-            <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')}
+            <a href={getWaLink('Halo Mbak Tila, saya mau tanya produk British Propolis', 'K-STICKY')}
                 target="_blank" rel="noopener noreferrer"
                 className="sticky-wa desktop-only" title="Hubungi via WhatsApp">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -725,8 +740,8 @@ export default function KatalogProdukPage() {
             {/* ════════════════ MOBILE STICKY BAR (4 tombol) ════════════════ */}
             <div className="mobile-sticky-bar mobile-only">
                 <button type="button" className="mobile-bar-btn" onClick={() => scrollTo(sectionAdvisorRef)}>
-                    <span className="material-symbols-rounded">health_and_safety</span>
-                    <span>Konsultasi</span>
+                    <span className="material-symbols-rounded">auto_awesome</span>
+                    <span>Pilih</span>
                 </button>
                 <div className="mobile-bar-divider" />
                 <button type="button" className="mobile-bar-btn" onClick={() => scrollTo(sectionProdukRef)}>
@@ -734,12 +749,12 @@ export default function KatalogProdukPage() {
                     <span>Produk</span>
                 </button>
                 <div className="mobile-bar-divider" />
-                <button type="button" className="mobile-bar-btn" onClick={() => scrollTo(sectionBisnisRef)}>
+                <Link to="/mitra" className="mobile-bar-btn" onClick={() => trackEvent('partner_cta_click', { cta_location: 'bar' })}>
                     <span className="material-symbols-rounded">handshake</span>
-                    <span>Bisnis</span>
-                </button>
+                    <span>Jadi Mitra</span>
+                </Link>
                 <div className="mobile-bar-divider" />
-                <a href={getWaLink('Halo Mbak Tila, saya mau konsultasi produk British Propolis')}
+                <a href={getWaLink('Halo Mbak Tila, saya mau tanya produk British Propolis', 'K-BAR')}
                     target="_blank" rel="noopener noreferrer"
                     className="mobile-bar-btn mobile-bar-wa">
                     <WaIcon size={20} />
