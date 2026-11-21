@@ -2633,3 +2633,113 @@
     background: #e6f6f3;
     color: #1d6b5c;
 }
+
+/* ─── Tautan toko marketplace ─── */
+.market-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-top: 4px;
+}
+
+.market-label {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.market-btns {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.market-card {
+    --mk: var(--green);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 230px;
+    padding: 10px 16px 10px 16px;
+    background: #fff;
+    border: 1.5px solid color-mix(in srgb, var(--mk) 35%, #fff);
+    border-radius: 14px;
+    color: var(--text);
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.market-tokopedia {
+    --mk: #2f9a36;
+}
+
+.market-shopee {
+    --mk: #d23f1f;
+}
+
+.market-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--mk);
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--mk) 22%, transparent);
+}
+
+.market-card:active {
+    transform: scale(0.98);
+}
+
+.market-card img {
+    height: 26px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    align-self: flex-start;
+    display: block;
+}
+
+.market-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    line-height: 1.15;
+    flex: 1;
+}
+
+.market-card-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.market-card-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--mk);
+}
+
+.market-card-go {
+    font-size: 20px;
+    color: var(--mk);
+    transition: transform 0.15s;
+}
+
+.market-card:hover .market-card-go {
+    transform: translate(2px, -2px);
+}
+
+@media (max-width: 480px) {
+    .market-btns,
+    .market-card {
+        width: 100%;
+    }
+}
+
+.market-note {
+    display: flex;
+    justify-content: center;
+    margin: 14px 0 20px;
+}
+
+.market-note .market-links {
+    justify-content: center;
+    text-align: center;
+}

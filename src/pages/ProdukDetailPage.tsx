@@ -6,6 +6,7 @@ import { KEBUTUHAN } from "@/data/kebutuhan";
 import { SiteLayout, Breadcrumbs } from "@/components/site/SiteLayout";
 import { WaIcon } from "@/components/site/WaIcon";
 import { ShareBar } from "@/components/site/ShareBar";
+import { MarketplaceLinks } from "@/components/site/MarketplaceLinks";
 import { Seo } from "@/lib/seo";
 import { getWaLink, SITE_URL } from "@/lib/site";
 import { breadcrumbLd, faqLd, productLd } from "@/lib/structuredData";
@@ -133,6 +134,7 @@ export default function ProdukDetailPage() {
                                     Tanya dulu (gratis)
                                 </a>
                             </div>
+                            <MarketplaceLinks placement="produk" product={product.id} />
                         </div>
                         <ShareBar path={path} title={`${product.name} – ${product.tagline.replace(/^✨\s*/, "")}`} />
                     </div>

@@ -15,6 +15,7 @@ import { PromoStrip } from '@/components/site/PromoStrip';
 import { ArticleTeaser } from '@/components/site/ArticleTeaser';
 import { KebutuhanGrid } from '@/components/site/KebutuhanGrid';
 import { MitraTeaser } from '@/components/site/MitraTeaser';
+import { MarketplaceLinks } from '@/components/site/MarketplaceLinks';
 import { setupReveal } from '@/lib/reveal';
 import { setupParallax } from '@/lib/parallax';
 import { productImg, productThumb } from '@/lib/img';
@@ -516,6 +517,9 @@ export default function KatalogProdukPage() {
                                 </div>
                             </React.Fragment>
                         ))}
+                    </div>
+                    <div className="market-note fade-in">
+                        <MarketplaceLinks placement="beranda" label="Tersedia juga di marketplace:" />
                     </div>
 
                     {/* ── Compact Filter Bar ── */}
