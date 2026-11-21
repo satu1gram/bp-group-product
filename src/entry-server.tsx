@@ -10,7 +10,7 @@ import { InitialDataContext, type InitialData } from "./lib/initialData";
 
 export { KATALOG_PRODUCTS } from "./data/katalogProducts";
 export { KEBUTUHAN } from "./data/kebutuhan";
-export { ARTICLE_COLUMNS, PROMO_COLUMNS } from "./lib/content";
+export { ARTICLE_COLUMNS, ARTICLE_COLUMNS_BASE, PROMO_COLUMNS, resolveCategory } from "./lib/content";
 export { buildHeadHtml };
 
 export interface RenderResult {

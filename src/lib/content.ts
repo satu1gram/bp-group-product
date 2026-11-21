@@ -4,6 +4,26 @@ import { todayJakarta } from "./site";
 
 export type ArticleAudience = "konsumen" | "mitra";
 export type ArticleStatus = "draft" | "published";
+export type ArticleCategory = "kisah" | "produk" | "sehat" | "bisnis" | "gaya-hidup";
+
+/** Kategori (topik) artikel, urutan = urutan tampil di filter. */
+export const ARTICLE_CATEGORIES: { key: ArticleCategory; label: string; icon: string; desc: string }[] = [
+    { key: "kisah", label: "Kisah & Hikmah", icon: "auto_stories", desc: "Cerita pribadi, niat, dan nilai" },
+    { key: "produk", label: "Mengenal Produk", icon: "inventory_2", desc: "Cek keaslian, beda varian, cara pakai" },
+    { key: "sehat", label: "Hidup Sehat", icon: "favorite", desc: "Kebiasaan keluarga yang sehat" },
+    { key: "bisnis", label: "Bisnis dari Rumah", icon: "handshake", desc: "Panduan praktis berjualan" },
+    { key: "gaya-hidup", label: "Gaya Hidup & Rumah Tangga", icon: "home", desc: "Kebiasaan sehari-hari yang bermanfaat" },
+];
+
+export function categoryMeta(key: ArticleCategory) {
+    return ARTICLE_CATEGORIES.find((c) => c.key === key) ?? ARTICLE_CATEGORIES[2];
+}
+
+/** Kategori artikel; bila belum diisi, diturunkan dari "untuk pembaca". */
+export function resolveCategory(a: Pick<Article, "category" | "audience">): ArticleCategory {
+    if (a.category && ARTICLE_CATEGORIES.some((c) => c.key === a.category)) return a.category;
+    return a.audience === "mitra" ? "bisnis" : "sehat";
+}
 
 export interface Article {
     id: string;
@@ -13,6 +33,8 @@ export interface Article {
     content: string;
     cover_url: string | null;
     audience: ArticleAudience;
+    /** Kosong sampai migrasi kategori dijalankan → lihat resolveCategory() */
+    category?: ArticleCategory | null;
     status: ArticleStatus;
     keyword: string | null;
     published_at: string | null;
@@ -36,8 +58,14 @@ export interface Promo {
     created_at?: string;
 }
 
-export const ARTICLE_COLUMNS =
+export const ARTICLE_COLUMNS_BASE =
     "id,slug,title,excerpt,content,cover_url,audience,status,keyword,published_at,updated_at";
+export const ARTICLE_COLUMNS = `${ARTICLE_COLUMNS_BASE},category`;
+
+/** True bila error Supabase berarti kolom `category` belum ada (migrasi belum dijalankan). */
+export function isMissingCategoryColumn(err: { message?: string } | null | undefined): boolean {
+    return Boolean(err?.message && /category/i.test(err.message));
+}
 export const PROMO_COLUMNS =
     "id,title,description,terms,image_url,starts_at,ends_at,wa_message,is_active,sort_order";
 
@@ -55,25 +83,22 @@ export function sortPromos(list: Promo[]): Promo[] {
 
 export async function fetchPublishedArticles(): Promise<Article[]> {
     if (!supabase) return [];
-    const { data, error } = await supabase
-        .from("articles")
-        .select(ARTICLE_COLUMNS)
-        .eq("status", "published")
-        .order("published_at", { ascending: false });
+    const run = (cols: string) =>
+        supabase.from("articles").select(cols).eq("status", "published").order("published_at", { ascending: false });
+    let { data, error } = await run(ARTICLE_COLUMNS);
+    if (error && isMissingCategoryColumn(error)) ({ data, error } = await run(ARTICLE_COLUMNS_BASE));
     if (error) throw error;
-    return (data ?? []) as Article[];
+    return (data ?? []) as unknown as Article[];
 }
 
 export async function fetchArticleBySlug(slug: string): Promise<Article | null> {
     if (!supabase) return null;
-    const { data, error } = await supabase
-        .from("articles")
-        .select(ARTICLE_COLUMNS)
-        .eq("slug", slug)
-        .eq("status", "published")
-        .maybeSingle();
+    const run = (cols: string) =>
+        supabase.from("articles").select(cols).eq("slug", slug).eq("status", "published").maybeSingle();
+    let { data, error } = await run(ARTICLE_COLUMNS);
+    if (error && isMissingCategoryColumn(error)) ({ data, error } = await run(ARTICLE_COLUMNS_BASE));
     if (error) throw error;
-    return (data as Article) ?? null;
+    return (data as unknown as Article) ?? null;
 }
 
 export async function fetchActivePromos(): Promise<Promo[]> {

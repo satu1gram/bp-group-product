@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import type { Article } from "@/lib/content";
-import { readingMinutes } from "@/lib/content";
+import { categoryMeta, readingMinutes, resolveCategory } from "@/lib/content";
 import { plainText } from "@/lib/markdown";
 import { formatTanggal } from "@/lib/site";
 
@@ -10,17 +10,16 @@ import { formatTanggal } from "@/lib/site";
  */
 export function ArticleCard({ article }: { article: Article }) {
     const excerpt = article.excerpt || plainText(article.content, 160);
+    const cat = categoryMeta(resolveCategory(article));
     return (
         <Link to={`/artikel/${article.slug}`} className="article-card">
             <div className="article-card-img">
                 {article.cover_url
                     ? <img src={article.cover_url} alt="" loading="lazy" decoding="async" width={640} height={360} />
-                    : <span className="material-symbols-rounded" aria-hidden="true">{article.audience === 'mitra' ? 'handshake' : 'eco'}</span>}
+                    : <span className="material-symbols-rounded" aria-hidden="true">{cat.icon}</span>}
             </div>
             <div className="article-card-body">
-                <span className={`article-chip article-chip-${article.audience}`}>
-                    {article.audience === 'mitra' ? 'Bisnis dari Rumah' : 'Hidup Sehat'}
-                </span>
+                <span className={`article-chip article-chip-${cat.key}`}>{cat.label}</span>
                 <h3 className="article-card-title">{article.title}</h3>
                 <p className="article-card-excerpt">{excerpt}</p>
                 <div className="article-card-foot">

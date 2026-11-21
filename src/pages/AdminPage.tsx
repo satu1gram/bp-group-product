@@ -9,6 +9,12 @@ import { checkClaims } from "@/lib/bpomChecker";
 import { renderMarkdown } from "@/lib/markdown";
 import {
     ARTICLE_COLUMNS,
+    ARTICLE_COLUMNS_BASE,
+    ARTICLE_CATEGORIES,
+    type ArticleCategory,
+    categoryMeta,
+    isMissingCategoryColumn,
+    resolveCategory,
     PROMO_COLUMNS,
     type Article,
     type ArticleAudience,
@@ -111,6 +117,7 @@ const EMPTY_ARTICLE: Omit<Article, "id" | "updated_at"> = {
     content: "",
     cover_url: null,
     audience: "konsumen",
+    category: "sehat" as ArticleCategory | null | undefined,
     status: "draft",
     keyword: "",
     published_at: null,
@@ -170,14 +177,24 @@ function ArticleEditor({ initial, onDone }: { initial: ArticleDraft; onDone: (ch
             content: a.content,
             cover_url: a.cover_url,
             audience: a.audience,
+            category: a.category ?? "sehat",
             keyword: a.keyword?.trim() || null,
             status: publish ? "published" : "draft",
             published_at: pubDate
                 ? pubDateToIso(pubDate, a.published_at)
                 : publish ? (a.published_at ?? new Date().toISOString()) : a.published_at,
         };
-        const query = a.id ? db.from("articles").update(row).eq("id", a.id) : db.from("articles").insert(row);
-        const { data, error } = await query.select(ARTICLE_COLUMNS).single();
+        const save = (r: Record<string, unknown>, cols: string) => {
+            const q = a.id ? db.from("articles").update(r).eq("id", a.id) : db.from("articles").insert(r);
+            return q.select(cols).single();
+        };
+        let { data, error } = await save(row, ARTICLE_COLUMNS);
+        if (error && isMissingCategoryColumn(error)) {
+            // Migrasi kategori belum dijalankan: simpan tanpa kategori
+            const { category: _omit, ...withoutCategory } = row;
+            void _omit;
+            ({ data, error } = await save(withoutCategory, ARTICLE_COLUMNS_BASE));
+        }
         setSaving(false);
         if (error) {
             const dupe = String(error.message).includes("duplicate") || error.code === "23505";
@@ -223,12 +240,19 @@ function ArticleEditor({ initial, onDone }: { initial: ArticleDraft; onDone: (ch
                     <small>katalog.mitrabp.biz.id/artikel/{a.slug || "…"}</small>
                 </div>
                 <div className="adm-field">
+                    <label htmlFor="a-cat">Kategori</label>
+                    <select id="a-cat" value={resolveCategory(a)} onChange={(e) => set("category", e.target.value as ArticleCategory)}>
+                        {ARTICLE_CATEGORIES.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
+                    </select>
+                    <small>{categoryMeta(resolveCategory(a)).desc}. Menentukan filter di halaman Catatan Tila.</small>
+                </div>
+                <div className="adm-field">
                     <label htmlFor="a-aud">Untuk pembaca</label>
                     <select id="a-aud" value={a.audience} onChange={(e) => set("audience", e.target.value as ArticleAudience)}>
-                        <option value="konsumen">Konsumen (Hidup Sehat)</option>
-                        <option value="mitra">Calon mitra (Bisnis dari Rumah)</option>
+                        <option value="konsumen">Konsumen (ajakan ke WhatsApp & konsultasi)</option>
+                        <option value="mitra">Calon mitra (ajakan ke panduan & program mitra)</option>
                     </select>
-                    <small>Menentukan ajakan di akhir artikel.</small>
+                    <small>Hanya menentukan ajakan di akhir artikel.</small>
                 </div>
             </div>
 
@@ -321,7 +345,9 @@ function ArticlesTab() {
     const [msg, setMsg] = useState<Msg>(null);
 
     const load = useCallback(async () => {
-        const { data, error } = await db.from("articles").select(ARTICLE_COLUMNS).order("updated_at", { ascending: false });
+        const list = (cols: string) => db.from("articles").select(cols).order("updated_at", { ascending: false });
+        let { data, error } = await list(ARTICLE_COLUMNS);
+        if (error && isMissingCategoryColumn(error)) ({ data, error } = await list(ARTICLE_COLUMNS_BASE));
         if (error) setMsg({ type: "err", text: `Gagal memuat artikel: ${error.message}` });
         setList((data ?? []) as Article[]);
     }, []);
@@ -353,7 +379,7 @@ function ArticlesTab() {
                                     </span>
                                 </div>
                                 <div className="adm-item-meta">
-                                    {a.audience === "mitra" ? "Calon mitra" : "Konsumen"}
+                                    {categoryMeta(resolveCategory(a)).label} · {a.audience === "mitra" ? "untuk calon mitra" : "untuk konsumen"}
                                     {a.published_at && ` · terbit ${formatTanggal(a.published_at)}`}
                                     {a.updated_at && ` · diubah ${formatTanggal(a.updated_at)}`}
                                 </div>

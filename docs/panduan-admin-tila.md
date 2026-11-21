@@ -197,3 +197,16 @@ otomatis dibersihkan saat membuka website, cukup sekali muat ulang tanpa perlu m
   (tutup dengan tombol ✕, tombol Esc, atau klik di luar gambar).
 - Foto dari HP yang besar **dikecilkan otomatis** saat diunggah (sisi terpanjang maksimal 1800 px, format WebP),
   jadi halaman tetap cepat dibuka.
+
+## J. Kategori Catatan Tila
+
+Ada 5 kategori (pilih di editor artikel): **Kisah & Hikmah**, **Mengenal Produk**, **Hidup Sehat**,
+**Bisnis dari Rumah**, **Gaya Hidup & Rumah Tangga**. Di halaman `/artikel` hanya kategori yang sudah punya
+tulisan yang muncul sebagai filter.
+
+"Untuk pembaca" (konsumen / calon mitra) tetap ada, tetapi sekarang hanya menentukan **ajakan di akhir artikel**
+(ke WhatsApp atau ke program mitra); kategori yang menentukan label dan filter.
+
+**Setup:** jalankan `supabase/migrations/20261121_kategori_artikel.sql` di Supabase → SQL Editor. SQL ini juga
+memetakan tulisan yang sudah ada (4 kisah Tila → Kisah & Hikmah, Goodie Bag → Gaya Hidup & Rumah Tangga).
+Sebelum SQL dijalankan website tetap normal (kategori diturunkan dari "untuk pembaca").

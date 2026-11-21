@@ -80,6 +80,7 @@ export type Database = {
           content: string
           cover_url: string | null
           audience: string
+          category: string | null
           status: string
           keyword: string | null
           published_at: string | null
@@ -94,6 +95,7 @@ export type Database = {
           content?: string
           cover_url?: string | null
           audience?: string
+          category?: string | null
           status?: string
           keyword?: string | null
           published_at?: string | null
@@ -108,6 +110,7 @@ export type Database = {
           content?: string
           cover_url?: string | null
           audience?: string
+          category?: string | null
           status?: string
           keyword?: string | null
           published_at?: string | null
