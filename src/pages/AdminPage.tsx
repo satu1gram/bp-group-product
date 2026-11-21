@@ -31,11 +31,43 @@ function MsgBox({ msg }: { msg: Msg }) {
     return <div className={`adm-msg adm-msg-${msg.type}`} role="status">{msg.text}</div>;
 }
 
+const MAX_UPLOAD_BYTES = 3 * 1024 * 1024;
+const MAX_IMAGE_SIDE = 1800;
+
+/**
+ * Foto dari HP biasanya 3–8 MB. Sebelum diunggah, gambar dikecilkan (sisi terpanjang ≤ 1800 px)
+ * dan diubah ke WebP supaya halaman cepat dibuka. Bila gagal, file asli dipakai apa adanya.
+ */
+async function prepareImage(file: File): Promise<{ blob: Blob; ext: string }> {
+    const original = { blob: file as Blob, ext: file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg" };
+    try {
+        const bitmap = await createImageBitmap(file);
+        const scale = Math.min(1, MAX_IMAGE_SIDE / Math.max(bitmap.width, bitmap.height));
+        const alreadySmall = scale === 1 && file.size <= 800 * 1024;
+        if (alreadySmall) return original;
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(bitmap.width * scale);
+        canvas.height = Math.round(bitmap.height * scale);
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return original;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        bitmap.close?.();
+        const blob: Blob | null = await new Promise((res) => canvas.toBlob(res, "image/webp", 0.85));
+        if (blob && blob.size < file.size) return { blob, ext: "webp" };
+        return original;
+    } catch {
+        return original;
+    }
+}
+
 async function uploadImage(file: File, folder: "artikel" | "promo"): Promise<string> {
-    if (file.size > 3 * 1024 * 1024) throw new Error("Ukuran gambar maksimal 3 MB.");
-    const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) throw new Error("Format gambar harus JPG, PNG, atau WebP.");
+    if (file.size > 20 * 1024 * 1024) throw new Error("Ukuran gambar terlalu besar (maksimal 20 MB).");
+    const { blob, ext } = await prepareImage(file);
+    if (blob.size > MAX_UPLOAD_BYTES) throw new Error("Gambar masih lebih dari 3 MB setelah dikecilkan. Coba gambar lain.");
     const path = `${folder}/${Date.now()}-${slugify(file.name.replace(/\.[^.]+$/, "")) || "gambar"}.${ext}`;
-    const { error } = await db.storage.from("konten").upload(path, file, { cacheControl: "31536000", upsert: false });
+    const { error } = await db.storage.from("konten").upload(path, blob, { cacheControl: "31536000", upsert: false, contentType: blob.type || undefined });
     if (error) throw error;
     return db.storage.from("konten").getPublicUrl(path).data.publicUrl as string;
 }
@@ -57,7 +89,7 @@ function ImageField({ label, value, onChange, folder }: {
                     catch (ex) { setErr(ex instanceof Error ? ex.message : "Gagal mengunggah gambar."); }
                     finally { setBusy(false); e.target.value = ""; }
                 }} />
-            <small>JPG/PNG/WebP, maks 3 MB. Ukuran ideal 1200×675 px.</small>
+            <small>JPG/PNG/WebP. Foto besar dikecilkan otomatis. Di daftar artikel gambar tampil 16:9, jadi objek utama sebaiknya di tengah.</small>
             {busy && <small>Mengunggah…</small>}
             {err && <small style={{ color: "var(--red)" }}>{err}</small>}
             {value && (

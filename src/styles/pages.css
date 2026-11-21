@@ -368,6 +368,7 @@
 .article-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: 1fr; /* semua kartu dalam satu daftar setinggi kartu terpanjang */
     gap: 20px;
 }
 
@@ -388,21 +389,30 @@
     box-shadow: var(--shadow-md);
 }
 
+/* Gambar selalu 16:9 dan dipotong rapi (tidak mengikuti bentuk aslinya) */
 .article-card-img {
+    position: relative;
     aspect-ratio: 16 / 9;
+    overflow: hidden;
     background: var(--green-pale);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-shrink: 0;
 }
 
 .article-card-img img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 35%;
 }
 
 .article-card-img .material-symbols-rounded {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 48px;
     color: var(--green-light);
 }
@@ -413,6 +423,7 @@
     flex-direction: column;
     gap: 8px;
     flex: 1;
+    min-height: 0;
 }
 
 .article-chip {
@@ -435,19 +446,59 @@
     color: #8a6315;
 }
 
+.article-card-title,
+.article-card-excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Area judul & ringkasan selalu setinggi 3 baris, sehingga SEMUA kartu (di daftar,
+   beranda, dan "Catatan Tila Lainnya") persis sama tinggi apa pun panjang tulisannya */
 .article-card-title {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     font-family: 'DM Serif Display', serif;
     font-weight: 400;
     font-size: 1.3rem;
     line-height: 1.25;
+    min-height: calc(3 * 1.25em);
     color: var(--text);
 }
 
 .article-card-excerpt {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     color: var(--text-muted);
     font-size: 14px;
     line-height: 1.6;
-    flex: 1;
+    min-height: calc(3 * 1.6em);
+}
+
+.article-card-foot {
+    margin-top: auto;
+    padding-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.article-card-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--green-dark);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.article-card-more .material-symbols-rounded {
+    font-size: 18px;
+    transition: transform 0.2s;
+}
+
+.article-card:hover .article-card-more .material-symbols-rounded {
+    transform: translateX(3px);
 }
 
 .article-card-meta {
@@ -497,12 +548,50 @@
     font-size: 13px;
 }
 
-.article-cover {
+.article-cover-btn {
+    position: relative;
+    display: block;
     width: 100%;
+    padding: 0;
+    border: 0;
     border-radius: 18px;
+    overflow: hidden;
     margin-bottom: 28px;
     aspect-ratio: 16 / 9;
+    background: var(--green-pale);
+    cursor: zoom-in;
+}
+
+.article-cover-btn:focus-visible {
+    outline: 3px solid var(--green);
+    outline-offset: 2px;
+}
+
+.article-cover {
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: center 35%;
+}
+
+.article-cover-hint {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 999px;
+}
+
+.article-cover-hint .material-symbols-rounded {
+    font-size: 16px;
 }
 
 .article-content {
@@ -552,7 +641,9 @@
 
 .article-content img {
     max-width: 100%;
+    height: auto;
     border-radius: 14px;
+    cursor: zoom-in;
 }
 
 .article-content table {
@@ -2449,5 +2540,70 @@
         width: 100%;
         justify-content: center;
         padding: 9px 14px;
+    }
+}
+
+/* ─── Gambar layar penuh (klik gambar artikel) ─── */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 18, 12, 0.93);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 56px 12px 16px;
+}
+
+.lightbox img {
+    max-width: 100%;
+    max-height: calc(100vh - 120px);
+    max-height: calc(100dvh - 120px);
+    object-fit: contain;
+    border-radius: 10px;
+    touch-action: pinch-zoom pan-x pan-y;
+    cursor: default;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 46px;
+    height: 46px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+    background: rgba(255, 255, 255, 0.3);
+    outline: 2px solid #fff;
+}
+
+.lightbox-caption {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+    text-align: center;
+    max-width: 720px;
+    line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .lightbox {
+        animation: lightbox-in 0.18s ease-out;
+    }
+
+    @keyframes lightbox-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 }
