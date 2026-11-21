@@ -36,7 +36,7 @@ export function HomeHero({ onPilihProduk }: { onPilihProduk: () => void }) {
             <ul className="home-hero-trust" aria-label="Jaminan">
                 <li><span className="material-symbols-rounded" aria-hidden="true">verified_user</span>Terdaftar BPOM</li>
                 <li><span className="material-symbols-rounded" aria-hidden="true">verified</span>Bersertifikat halal</li>
-                <li><span className="material-symbols-rounded" aria-hidden="true">local_shipping</span>Kirim ke seluruh Indonesia</li>
+                <li><span className="material-symbols-rounded" aria-hidden="true">local_shipping</span>Kirim ke seluruh Indonesia &amp; luar negeri</li>
             </ul>
             <p className="home-hero-cek">
                 Cek keaslian izin edar di{" "}

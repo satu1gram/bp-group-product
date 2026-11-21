@@ -28,7 +28,7 @@ export function SiteNav({ waMessage }: { waMessage?: string }) {
             <nav>
                 <div className="nav-logo-wrap">
                     <Link to="/" className="nav-logo nav-brand" aria-label="Beranda Katalog British Propolis">
-                        <span className="nav-brand-icon material-symbols-rounded" aria-hidden="true">hive</span>
+                        <img className="nav-brand-icon" src="/apple-touch-icon.png" width={40} height={40} alt="" />
                         <span className="nav-brand-text">
                             <span>Katalog</span>
                             <strong>British Propolis</strong>

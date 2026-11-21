@@ -2754,12 +2754,9 @@
 .nav-brand-icon {
     width: 40px;
     height: 40px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    background: var(--green-pale);
-    color: var(--gold);
-    font-size: 24px;
+    border-radius: 10px;
+    display: block;
+    object-fit: cover;
 }
 
 .nav-brand .nav-brand-text {
