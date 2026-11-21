@@ -2654,35 +2654,79 @@
     gap: 8px;
 }
 
-.market-btn {
+.market-card {
+    --mk: var(--green);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    min-height: 38px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--border-md);
+    gap: 12px;
+    min-width: 210px;
+    padding: 9px 16px 9px 10px;
     background: #fff;
+    border: 1.5px solid color-mix(in srgb, var(--mk) 35%, #fff);
+    border-radius: 14px;
     color: var(--text);
-    font-size: 14px;
-    font-weight: 600;
     text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 }
 
-.market-btn .material-symbols-rounded {
-    font-size: 18px;
+.market-tokopedia {
+    --mk: #2f9a36;
 }
 
-.market-tokopedia .material-symbols-rounded {
-    color: #03840b;
+.market-shopee {
+    --mk: #d23f1f;
 }
 
-.market-shopee .material-symbols-rounded {
-    color: #d23f1f;
+.market-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--mk);
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--mk) 22%, transparent);
 }
 
-.market-btn:hover {
-    border-color: var(--green);
+.market-card:active {
+    transform: scale(0.98);
+}
+
+.market-card img {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.market-card-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    flex: 1;
+}
+
+.market-card-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.market-card-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--mk);
+}
+
+.market-card-go {
+    font-size: 20px;
+    color: var(--mk);
+    transition: transform 0.15s;
+}
+
+.market-card:hover .market-card-go {
+    transform: translate(2px, -2px);
+}
+
+@media (max-width: 480px) {
+    .market-btns,
+    .market-card {
+        width: 100%;
+    }
 }
 
 .market-note {

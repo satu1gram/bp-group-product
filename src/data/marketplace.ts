@@ -4,11 +4,12 @@ export interface Marketplace {
     key: "tokopedia" | "shopee";
     name: string;
     url: string;
+    logo: string;
 }
 
 const ALL: Marketplace[] = [
-    { key: "tokopedia", name: "Tokopedia", url: "https://www.tokopedia.com/steffipro" },
-    { key: "shopee", name: "Shopee", url: "" }, // menyusul
+    { key: "tokopedia", name: "Tokopedia", url: "https://www.tokopedia.com/steffipro", logo: "/images/marketplace/tokopedia.svg" },
+    { key: "shopee", name: "Shopee", url: "", logo: "/images/marketplace/shopee.svg" }, // menyusul
 ];
 
 export const MARKETPLACES: Marketplace[] = ALL.filter((m) => m.url);
