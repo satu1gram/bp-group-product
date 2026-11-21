@@ -65,20 +65,20 @@ export default function MitraPage() {
                         <span className="site-tag">Bisnis dari Rumah</span>
                         <h1>Berpenghasilan dari Rumah, <em>Tetap Dekat dengan Anak</em></h1>
                         <p>
-                            Saya Tila, mantan dosen dan ibu 3 anak. Sejak resign, saya membangun bisnis British Propolis
+                            Saya Mbak Tila, mantan dosen dan ibu 3 anak. Sejak resign, saya membangun bisnis British Propolis
                             dari rumah. Sekarang saya membimbing ibu-ibu lain untuk memulainya, pelan-pelan dan tanpa
                             harus jago jualan.
                         </p>
                         <div className="site-btn-row">
                             <a href={getWaLink(WA_MITRA, "M-MITRA")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
-                                <WaIcon size={18} /> Ngobrol Dulu dengan Tila
+                                <WaIcon size={18} /> Ngobrol Dulu dengan Mbak Tila
                             </a>
                             <a href="#paket" className="site-btn-outline">Lihat paket</a>
                         </div>
                         <p className="mitra-hero-note">Gratis dan tanpa kewajiban bergabung.</p>
                         <p className="mitra-team">
                             <img src="/images/qm-logo-300.webp" alt="Quantum Millionaire" width={92} height={30} loading="lazy" />
-                            <span>Tila membina mitra bersama tim Quantum Millionaire</span>
+                            <span>Mbak Tila membina mitra bersama tim Quantum Millionaire</span>
                         </p>
                     </div>
                     <div className="mitra-hero-img">

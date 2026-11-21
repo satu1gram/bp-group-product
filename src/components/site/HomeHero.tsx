@@ -12,13 +12,13 @@ export function HomeHero({ onPilihProduk }: { onPilihProduk: () => void }) {
             <div className="home-hero-id">
                 <img src="/images/bisnis/avatar-tila.webp" alt="Foto Mbak Tila" width={56} height={56} {...{ fetchpriority: "high" }} />
                 <div>
-                    <strong>Halo, saya Tila 👋</strong>
+                    <strong>Halo, saya Mbak Tila 👋</strong>
                     <span>Mitra British Propolis · Malang</span>
                 </div>
             </div>
 
             <h1 className="home-hero-title">
-                Bingung pilih produk untuk keluarga? <em>Tila bantu pilihkan.</em>
+                Bingung pilih produk untuk keluarga? <em>Mbak Tila bantu pilihkan.</em>
             </h1>
 
             <div className="home-hero-actions">
@@ -29,7 +29,7 @@ export function HomeHero({ onPilihProduk }: { onPilihProduk: () => void }) {
                 </button>
                 <a className="home-hero-chat" target="_blank" rel="noopener noreferrer"
                     href={getWaLink("Halo Mbak Tila, saya mau tanya produk British Propolis", "K-HERO")}>
-                    atau langsung chat Tila
+                    atau langsung chat Mbak Tila
                 </a>
             </div>
 

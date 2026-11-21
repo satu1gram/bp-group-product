@@ -29,7 +29,7 @@ export function MitraTeaser() {
                     Mau Punya Penghasilan <em>dari Rumah?</em>
                 </h2>
                 <blockquote className="mitra-teaser-quote">
-                    “Saya Tila, mantan dosen dan ibu 3 anak. Sejak resign, saya membangun bisnis British Propolis dari
+                    “Saya Mbak Tila, mantan dosen dan ibu 3 anak. Sejak resign, saya membangun bisnis British Propolis dari
                     rumah, dan sekarang membimbing ibu-ibu lain untuk memulainya.”
                 </blockquote>
 
