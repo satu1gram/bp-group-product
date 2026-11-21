@@ -18,6 +18,10 @@ const UNTUK_SIAPA = [
 
 const FAQ_MITRA = [
     {
+        q: "Apakah ini MLM atau money game?",
+        a: "Bukan money game. Keuntungan mitra berasal dari selisih harga beli dan harga jual produk ke konsumen, bukan dari merekrut orang. Tidak ada biaya pendaftaran di luar pembelian produk, tidak ada deposit, dan kamu tidak wajib merekrut siapa pun. Produk yang dijual terdaftar di BPOM dan bersertifikat halal.",
+    },
+    {
         q: "Apakah harus punya pengalaman jualan?",
         a: "Tidak. Banyak mitra mulai dari nol. Kamu akan mendapat bimbingan, materi promosi siap pakai setiap hari, dan grup WhatsApp untuk bertanya kapan saja.",
     },
@@ -66,15 +70,34 @@ export default function MitraPage() {
                             harus jago jualan.
                         </p>
                         <div className="site-btn-row">
-                            <a href={getWaLink(WA_MITRA)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
+                            <a href={getWaLink(WA_MITRA, "M-MITRA")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                                 <WaIcon size={18} /> Ngobrol Dulu dengan Tila
                             </a>
                             <a href="#paket" className="site-btn-outline">Lihat paket</a>
                         </div>
                         <p className="mitra-hero-note">Gratis dan tanpa kewajiban bergabung.</p>
+                        <p className="mitra-team">
+                            <img src="/images/qm-logo-300.webp" alt="Quantum Millionaire" width={92} height={30} loading="lazy" />
+                            <span>Tila membina mitra bersama tim Quantum Millionaire</span>
+                        </p>
                     </div>
                     <div className="mitra-hero-img">
                         <img src="/images/bisnis/tila-600.webp" alt="Mbak Tila bersama keluarga saat umroh" width={600} height={800} {...{ fetchpriority: "high" }} />
+                    </div>
+                </section>
+
+                <section className="mitra-transparan" aria-label="Cara kerja kemitraan">
+                    <div>
+                        <span className="material-symbols-rounded" aria-hidden="true">inventory_2</span>
+                        <p><strong>Untung dari jual produk</strong>Selisih harga modal dan harga jual ke konsumen.</p>
+                    </div>
+                    <div>
+                        <span className="material-symbols-rounded" aria-hidden="true">block</span>
+                        <p><strong>Bukan money game</strong>Tidak ada deposit, tidak ada "tugas", tidak wajib merekrut.</p>
+                    </div>
+                    <div>
+                        <span className="material-symbols-rounded" aria-hidden="true">receipt_long</span>
+                        <p><strong>Tanpa biaya daftar</strong>Modal hanya untuk produk yang kamu terima.</p>
                     </div>
                 </section>
 
@@ -151,7 +174,7 @@ export default function MitraPage() {
                     <div className="bisnis-paket-grid">
                         {PAKET_KEMITRAAN.map((paket) => (
                             <div key={paket.nama} className={`bisnis-paket-card ${paket.highlight ? 'paket-highlight' : ''}`}>
-                                {paket.highlight && <div className="paket-best-badge">Paling Untung</div>}
+                                {paket.highlight && <div className="paket-best-badge">Margin Terbesar</div>}
                                 <div className="paket-header">
                                     <div className="paket-nama">{paket.nama}</div>
                                     <div className="paket-jumlah">{paket.jumlah}</div>
@@ -161,9 +184,9 @@ export default function MitraPage() {
                                     <div className="paket-row"><span>Modal per botol</span><strong>{paket.modal}</strong></div>
                                     <div className="paket-row"><span>Harga jual satuan</span><strong>{paket.jual}</strong></div>
                                     <div className="paket-row paket-row-untung"><span>Untung per botol</span><strong>{paket.untung}</strong></div>
-                                    <div className="paket-row paket-row-potensi"><span>Potensi untung max</span><strong>{paket.potensi}</strong></div>
+                                    <div className="paket-row paket-row-potensi"><span>Jika semua terjual*</span><strong>{paket.potensi}</strong></div>
                                 </div>
-                                <a href={getWaLink(`Halo Mbak Tila, saya tertarik dengan ${paket.nama} (${paket.jumlah}) seharga ${paket.hargaPaket}. Bisa info lebih lanjut?`)}
+                                <a href={getWaLink(`Halo Mbak Tila, saya tertarik dengan ${paket.nama} (${paket.jumlah}) seharga ${paket.hargaPaket}. Bisa info lebih lanjut?`, "M-PAKET")}
                                     target="_blank" rel="noopener noreferrer" className="paket-cta-btn">
                                     <WaIcon size={16} /> Tanya {paket.nama}
                                 </a>
@@ -171,8 +194,8 @@ export default function MitraPage() {
                         ))}
                     </div>
                     <p className="health-disclaimer mitra-band-note">
-                        Angka keuntungan adalah potensi berdasarkan selisih harga modal dan harga jual. Hasil setiap mitra
-                        berbeda, tergantung konsistensi dan usaha masing-masing.
+                        *Contoh hitungan bila seluruh botol terjual di harga eceran, belum dikurangi ongkir dan biaya lain.
+                        Bukan jaminan penghasilan: hasil setiap mitra berbeda, tergantung konsistensi dan usaha masing-masing.
                     </p>
                 </section>
               </div>
@@ -194,7 +217,7 @@ export default function MitraPage() {
                 <section className="pd-section mitra-final-cta">
                     <h2>Belum yakin? Ngobrol dulu saja.</h2>
                     <p>Ceritakan kondisimu, Mbak Tila bantu lihat apakah bisnis ini cocok untukmu. Tanpa paksaan.</p>
-                    <a href={getWaLink(WA_MITRA)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
+                    <a href={getWaLink(WA_MITRA, "M-MITRA")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                         <WaIcon size={18} /> Chat Mbak Tila via WhatsApp
                     </a>
                 </section>

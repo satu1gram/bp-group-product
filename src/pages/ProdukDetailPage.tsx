@@ -127,10 +127,10 @@ export default function ProdukDetailPage() {
                                 </>
                             )}
                             <div className="pd-cta">
-                                <a href={getWaLink(orderMsg)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
+                                <a href={getWaLink(orderMsg, "K-DETAIL")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                                     <WaIcon size={18} /> Pesan via WhatsApp
                                 </a>
-                                <a href={getWaLink(askMsg)} target="_blank" rel="noopener noreferrer" className="site-btn-outline">
+                                <a href={getWaLink(askMsg, "K-DETAIL")} target="_blank" rel="noopener noreferrer" className="site-btn-outline">
                                     Tanya dulu (gratis)
                                 </a>
                             </div>

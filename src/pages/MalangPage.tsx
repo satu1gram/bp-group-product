@@ -71,7 +71,7 @@ export default function MalangPage() {
                             gratis, lalu pesan lewat WhatsApp. Melayani Kota Malang, Kabupaten Malang, Batu, dan pengiriman ke luar kota.
                         </p>
                         <div className="site-btn-row">
-                            <a href={getWaLink(WA_MALANG)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
+                            <a href={getWaLink(WA_MALANG, "K-MALANG")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                                 <WaIcon size={18} /> Pesan via WhatsApp
                             </a>
                             <a href="/#produk" className="site-btn-outline">Lihat semua produk</a>

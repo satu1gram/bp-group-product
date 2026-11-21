@@ -217,3 +217,30 @@ Tautan toko diatur di `src/data/marketplace.ts` (Tokopedia sudah aktif). Untuk m
 file itu; tombol di halaman produk & beranda, tautan footer, dan FAQ produk otomatis ikut. Promo hanya berlaku lewat
 WhatsApp (tertulis di halaman Promo). Klik tombol marketplace tercatat di GA4 sebagai `click_marketplace`
 (platform, halaman, produk).
+
+## L. Kode di akhir pesan WhatsApp (dari tombol mana chat datang)
+
+Setiap tombol WhatsApp di website menambahkan kode singkat di akhir pesan, misalnya `[K-HERO]`.
+Huruf depan menunjukkan niat: **K-** = calon pembeli, **M-** = calon mitra.
+
+| Kode | Asal tombol |
+|---|---|
+| K-HERO | Beranda, "atau langsung chat Tila" di bagian paling atas |
+| K-AI | Hasil asisten AI pemilih produk |
+| K-PRODUK / K-DETAIL | Kartu produk di beranda / halaman detail produk |
+| K-BAR / K-STICKY / K-NAV | Tombol WA melayang, bar bawah HP, menu atas |
+| K-KEBUTUHAN / K-ARTIKEL / K-MALANG | Halaman kebutuhan, Catatan Tila, halaman Malang |
+| M-JEMBATAN / M-BERANDA | Kartu "Suka produknya?" dan bagian bisnis di beranda |
+| M-MITRA / M-PAKET / M-FORM | Halaman /mitra, tombol paket, setelah isi formulir panduan |
+
+Saran: buat lembar rekap sederhana (tanggal, kode, closing ya/tidak, nilai order, waktu balas pertama).
+Setelah 2–4 minggu, terlihat tombol mana yang paling banyak menghasilkan order dan mitra.
+
+## M. Mengaktifkan statistik (gratis)
+
+1. **Google Analytics 4**: buat properti di analytics.google.com, salin ID `G-XXXXXXX`.
+2. **Microsoft Clarity** (rekaman sesi & peta gulir): buat proyek di clarity.microsoft.com, salin Project ID.
+3. Di Cloudflare → proyek katalog → Settings → Variables: isi `VITE_GA4_ID` dan `VITE_CLARITY_ID`, lalu deploy ulang.
+
+Event yang terkirim: `click_whatsapp` (dengan `intent` beli/mitra dan `cta_location`), `hero_pilih_produk`,
+`partner_cta_click`, `scroll_depth` (25/50/75/90%), `click_marketplace`, `generate_lead`, `ai_consultation`.

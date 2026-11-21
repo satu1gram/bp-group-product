@@ -125,7 +125,7 @@ export default function ArtikelDetailPage() {
                                 <div className="site-btn-row">
                                     <Link to="/panduan-bisnis" className="site-btn-primary">Panduan Gratis</Link>
                                     <Link to="/mitra" className="site-btn-outline">Program Mitra</Link>
-                                    <a href={getWaLink(waText)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
+                                    <a href={getWaLink(waText, "K-ARTIKEL")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                                         <WaIcon size={18} /> Ngobrol dengan Tila
                                     </a>
                                 </div>
@@ -135,7 +135,7 @@ export default function ArtikelDetailPage() {
                                 <h2>Mau tahu produk yang cocok untukmu?</h2>
                                 <p>Tanya langsung ke Mbak Tila, atau coba konsultasi AI gratis di katalog.</p>
                                 <div className="site-btn-row">
-                                    <a href={getWaLink(waText)} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
+                                    <a href={getWaLink(waText, "K-ARTIKEL")} target="_blank" rel="noopener noreferrer" className="site-btn-wa">
                                         <WaIcon size={18} /> Tanya Mbak Tila
                                     </a>
                                     <a href="/#advisor" className="site-btn-outline">Konsultasi AI</a>

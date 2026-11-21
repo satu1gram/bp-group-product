@@ -18,7 +18,7 @@ export function SiteLayout({ children, waMessage }: { children: ReactNode; waMes
             <SiteNav waMessage={waMessage} />
             <main className="site-main">{children}</main>
             <SiteFooter />
-            <a href={getWaLink(waMessage)} target="_blank" rel="noopener noreferrer"
+            <a href={getWaLink(waMessage, waMessage && /mitra|bisnis|reseller|agen/i.test(waMessage) ? "M-STICKY" : "K-STICKY")} target="_blank" rel="noopener noreferrer"
                 className="site-float-wa" aria-label="Chat Mbak Tila via WhatsApp">
                 <WaIcon size={26} />
                 <span>Chat Mbak Tila</span>

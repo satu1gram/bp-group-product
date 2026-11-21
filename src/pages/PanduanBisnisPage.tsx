@@ -59,7 +59,7 @@ export default function PanduanBisnisPage() {
         }
     }, []);
 
-    const waAfter = getWaLink(leadWaMessage(unlockedName ?? "", unlockedCity));
+    const waAfter = getWaLink(leadWaMessage(unlockedName ?? "", unlockedCity), "M-FORM");
 
     // HP: setelah formulir terkirim, buka WhatsApp otomatis (bisa dibatalkan)
     useEffect(() => {
